@@ -56,102 +56,104 @@ class MainActivity : ComponentActivity() {
     }
 }
 
- @Preview
-
 @Composable
 fun Pantalla_Inicial(modifier: Modifier = Modifier) {
-     Column(
-         modifier = modifier //modificador que afecta a toda la columna
-             .background(Color(0xFFFFF8E7)) //background de toda la pantalla
-             .padding(top = 150.dp)
-             .fillMaxWidth(), //hacer que ocupe toda la pantalla, para que no quede espacio en blanc
-            horizontalAlignment = Alignment.CenterHorizontally,
+    // Estado para mostrar la pantalla de Realizar Pedido
+    var mostrarRealizarPedido by remember { mutableStateOf(false) }
 
-     ) {
+    // Estado para mostrar ventana de información del usuario
+    var mostrardatos by remember { mutableStateOf(false) }
 
-        Row( modifier = modifier
-            .background(Color(0xFFFFF8E7)),
-            verticalAlignment = Alignment.CenterVertically) { /*Un row para poder poner la
-            imagen a la izquierda y el texto a la derecha como tenia pensado*/
+    // Si el usuario pulsa el botón de Realizar Pedido, mostramos esa pantalla
+    if (mostrarRealizarPedido) {
+        RealizarPedido() // Composable del otro archivo
+    } else {
+        // Pantalla principal
+        Column(
+            modifier = modifier
+                .background(Color(0xFFFFF8E7)) // background de toda la pantalla
+                .padding(top = 150.dp) // "margin" superior para que no esté tan arriba
+                .fillMaxWidth(), // hacer que ocupe todo el ancho
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-            Image(
-                painterResource(R.drawable.bobeponja), //la misma imagen
-                contentDescription = "Foto de perfil del usuario", //descripcion de img en caso de que no cargue
-                modifier = Modifier //permitir que podamos modificar propiedades de la img
-                .size(130.dp) //poner tamaño a la img
+            // Row para poner la imagen a la izquierda y el texto a la derecha
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Image(
+                    painterResource(R.drawable.bobeponja), // la misma imagen
+                    contentDescription = "Foto de perfil del usuario", // descripcion de la img en caso de que no cargue
+                    modifier = Modifier
+                        .size(130.dp) // poner tamaño a la imagen
                 )
 
-            val nombre = stringResource(id = R.string.nombre) //nombre del usuario que tenemos
-            Text(
-                //texto para darle la bienvenida
-                "¡Bienvenido a Pizza Time " + nombre + "!",
-                fontSize = 30.sp,
-                textAlign = TextAlign.Center,
-            )
+                val nombre = stringResource(id = R.string.nombre) // nombre del usuario que tenemos
+                Text(
+                    "¡Bienvenido a Pizza Time $nombre!", // texto de bienvenida
+                    fontSize = 30.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.padding(40.dp)) // separador entre filas
+
+            // BOTON REALIZAR PEDIDO
+            Button(
+                onClick = { mostrarRealizarPedido = true }, // al pulsar, cambiamos el estado para mostrar RealizarPedido
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
+            ) {
+                Text("Realizar Pedido", fontSize = 40.sp)
+            }
+
+            Spacer(modifier = Modifier.padding(40.dp)) // separador
+
+            // BOTON LISTAR PEDIDOS
+            Button(
+                onClick = { /* TODO: acción de listar pedidos */ },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+            ) {
+                Text("Listar Pedidos", fontSize = 40.sp)
+            }
+
+            // BOTON INFORMACION
+            Box(modifier = Modifier.fillMaxSize()) { // para alinear un botón en la caja
+                Button(
+                    onClick = { mostrardatos = true }, // habilita el script de mostrar datos
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd) // ponerlo al fondo derecha
+                        .padding(bottom = 200.dp), // subirlo al centro
+                    colors = ButtonDefaults.buttonColors(Color(0xCC2CA49F))
+                ) {
+                    Text("Mis Datos")
+                }
+            }
+
+            // Script que muestra datos
+            if (mostrardatos) { // si se le da al botón y se habilita:
+                val nombre = stringResource(id = R.string.nombre)
+                val apellidos = stringResource(id = R.string.apellido)
+                val gmail = stringResource(id = R.string.gmail)
+                val telefono = stringResource(id = R.string.num)
+
+                AlertDialog( // Ventana emergente para que quede mucho mejor
+                    onDismissRequest = { mostrardatos = false },
+                    confirmButton = { // Botón para que confirme y se quite
+                        Button(onClick = { mostrardatos = false }) { // que se quite si lo acepta
+                            Text("Aceptar")
+                        }
+                    },
+                    title = { Text("Datos del usuario") },
+                    text = { Text(
+                        "Nombre: $nombre\n" +
+                                "Apellidos: $apellidos\n" +
+                                "Gmail: $gmail\n" +
+                                "Telefono: $telefono"
+                    ) }
+                )
+            }
         }
-
-         //BOTON REALIZAR PEDIDO
-         Button(
-             onClick = {/*TODO*/ },
-             colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
-         ) {
-             Text(
-                 "Realizar Pedido",
-                 fontSize = 40.sp
-             )
-         }
-
-         Spacer(modifier = Modifier.padding(40.dp)) //separador ou yea
-
-         //BOTON LISTAR PEDIDOS
-         Button(
-             onClick = {/*TODO*/ },
-             colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
-         ) {
-             Text(
-                 "Listar Pedidos",
-                 fontSize = 40.sp
-             )
-         }
-
-         //BOTON INFORMACION
-
-         //Script que muestra datos
-         var mostrardatos by remember { mutableStateOf(false) } //hacer que se acuerde y no lo muestre de repente
-         if (mostrardatos) { //si se le da al boton y se habilita :
-            //*vals para poner el nombre apellido gmail y telefono
-             val nombre = stringResource(id = R.string.nombre)
-            val apellidos = stringResource(id = R.string.apellido)
-             val gmail = stringResource(id = R.string.gmail)
-             val telefono = stringResource(id = R.string.num)
-
-             AlertDialog( //Ventana emergente para que quede mucho mejor
-                 onDismissRequest = { mostrardatos = false },
-                 confirmButton = { //Boton para que confirme y se quite
-                     Button(onClick = { mostrardatos = false }) { //que se quite si lo acepta
-                         Text("Aceptar")
-                     }
-                 }, //contenido de la ventana:
-                 title = { Text("Datos del usuario") },
-                 text = { Text("Nombre: "+nombre+"\n" +
-                         "Apellidos: "+apellidos+"\n" +
-                         "Gmail: "+gmail+"\n"+
-                         "Telefono: "+telefono) }
-             )
-         }
-
-         Box( //para poder alinear un boton en concreto hay que meterlo en una caja
-             modifier = Modifier.fillMaxSize() // hacer que llegue a esquina
-         ) {
-             Button(
-                 onClick = { mostrardatos = true }, //habilita el script de mostrar datos de arriba
-                 modifier = Modifier
-                     .align(Alignment.BottomEnd) //ponerlo al fondo derecha (podria borrar esto la vdd)
-                     .padding(bottom = 200.dp), //subirlo al centro
-                 colors = ButtonDefaults.buttonColors(Color(0xCC2CA49F))
-             ) {
-                 Text("Mis Datos")
-             }
-         }
-     }
+    }
 }

@@ -1,6 +1,6 @@
 package com.example.practica_kotlin_ev1
 
-class Poner_Datos {
+class Poner_DatosPersona {
     fun cargar_persona(): List<Datos_Persona> = listOf(
         Datos_Persona(R.string.nombre,
             R.string.apellido,
