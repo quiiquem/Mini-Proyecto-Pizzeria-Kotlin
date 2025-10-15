@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Practica_Kotlin_EV1</string>
+    <string name="nombre">Bob Esponja</string>
+    <string name="apellido">Pantalones Cuadrados</string>
+    <string name="gmail">correodejeemplonose@gmail.com</string>
+    <string name="num">23912525</string>
+</resources>
