@@ -1,6 +1,8 @@
 package com.example.practica_kotlin_ev1
 
+import android.R.attr.contentDescription
 import android.R.attr.fontWeight
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -12,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -22,7 +25,9 @@ fun HacerPedido() {
     var tipoPizza by remember { mutableStateOf("") } //tipo de pizza que es var porq puede cambiar
     var extras by remember { mutableStateOf("Ninguno") } //puede cambiar asi que se deja en var
     var tamanyo by remember { mutableStateOf("No seleccionado") }
-    var bebida by remember {mutableStateOf("No seleccionado")}
+    var bebida by remember { mutableStateOf("No seleccionado") }
+    var cantidadPizzas by remember { mutableStateOf(0) }
+    var cantidadBotellas by remember { mutableStateOf(0) }
     var precio by remember { mutableStateOf(0.0) }
 
     //todas las listas con las opciones de el formulario
@@ -31,7 +36,7 @@ fun HacerPedido() {
     val opcionesBarbacoa = listOf("Carne de cerdo", "Pollo", "Ternera", "Ningún Extra")
     val opcionesRomana = listOf("Con champiñones", "Ningún Extra")
     val opcionesTamanyo = listOf("Pequeña", "Mediana", "Grande")
-    val opcionesBebidas = listOf("Agua","Cola","Sin bebida")
+    val opcionesBebidas = listOf("Agua", "Cola", "Sin bebida")
     val scrollState = rememberScrollState() //permite scrollear a traves de una columna
 
     // toda la interfaz va dentro de un único Column para mantener la estructura visual correcta
@@ -179,7 +184,7 @@ fun HacerPedido() {
         ) {
             Text(
                 "Pizza seleccionada: $tipoPizza \nExtras seleccionados: $extras",
-                fontSize = 23.sp,
+                fontSize = 15.sp,
                 textAlign = TextAlign.Left
             )
         }
@@ -192,6 +197,7 @@ fun HacerPedido() {
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left
         )
+
         Column(Modifier.selectableGroup()) {
             opcionesTamanyo.forEach { opcion ->
                 Row(
@@ -264,23 +270,181 @@ fun HacerPedido() {
                     }
                 }
             }
+            //CANTIDAD DE PIZZAS
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFEDE7F6))
+            ) {
+                Text(
+                    "Cantidad de pizzas: $cantidadPizzas",
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(), // ocupar ancho para centrar
+                verticalAlignment = Alignment.CenterVertically, // alinea botones e imagen verticalmente
+                horizontalArrangement = Arrangement.Center // centrar el ROW entero
+            ) {
+                Button( //Boton para menos
+                    onClick = {
+                        if (cantidadPizzas > 0) {
+                            cantidadPizzas--
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                ) {
+                    Text("-", fontSize = 40.sp)
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))  //separar boton de img
+
+                if (tipoPizza == "Margarita") {
+                    Image(
+                        painterResource(R.drawable.margarita),
+                        contentDescription = "Pizza Margarita",
+                        modifier = Modifier.size(130.dp)
+                    )
+                } else if (tipoPizza == "Barbacoa") {
+                    Image(
+                        painterResource(R.drawable.barbacoa),
+                        contentDescription = "Pizza Barbacoa",
+                        modifier = Modifier.size(130.dp)
+                    )
+                } else if (tipoPizza == "Romana") {
+                    Image(
+                        painterResource(R.drawable.romana),
+                        contentDescription = "Pizza Romana",
+                        modifier = Modifier.size(130.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(16.dp)) //separar boton de img
+
+                Button( //Boton para más
+                    onClick = { cantidadPizzas++ },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
+                ) {
+                    Text("+", fontSize = 40.sp)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(36.dp))
+
+            //CANTIDAD DE BOTELLAS (prac. copia y pega de las pizzas)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            //Pongo el texto arriba para que no se pueda confundir por las pizzas al inicio
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFEDE7F6))
+            ) {
+                Text(
+                    "Cantidad de botellas: $cantidadBotellas",
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
+            } //texto de cantidad de botellas
+
+            Row(
+                modifier = Modifier.fillMaxWidth(), // ocupar ancho para centrar
+                verticalAlignment = Alignment.CenterVertically, // alinea botones e imagen verticalmente
+                horizontalArrangement = Arrangement.Center // centrar el ROW entero
+            ) {
+                Button( //Boton para menos
+                    onClick = {
+                        if (cantidadBotellas > 0) {
+                            cantidadBotellas--
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                ) {
+                    Text("-", fontSize = 40.sp)
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))  //separar boton de img
+
+                if (bebida == "Agua") {
+                    Image(
+                        painterResource(R.drawable.agua),
+                        contentDescription = "Agua",
+                        modifier = Modifier.size(130.dp)
+                    )
+                } else if (bebida == "Cola") {
+                    Image(
+                        painterResource(R.drawable.cola),
+                        contentDescription = "Cola",
+                        modifier = Modifier.size(130.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(16.dp)) //separar boton de img
+
+                Button( //Boton para más
+                    onClick = { cantidadBotellas++ },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
+                ) {
+                    Text("+", fontSize = 40.sp)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(36.dp))
+
+            //Botones de aceptar o volver
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically //  centrarlo todo
+            ) {
+                Button(
+                    onClick = { /*TODO*/ },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)) //color verde!
+                ) {
+                    Text("Aceptar", color = Color.White, fontSize = 18.sp)
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Button(
+                    onClick = { /*TODO*/ },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF44336)) //color rojo!
+                ) {
+                    Text("Volver", color = Color.White, fontSize = 18.sp)
+                }
+            }
+
 
             //SUMAR PRECIOS
-            val precioTamanyo = when (tamanyo) {
+            val precioTamanyo = when (tamanyo) { //poner precios de tamaño
                 "Pequeña" -> 4.95
                 "Mediana" -> 6.95
                 "Grande" -> 10.95
                 else -> 0.0
             }
 
-            val precioBebida = when (bebida) {
+            val precioBebida = when (bebida) { //poner precios de bebida
                 "Agua" -> 2.0
                 "Cola" -> 2.5
                 "Sin bebida" -> 0.0
                 else -> 0.0
             }
 
-            precio = precioTamanyo + precioBebida
+            val precioBebidaTotal =
+                precioBebida * cantidadBotellas //calcular precio de todas las botellas de antemano
+
+            //usar el val de tamaño para multiplicarlo x la cantidad de pizzas puesta
+            val precioTotal = (precioTamanyo * cantidadPizzas + precioBebidaTotal)
+
+            precio = precioTotal + precioBebida
 
             //ROW PARA PONER EL PRECIO TOTAL
             Row(
@@ -299,4 +463,3 @@ fun HacerPedido() {
         }
     }
 }
-
