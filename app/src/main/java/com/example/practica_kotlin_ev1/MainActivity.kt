@@ -40,14 +40,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.practica_kotlin_ev1.ui.theme.Practica_Kotlin_EV1Theme
+import com.example.practica_kotlin_ev1.ui.theme.Practica_Kotlin_EV1
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Practica_Kotlin_EV1Theme {
+            Practica_Kotlin_EV1 {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Pantalla_Inicial(modifier = Modifier.padding(innerPadding))
                 }
@@ -58,10 +58,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Pantalla_Inicial(modifier: Modifier = Modifier) {
-    // Estado para mostrar la pantalla de Realizar Pedido
+    // Variable para mostrar la pantalla de Realizar Pedido
     var mostrarRealizarPedido by remember { mutableStateOf(false) }
 
-    // Estado para mostrar ventana de información del usuario
+    // Variable para mostrar ventana de información del usuario
     var mostrardatos by remember { mutableStateOf(false) }
 
     // Si el usuario pulsa el botón de Realizar Pedido, mostramos esa pantalla
@@ -72,8 +72,8 @@ fun Pantalla_Inicial(modifier: Modifier = Modifier) {
         Column(
             modifier = modifier
                 .background(Color(0xFFFFF8E7)) // background de toda la pantalla
-                .padding(top = 150.dp) // "margin" superior para que no esté tan arriba
-                .fillMaxWidth(), // hacer que ocupe todo el ancho
+                .padding(top = 150.dp) // lo empuja hacia abajo para que este mas al centro
+                .fillMaxWidth(), // hacer que ocupe el ancho de toda la pantalla
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -118,7 +118,7 @@ fun Pantalla_Inicial(modifier: Modifier = Modifier) {
                 Text("Listar Pedidos", fontSize = 40.sp)
             }
 
-            // BOTON INFORMACION
+            // BOTON MOSTRAR DATOS
             Box(modifier = Modifier.fillMaxSize()) { // para alinear un botón en la caja
                 Button(
                     onClick = { mostrardatos = true }, // habilita el script de mostrar datos
@@ -138,9 +138,9 @@ fun Pantalla_Inicial(modifier: Modifier = Modifier) {
                 val gmail = stringResource(id = R.string.gmail)
                 val telefono = stringResource(id = R.string.num)
 
-                AlertDialog( // Ventana emergente para que quede mucho mejor
+                AlertDialog( // Ventana emergente para que quede mucho mejor visualmente
                     onDismissRequest = { mostrardatos = false },
-                    confirmButton = { // Botón para que confirme y se quite
+                    confirmButton = { // Botón para que confirme y el onclick de mostrardatos vuelva a false
                         Button(onClick = { mostrardatos = false }) { // que se quite si lo acepta
                             Text("Aceptar")
                         }

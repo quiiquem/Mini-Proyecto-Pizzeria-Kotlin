@@ -1,29 +1,15 @@
 package com.example.practica_kotlin_ev1
 
-import android.R.attr.fontWeight
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,12 +17,22 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun RealizarPedido() {
+    // Variables de estado (en remember para que no se cambie de repente)
+    var tipoPizza by remember { mutableStateOf("") }
+    var extraSeleccionado by remember { mutableStateOf("") }
+    var mostrarTamanyo by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 100.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Mostrar la siguiente pantalla si ya se puso un extra
+        if (mostrarTamanyo) {
+            Tamanyo_Pizza(tipoPizza, extraSeleccionado) //guarda los datos elegidos para que no se queden aqui solo
+            return // Para que se que asi
+        }
 
         Text(
             "¿Qué pizza va a elegir?",
@@ -44,69 +40,171 @@ fun RealizarPedido() {
             fontWeight = FontWeight.Bold
         )
 
-        var tipoPizza by remember { mutableStateOf("") } //Guardar tipo pizza
-        var extrasPizza by remember { mutableStateOf("") } //Guardar extras
-
-
         Spacer(modifier = Modifier.padding(20.dp))
-        Row( //PIZZA MARGARITA
-            modifier = Modifier
-                .fillMaxWidth(),
+
+        // PIZZA MARGARITA
+        Row(
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             Image(
-                painterResource(R.drawable.margarita), // la misma imagen
-                contentDescription = "Pizza Margarita", // descripcion de la img en caso de que no cargue
-                modifier = Modifier
-                    .size(180.dp) // poner tamaño a la imagen
+                painterResource(R.drawable.margarita),
+                contentDescription = "Pizza Margarita",
+                modifier = Modifier.size(180.dp)
             )
-
-            // BOTON MARGARITA
             Button(onClick = { tipoPizza = "Margarita" }) {
-                Text("Pizza Margarita" , fontSize = 25.sp)
-
+                Text("Pizza Margarita", fontSize = 25.sp)
             }
         }
-        Spacer(modifier = Modifier.padding(10.dp)) // separador
-        Row( //PIZZA BARBACOA
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
 
-            Image(
-                painterResource(R.drawable.barbacoa), // la misma imagen
-                contentDescription = "Pizza Barbacoa", // descripcion de la img en caso de que no cargue
-                modifier = Modifier
-                    .size(180.dp) // poner tamaño a la imagen
-            )
+        // Extras Margarita
+        if (tipoPizza == "Margarita") {
+            val opcionesMargarita = listOf("Con Piña", "Versión Vegana", "Sin Extras")
+            Column(Modifier.selectableGroup()) {
+                Text(
+                    "Extras disponibles:",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
 
-            // BOTON MARGARITA
-            Button(onClick = { tipoPizza = "Barbacoa" }) {
-                Text("Pizza Barbacoa" , fontSize = 25.sp)
-
+                opcionesMargarita.forEach { extra ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .selectable(
+                                selected = (extraSeleccionado == extra),
+                                onClick = {
+                                    extraSeleccionado = extra
+                                    mostrarTamanyo = true //pasar a mostrar tamaño
+                                }
+                            )
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = (extraSeleccionado == extra),
+                            onClick = {
+                                extraSeleccionado = extra
+                                mostrarTamanyo = true //pasar a mostrar tamaño
+                            }
+                        )
+                        Text(extra, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(start = 16.dp))
+                    }
+                }
             }
         }
 
         Spacer(modifier = Modifier.padding(10.dp))
-        Row( //PIZZA ROMANA
-            modifier = Modifier
-                .fillMaxWidth(),
+
+        // PIZZA BARBACOA
+        Row(
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             Image(
-                painterResource(R.drawable.romana), // la misma imagen
-                contentDescription = "Pizza Romana", // descripcion de la img en caso de que no cargue
-                modifier = Modifier
-                    .size(180.dp) // tiene mas ya que es mas pequeña que las otras 2 por algun motivo
+                painterResource(R.drawable.barbacoa),
+                contentDescription = "Pizza Barbacoa",
+                modifier = Modifier.size(180.dp)
             )
+            Button(onClick = { tipoPizza = "Barbacoa" }) {
+                Text("Pizza Barbacoa", fontSize = 25.sp)
+            }
+        }
 
-            // BOTON MARGARITA
+        // Extras Barbacoa
+        if (tipoPizza == "Barbacoa") {
+            val opcionesBarbacoa = listOf("Carne de cerdo", "Pollo", "Ternera", "Sin Extras")
+            Column(Modifier.selectableGroup()) {
+                Text(
+                    "Extras disponibles:",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+
+                opcionesBarbacoa.forEach { extra ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .selectable(
+                                selected = (extraSeleccionado == extra),
+                                onClick = {
+                                    extraSeleccionado = extra
+                                    mostrarTamanyo = true //pasar a mostrar tamaño
+                                }
+                            )
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = (extraSeleccionado == extra),
+                            onClick = {
+                                extraSeleccionado = extra
+                                mostrarTamanyo = true //pasar a mostrar tamaño
+                            }
+                        )
+                        Text(extra, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(start = 16.dp))
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.padding(10.dp))
+
+        // PIZZA ROMANA
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painterResource(R.drawable.romana),
+                contentDescription = "Pizza Romana",
+                modifier = Modifier.size(180.dp)
+            )
             Button(onClick = { tipoPizza = "Romana" }) {
-                Text("Pizza Romana" , fontSize = 25.sp)
+                Text("Pizza Romana", fontSize = 25.sp)
+            }
+        }
 
+        // Extras Romana
+        if (tipoPizza == "Romana") {
+            val opcionesRomana = listOf("Con champiñones", "Sin Extras")
+            Column(Modifier.selectableGroup()) {
+                Text(
+                    "Extras disponibles:",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+
+                opcionesRomana.forEach { extra ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .selectable(
+                                selected = (extraSeleccionado == extra),
+                                onClick = {
+                                    extraSeleccionado = extra
+                                    mostrarTamanyo = true //pasar a mostrar tamaño
+                                }
+                            )
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = (extraSeleccionado == extra),
+                            onClick = {
+                                extraSeleccionado = extra
+                                mostrarTamanyo = true //pasar a mostrar tamaño
+                            }
+                        )
+                        Text(extra, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(start = 16.dp))
+                    }
+                }
             }
         }
     }
