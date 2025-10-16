@@ -1,6 +1,7 @@
 package com.example.practica_kotlin_ev1
 
 import android.R.attr.background
+import android.R.attr.fontWeight
 import android.app.AlertDialog
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -35,12 +36,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.HorizontalAlignmentLine
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.practica_kotlin_ev1.ui.theme.Practica_Kotlin_EV1
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +52,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             Practica_Kotlin_EV1 {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Pantalla_Inicial(modifier = Modifier.padding(innerPadding))
+                  //  Pantalla_Inicial(modifier = Modifier.padding(innerPadding)) //MAIN ACTIVITY
+                    HacerPedido() //SEGUNDA PANTALLA (ELEGIR PIZZA)
+
                 }
             }
         }
@@ -57,33 +62,21 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Pantalla_Inicial(modifier: Modifier = Modifier) {
-    // Variable para mostrar la pantalla de Realizar Pedido
-    var mostrarRealizarPedido by remember { mutableStateOf(false) }
-
-    // Variable para mostrar ventana de información del usuario
-    var mostrardatos by remember { mutableStateOf(false) }
-
-    // Si el usuario pulsa el botón de Realizar Pedido, mostramos esa pantalla
-    if (mostrarRealizarPedido) {
-        RealizarPedido() // Composable del otro archivo
-    } else {
-        // Pantalla principal
+fun HacerPedido(modifier: Modifier = Modifier
+    .background(Color(0xFFFFF8E7))) {  //color de fondo para la pantalla de main
         Column(
             modifier = modifier
-                .background(Color(0xFFFFF8E7)) // background de toda la pantalla
                 .padding(top = 150.dp) // lo empuja hacia abajo para que este mas al centro
                 .fillMaxWidth(), // hacer que ocupe el ancho de toda la pantalla
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             // Row para poner la imagen a la izquierda y el texto a la derecha
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
                 Image(
-                    painterResource(R.drawable.bobeponja), // la misma imagen
+                    painterResource(R.drawable.bobeponja), // la foto del usuario
                     contentDescription = "Foto de perfil del usuario", // descripcion de la img en caso de que no cargue
                     modifier = Modifier
                         .size(130.dp) // poner tamaño a la imagen
@@ -91,8 +84,9 @@ fun Pantalla_Inicial(modifier: Modifier = Modifier) {
 
                 val nombre = stringResource(id = R.string.nombre) // nombre del usuario que tenemos
                 Text(
-                    "¡Bienvenido a Pizza Time $nombre!", // texto de bienvenida
-                    fontSize = 30.sp,
+                    "¡Bienvenido a Pizza Time, $nombre!", // texto de bienvenida
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(start = 16.dp)
                 )
@@ -102,7 +96,7 @@ fun Pantalla_Inicial(modifier: Modifier = Modifier) {
 
             // BOTON REALIZAR PEDIDO
             Button(
-                onClick = { mostrarRealizarPedido = true }, // al pulsar, cambiamos el estado para mostrar RealizarPedido
+                onClick = { /*TODO*/},
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
             ) {
                 Text("Realizar Pedido", fontSize = 40.sp)
@@ -112,48 +106,23 @@ fun Pantalla_Inicial(modifier: Modifier = Modifier) {
 
             // BOTON LISTAR PEDIDOS
             Button(
-                onClick = { /* TODO: acción de listar pedidos */ },
+                onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
             ) {
                 Text("Listar Pedidos", fontSize = 40.sp)
             }
 
             // BOTON MOSTRAR DATOS
-            Box(modifier = Modifier.fillMaxSize()) { // para alinear un botón en la caja
+            Box(modifier = Modifier.fillMaxSize()) {
                 Button(
-                    onClick = { mostrardatos = true }, // habilita el script de mostrar datos
+                    onClick = {/*TODO*/ },
                     modifier = Modifier
                         .align(Alignment.BottomEnd) // ponerlo al fondo derecha
                         .padding(bottom = 200.dp), // subirlo al centro
-                    colors = ButtonDefaults.buttonColors(Color(0xCC2CA49F))
+                    colors = ButtonDefaults.buttonColors(Color(0xCC2CA49F)) //color del boton
                 ) {
                     Text("Mis Datos")
                 }
             }
-
-            // Script que muestra datos
-            if (mostrardatos) { // si se le da al botón y se habilita:
-                val nombre = stringResource(id = R.string.nombre)
-                val apellidos = stringResource(id = R.string.apellido)
-                val gmail = stringResource(id = R.string.gmail)
-                val telefono = stringResource(id = R.string.num)
-
-                AlertDialog( // Ventana emergente para que quede mucho mejor visualmente
-                    onDismissRequest = { mostrardatos = false },
-                    confirmButton = { // Botón para que confirme y el onclick de mostrardatos vuelva a false
-                        Button(onClick = { mostrardatos = false }) { // que se quite si lo acepta
-                            Text("Aceptar")
-                        }
-                    },
-                    title = { Text("Datos del usuario") },
-                    text = { Text(
-                        "Nombre: $nombre\n" +
-                                "Apellidos: $apellidos\n" +
-                                "Gmail: $gmail\n" +
-                                "Telefono: $telefono"
-                    ) }
-                )
-            }
-        }
     }
 }
