@@ -52,9 +52,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             Practica_Kotlin_EV1 {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                  //  Pantalla_Inicial(modifier = Modifier.padding(innerPadding)) //MAIN ACTIVITY
-                    HacerPedido() //SEGUNDA PANTALLA (ELEGIR PIZZA)
-
+                   //Pantalla_Inicial(modifier = Modifier.padding(innerPadding)) //MAIN ACTIVITY
+                 //   HacerPedido() //SEGUNDA PANTALLA (ELEGIR PIZZA)
+                 //   ResumirPedido() //TERCERA PANTALLA (RESUMEN DEL PEDIDO)
+                  //  Formulario_Pago()    //CUARTA PANTALLA (HACER PAGO)
+                    ResumirPago() //QUINTA PANTALLA (MOSTRAR PAGO)
+                 //   ListaPedidos() //ULTIMA PANTALLA (LISTA PAGOS)
                 }
             }
         }
@@ -62,7 +65,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HacerPedido(modifier: Modifier = Modifier
+fun Pantalla_Inicial (modifier: Modifier = Modifier
     .background(Color(0xFFFFF8E7))) {  //color de fondo para la pantalla de main
         Column(
             modifier = modifier

@@ -4,6 +4,39 @@
     <!--PERSONA-->
     <string name="nombre">Bob Esponja</string>
     <string name="apellido">Pantalones Cuadrados</string>
-    <string name="gmail">correodejeemplonose@gmail.com</string>
-    <string name="num">23912525</string>
+    <string name="gmail" translatable="false">correodejeemplonose@gmail.com</string>
+    <string name="num" translatable="false">23912525</string>
+
+    <!--PIZZA-->
+    <string name="tipo">Margarita</string>
+    <string name ="extras">Vegana</string>
+    <string name="tamanyo">Pequeña</string>
+    <string name="bebida">Agua</string>
+    <string name="cantidadPizzas" translatable="false">4</string>
+    <string name="cantidadBotellas" translatable="false">3</string>
+    <string name="precio" translatable="false">25,8€</string>
+
+    <!--TARJETA-->
+    <string name="nomtarjeta">Bob Esponja Pantalones Cuadrados</string>
+    <string name="numtarjeta" translatable="false">**** **** **** 4920</string>
+    <string name="fechaCaducidad" translatable="false">10/31</string>
+    <string name="CVC" translatable="false">312</string>
+    <string name="tipotarjeta" translatable="false">Mastercard</string>
+
+
+    <!--TEXTOS porque puse la localizacion demasiado tarde-->
+    <string name="apellidotexto">Apellidos:</string>
+    <string name="nomtexto">Nombre:</string>
+    <string name="tipopizzatexto">Tipo de Pizza:</string>
+    <string name="tipobebidatexto">Bebida:</string>
+    <string name="cantidadpizzatexto">Cantidad de Pizzas:</string>
+    <string name="cantidadbotellastexto">Cantidad de Botellas:</string>
+    <string name="tarjetatexto">Tarjeta:</string>
+    <string name="numtarjetatexto">Número de Tarjeta:</string>
+    <string name="fechacaducidadtexto">Fecha de caducidad:</string>
+    <string name="botonaceptar">ACEPTAR</string>
+    <string name="botonenviar">ENVIAR</string>
+    <string name="botoncancelar">CANCELAR</string>
+    <string name="listapedidostexto">LISTA DE PEDIDOS:</string>
+
 </resources>

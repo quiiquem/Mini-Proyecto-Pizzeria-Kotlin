@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Practica_Kotlin_EV1</string>
+
+    <!--PERSONA-->
+    <string name="nombre">Bob Esponja</string>
+    <string name="apellido">Pantalones Cuadrados</string>
+
+    <!--PIZZA-->
+    <string name="tipo">Margarita</string>
+    <string name ="extras">Vegana</string>
+    <string name="tamanyo">Pequeña</string>
+    <string name="bebida">Agua</string>
+
+    <!--TARJETA-->
+    <string name="nomtarjeta">Bob Esponja Pantalones Cuadrados</string>
+    <string name="apellidotexto">Apellidos</string>
+    <string name="nomtexto">Nombre</string>
+    <string name="tipopizzatexto">Tipo de pizza:</string>
+    <string name="tipobebidatexto">Bebida:</string>
+    <string name="cantidadpizzatexto">Cantidad de Pizzas:</string>
+    <string name="cantidadbotellastexto">Cantidad de botellas:</string>
+    <string name="tarjetatexto">Tarjeta de Crédito:</string>
+    <string name="numtarjetatexto">Número de Tarjeta:</string>
+    <string name="fechacaducidadtexto">Fecha de caducidad:</string>
+    <string name="botonaceptar">ACEPTAR</string>
+    <string name="botonenviar">ENVIAR</string>
+    <string name="botoncancelar">CANCELAR</string>
+    <string name="listapedidostexto">LISTA DE PEDIDOS:</string>
+
+</resources>

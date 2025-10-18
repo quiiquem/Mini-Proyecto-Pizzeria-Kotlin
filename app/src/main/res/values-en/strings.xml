@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Practica_Kotlin_EV1</string>
+    <string name="nombre">Sponge Bob</string>
+    <string name="apellido">Square Pants</string>
+    <string name="tipo">Margherita</string>
+    <string name="extras">Vegane</string>
+    <string name="tamanyo">Small</string>
+    <string name="bebida">Water</string>
+    <string name="nomtarjeta">Sponge Bob Square Pants</string>
+    <string name="apellidotexto">Surnames</string>
+    <string name="nomtexto">Name</string>
+    <string name="tipopizzatexto">Pizza type:</string>
+    <string name="tipobebidatexto">Drink:</string>
+    <string name="cantidadpizzatexto">Quantity of pizzas:</string>
+    <string name="cantidadbotellastexto">Quantity of bottles:</string>
+    <string name="tarjetatexto">Credit Card:</string>
+    <string name="numtarjetatexto">Card Number:</string>
+    <string name="fechacaducidadtexto">Expiration Date:</string>
+    <string name="botonaceptar">ACCEPT</string>
+    <string name="botonenviar">SEND</string>
+    <string name="botoncancelar">CANCEL</string>
+    <string name="listapedidostexto">ORDER LIST:</string>
+</resources>
