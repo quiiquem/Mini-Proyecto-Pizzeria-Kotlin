@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
@@ -52,80 +53,126 @@ class MainActivity : ComponentActivity() {
         setContent {
             Practica_Kotlin_EV1 {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                   //Pantalla_Inicial(modifier = Modifier.padding(innerPadding)) //MAIN ACTIVITY
-                 //   HacerPedido() //SEGUNDA PANTALLA (ELEGIR PIZZA)
-                 //   ResumirPedido() //TERCERA PANTALLA (RESUMEN DEL PEDIDO)
+                   Pantalla_Inicial(modifier = Modifier.padding(innerPadding)) //MAIN ACTIVITY
+                   // HacerPedido() //SEGUNDA PANTALLA (ELEGIR PIZZA)
+                 //  ResumirPedido() //TERCERA PANTALLA (RESUMEN DEL PEDIDO)
                   //  Formulario_Pago()    //CUARTA PANTALLA (HACER PAGO)
-                    ResumirPago() //QUINTA PANTALLA (MOSTRAR PAGO)
+                  //  ResumirPago() //QUINTA PANTALLA (MOSTRAR PAGO)
                  //   ListaPedidos() //ULTIMA PANTALLA (LISTA PAGOS)
                 }
             }
         }
     }
 }
-
 @Composable
+
+
 fun Pantalla_Inicial (modifier: Modifier = Modifier
     .background(Color(0xFFFFF8E7))) {  //color de fondo para la pantalla de main
-        Column(
-            modifier = modifier
-                .padding(top = 150.dp) // lo empuja hacia abajo para que este mas al centro
-                .fillMaxWidth(), // hacer que ocupe el ancho de toda la pantalla
-            horizontalAlignment = Alignment.CenterHorizontally
+
+    //TEXTOS (localizacion)
+    val mensajeinicio = stringResource(R.string.mensajemain)
+    val nombre = stringResource(id = R.string.nombre) // nombre del usuario que tenemos
+    val apellido = stringResource(R.string.apellido) //apellido
+    val gmail = stringResource(R.string.gmail) //gmail
+    val tel = stringResource(R.string.num) //num de telefono
+
+    //BOTONES
+
+    val realizarpedidos = stringResource(R.string.realizarpedido)
+    val listarpedido = stringResource(R.string.listarpedidos)
+    val datos = stringResource(R.string.misdatos)
+
+    Column(
+        modifier = modifier
+            .padding(top = 150.dp) // lo empuja hacia abajo para que este mas al centro
+            .fillMaxWidth(), // hacer que ocupe el ancho de toda la pantalla
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Row para poner la imagen a la izquierda y el texto a la derecha
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)
+            .background(Color(0xFFE53935)) // fondo rojo intenso
         ) {
-            // Row para poner la imagen a la izquierda y el texto a la derecha
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+
+            Image(
+                painterResource(R.drawable.bobeponja), // la foto del usuario
+                contentDescription = "Foto de perfil del usuario", // descripcion de la img en caso de que no cargue
+                modifier = Modifier
+                    .size(130.dp) // poner tamaño a la imagen
+            )
+
+
+            Box(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-
-                Image(
-                    painterResource(R.drawable.bobeponja), // la foto del usuario
-                    contentDescription = "Foto de perfil del usuario", // descripcion de la img en caso de que no cargue
-                    modifier = Modifier
-                        .size(130.dp) // poner tamaño a la imagen
-                )
-
-                val nombre = stringResource(id = R.string.nombre) // nombre del usuario que tenemos
                 Text(
-                    "¡Bienvenido a Pizza Time, $nombre!", // texto de bienvenida
+                    "$mensajeinicio, $nombre", // texto de bienvenida
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(start = 16.dp)
+                    color = Color.White // texto en color blanco
                 )
             }
+        }
 
-            Spacer(modifier = Modifier.padding(40.dp)) // separador entre filas
+        //ROW DATOS
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)
+                .background(Color(0xFF4D0000)) // fondo rojo intenso
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(start = 16.dp)
 
-            // BOTON REALIZAR PEDIDO
-            Button(
-                onClick = { /*TODO*/},
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                Text("Realizar Pedido", fontSize = 40.sp)
+                Text(
+                    "DATA:\n$nombre\n$apellido\n$gmail\n$tel", // texto de bienvenida
+                    fontSize = 17.sp,
+                    textAlign = TextAlign.Center,
+                    color = Color.White // texto blanco
+                )
             }
+        }
 
-            Spacer(modifier = Modifier.padding(40.dp)) // separador
+        // BOTON REALIZAR PEDIDO
+        Button(
+            onClick = { /*TODO*/},
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF388E3C)) // verde
+        ) {
+            Text("$realizarpedidos", fontSize = 40.sp, color = Color.White)
+        }
+        Spacer(modifier = Modifier.height(16.dp))
 
-            // BOTON LISTAR PEDIDOS
+        // BOTON LISTAR PEDIDOS
+        Button(
+            onClick = { /*TODO*/ },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF64B5F6)) // azul
+        ) {
+            Text("$listarpedido", fontSize = 40.sp, color = Color.White)
+        }
+
+        // BOTON MOSTRAR DATOS
+        Box(modifier = Modifier.fillMaxSize()) {
             Button(
-                onClick = { /*TODO*/ },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+                onClick = {/*TODO*/ },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd) // ponerlo al fondo derecha
+                    .padding(bottom = 200.dp), // subirlo al centro
+                colors = ButtonDefaults.buttonColors(Color(0xCC2CA49F))
             ) {
-                Text("Listar Pedidos", fontSize = 40.sp)
+                Text("$datos", fontSize = 17.sp, color = Color.White)
             }
-
-            // BOTON MOSTRAR DATOS
-            Box(modifier = Modifier.fillMaxSize()) {
-                Button(
-                    onClick = {/*TODO*/ },
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd) // ponerlo al fondo derecha
-                        .padding(bottom = 200.dp), // subirlo al centro
-                    colors = ButtonDefaults.buttonColors(Color(0xCC2CA49F)) //color del boton
-                ) {
-                    Text("Mis Datos")
-                }
-            }
+        }
     }
 }

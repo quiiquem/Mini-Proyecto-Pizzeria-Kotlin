@@ -25,13 +25,24 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ResumirPago() {
+
+    //VALORES DEL RESUMEN
     val numtarjeta = stringResource(id = R.string.numtarjeta)
     val fecha = stringResource(id = R.string.fechaCaducidad)
     val tipotarjeta = stringResource(id = R.string.tipotarjeta)
     val cvc = stringResource(id = R.string.CVC)
-    val nombre = stringResource(id = R.string.nombre)
-    val apellidos = stringResource(id = R.string.apellido)
 
+    //VALORES de texto (localizacion)
+    val tarjetatexto =stringResource(R.string.tarjetatexto)
+    val numtarjetatexto = stringResource(R.string.numtarjetatexto)
+    val fechacaducidadtexto =stringResource(R.string.fechacaducidadtexto)
+
+    //BOTONES (loclizacion)
+    val botonaceptar = stringResource(R.string.botonaceptar)
+    val botonenviar = stringResource(R.string.botonenviar)
+
+    //OTROS
+    val textoresumen = stringResource(R.string.resumenpagotexto)
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,18 +51,17 @@ fun ResumirPago() {
         verticalArrangement = Arrangement.Center //centrar la columna verticalmente
     ) {
 
-        Text("RESUMEN DEL PAGO:",
+        Text("$textoresumen",
             fontSize = 30.sp,
             textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(40.dp))
         Text(
-            "Tipo de tarjeta: $tipotarjeta" +
-                    "\nNombre de la tarjeta: $nombre $apellidos" +
-                    "\nFecha de Caducidad: $fecha" +
+            "$tarjetatexto $tipotarjeta" +
+                    "\n$fechacaducidadtexto: $fecha" +
                     "\nCVC: $cvc" +
-                    "\nNúmero de Tarjeta: $numtarjeta",
+                    "\n$numtarjetatexto: $numtarjeta",
             fontSize = 20.sp,
             fontWeight = FontWeight.Black
         )
@@ -65,7 +75,7 @@ fun ResumirPago() {
                 onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
             ) {
-                Text("ACEPTAR", color = Color.White, fontSize = 30.sp)
+                Text("$botonaceptar", color = Color.White, fontSize = 30.sp)
             }
 
             Spacer(modifier = Modifier.width(40.dp))
@@ -74,7 +84,7 @@ fun ResumirPago() {
                 onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
             ) {
-                Text("ENVIAR", color = Color.White, fontSize = 30.sp)
+                Text("$botonenviar", color = Color.White, fontSize = 30.sp)
             }
         }
     }

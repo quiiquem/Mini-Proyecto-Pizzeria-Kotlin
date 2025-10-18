@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ResumirPedido() {
 
+    //VALORES (localizacion)
     val tipoPizza = stringResource(id = R.string.tipo)
     val extrasPizza = stringResource(id = R.string.extras)
     val tamanyoPizza = stringResource(id = R.string.tamanyo)
@@ -33,6 +34,22 @@ fun ResumirPedido() {
     val cantidadPizzas = stringResource(id = R.string.cantidadPizzas)
     val cantidadBebidas = stringResource(id = R.string.cantidadBotellas)
     val precio = stringResource(id = R.string.precio)
+
+
+    //BOTONES (localizacion)
+    val pagar = stringResource(R.string.botonpagar)
+    val cancelar = stringResource(R.string.botoncancelar)
+
+    //OTROS (localizacion)
+    val resumenpedidotexto = stringResource(R.string.resumenpedidotexto)
+    val tipopizzatexto = stringResource(R.string.tipopizzatexto)
+    val tamanyopizzatexto = stringResource(R.string.tamanyopizzatexto)
+    val bebidatexto = stringResource(R.string.tipobebidatexto)
+    val cantidadPizza = stringResource(R.string.cantidadpizzatexto)
+    val cantidadBebida = stringResource(R.string.cantidadbotellastexto)
+    val preciotexto = stringResource(R.string.preciotexto)
+
+
 
     Column(
         modifier = Modifier
@@ -42,20 +59,20 @@ fun ResumirPedido() {
         verticalArrangement = Arrangement.Center //centrar la columna verticalmente
     ) {
 
-        Text("RESUMEN DEL PEDIDO:",
+        Text("$resumenpedidotexto",
             fontSize = 30.sp,
             textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(40.dp)) // separador horizontal
         Text(
-            "Tipo de Pizza: $tipoPizza" +
+            "$tipopizzatexto $tipoPizza" +
                     "\nExtras: $extrasPizza" +
-                    "\nTamaño Pizza: $tamanyoPizza" +
-                    "\nBebidas: $bebidas" +
-                    "\nCantidad de Pizzas: $cantidadPizzas" +
-                    "\nCantidad de Bebidas: $cantidadBebidas" +
-                    "\nPrecio: $precio",
+                    "\n$tamanyopizzatexto $tamanyoPizza" +
+                    "\n$bebidatexto $bebidas" +
+                    "\n$cantidadPizza $cantidadPizzas" +
+                    "\n$cantidadBebida $cantidadBebidas" +
+                    "\n$preciotexto $precio",
             fontSize = 20.sp,
             fontWeight = FontWeight.Black //ponerlo en negrita
         )
@@ -69,7 +86,7 @@ fun ResumirPedido() {
                 onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)) //color verde!
             ) {
-                Text("PAGAR", color = Color.White, fontSize = 30.sp)
+                Text("$pagar", color = Color.White, fontSize = 30.sp)
             }
 
             Spacer(modifier = Modifier.width(40.dp)) // separador horizontal
@@ -78,7 +95,7 @@ fun ResumirPedido() {
                 onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF44336)) //color rojo!
             ) {
-                Text("CANCELAR", color = Color.White, fontSize = 30.sp)
+                Text("$cancelar", color = Color.White, fontSize = 30.sp)
             }
         }
     }
