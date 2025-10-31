@@ -22,8 +22,6 @@
     <string name="fechaCaducidad" translatable="false">10/31</string>
     <string name="CVC" translatable="false">312</string>
     <string name="tipotarjeta" translatable="false">Mastercard</string>
-
-
     <!--TEXTOS porque puse la localizacion demasiado tarde-->
     <string name="apellidotexto">Apellidos:</string>
     <string name="nomtexto">Nombre:</string>

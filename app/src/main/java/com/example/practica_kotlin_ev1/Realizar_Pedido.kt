@@ -84,8 +84,8 @@ fun HacerPedido() {
     val botonvolver = stringResource(R.string.botonvolver)
 
     //todas las listas con las opciones de el formulario
-    val opcionesPizza = listOf("$margarita", "$barbacoa", "$romana")
-    val opcionesMargarita = listOf("$pinya", "$vegana", "$ningunextra")
+    val opcionesPizza = listOf(margarita, barbacoa, romana)
+    val opcionesMargarita = listOf(pinya, "$vegana", "$ningunextra")
     val opcionesBarbacoa = listOf("$carnecerdo", "$pollo", "$ternera", "$ningunextra")
     val opcionesRomana = listOf("$champinyon", "$ningunextra")
     val opcionesTamanyo = listOf("$pequeño", "$mediana", "$grande")
@@ -425,7 +425,7 @@ fun HacerPedido() {
 
                 Spacer(modifier = Modifier.width(16.dp))  //separar boton de img
 
-                if (bebida == "$agua") {
+                if (bebida == agua) {
                     Image(
                         painterResource(R.drawable.agua),
                         contentDescription = "Agua",
@@ -462,7 +462,7 @@ fun HacerPedido() {
                     onClick = { /*TODO*/ },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)) //color verde!
                 ) {
-                    Text("${botonaceptar}", color = Color.White, fontSize = 18.sp)
+                    Text(botonaceptar, color = Color.White, fontSize = 18.sp)
                 }
 
                 Spacer(modifier = Modifier.width(16.dp))
@@ -471,7 +471,7 @@ fun HacerPedido() {
                     onClick = { /*TODO*/ },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF44336)) //color rojo!
                 ) {
-                    Text("$botonvolver", color = Color.White, fontSize = 18.sp)
+                    Text(botonvolver, color = Color.White, fontSize = 18.sp)
                 }
             }
 

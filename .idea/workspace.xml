@@ -10,15 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="642a1a54-b388-4ca3-95fa-12ad2efa4e24" name="Changes" comment="v0.4.0: terminado todo realizar pedido, ahora si siendo un formulario como pedia originalmente (tengo que leer bien los docs esto no es bueno)">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Pantalla_Principal.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Formulario_Pago.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Formulario_Pago.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Realizar_Pedido.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Realizar_Pedido.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Resumen_Pago.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Resumen_Pago.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Resumen_Pedido.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Resumen_Pedido.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-es-rES/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-es-rES/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,11 +28,18 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\enriq\.android\avd\Pixel_8_Pro.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\windows10\.android\avd\emulador_android.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -46,7 +53,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/quiiquem/Practica_Kotlin_EV1.git&quot;,
-    &quot;accountId&quot;: &quot;e8ba6140-8368-4623-9723-f3ff17b4a0cd&quot;
+    &quot;accountId&quot;: &quot;479097c9-910b-461c-a853-b760364b3233&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -163,6 +170,17 @@
     <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v0.3.5: rehecho todo el form ahora se ve mucho mejor en verdad aunque mas minimalista , pero bueno mañana ya deberia estar" />
     <option name="LAST_COMMIT_MESSAGE" value="v0.3.5: rehecho todo el form ahora se ve mucho mejor en verdad aunque mas minimalista , pero bueno mañana ya deberia estar" />
@@ -172,12 +190,12 @@
       <map>
         <entry key="com.example.practica_kotlin_ev1">
           <value>
-            <CheckInfo lastCheckTimestamp="1760782676788" />
+            <CheckInfo lastCheckTimestamp="1761906109629" />
           </value>
         </entry>
         <entry key="com.example.practica_kotlin_ev1.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1760782676790" />
+            <CheckInfo lastCheckTimestamp="1761906109628" />
           </value>
         </entry>
       </map>
