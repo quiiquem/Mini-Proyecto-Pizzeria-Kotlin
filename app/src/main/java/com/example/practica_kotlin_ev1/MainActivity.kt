@@ -18,8 +18,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             Practica_Kotlin_EV1 {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                  Pantalla_Principal(modifier = Modifier.padding(innerPadding)) //MAIN ACTIVITY
-                 //  HacerPedido() //SEGUNDA PANTALLA (ELEGIR PIZZA)
+                //  Pantalla_Principal(modifier = Modifier.padding(innerPadding)) //Pantalla principal
+                    Pantalla_RealizarPedido() //SEGUNDA PANTALLA (ELEGIR PIZZA)
                  //  ResumirPedido() //TERCERA PANTALLA (RESUMEN DEL PEDIDO)
                   //  Formulario_Pago() //CUARTA PANTALLA (HACER PAGO)
                   //  ResumirPago() //QUINTA PANTALLA (MOSTRAR PAGO)

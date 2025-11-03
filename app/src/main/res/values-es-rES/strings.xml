@@ -6,6 +6,7 @@
     <string name="apellido">Pantalones Cuadrados</string>
 
     <!--PIZZA-->
+    <string name="number">número de teléfono</string>
     <string name="tipo">Margarita</string>
     <string name ="extras">Vegana</string>
     <string name="tamanyo">Pequeña</string>
@@ -64,5 +65,6 @@
     <string name="realizarpedido">REALIZAR PEDIDO</string>
     <string name="listarpedidos">LISTA PEDIDOS</string>
     <string name="misdatos">MIS DATOS</string>
+    <string name="descfotomain">Perfil de usuario</string>
 
 </resources>

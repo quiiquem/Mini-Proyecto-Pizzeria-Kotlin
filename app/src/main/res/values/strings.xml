@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Practica_Kotlin_EV1</string>
 
-    <!--PERSONA-->
+    <!--PERSONA, tengo que editar en todas las pantallas para poder quitarlos, por ahora estan para mantener esto-->
     <string name="nombre">Bob Esponja</string>
     <string name="apellido">Pantalones Cuadrados</string>
     <string name="gmail" translatable="false">correodejeemplonose@gmail.com</string>
     <string name="num" translatable="false">23912525</string>
-
+    <string name="number">número de teléfono</string>
     <!--PIZZA-->
     <string name="tipo">Margarita</string>
     <string name ="extras">Vegana</string>
@@ -74,5 +74,6 @@
     <string name="realizarpedido">REALIZAR PEDIDO</string>
     <string name="listarpedidos">LISTA PEDIDOS</string>
     <string name="misdatos">MIS DATOS</string>
+    <string name="descfotomain">Perfil de usuario</string>
 
 </resources>

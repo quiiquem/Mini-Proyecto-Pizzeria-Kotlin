@@ -1,5 +1,6 @@
 package com.example.practica_kotlin_ev1
 
+import android.R.attr.checked
 import android.R.attr.contentDescription
 import android.R.attr.fontWeight
 import androidx.annotation.StringRes
@@ -9,11 +10,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -21,79 +24,307 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.practica_kotlin_ev1.Objeto_Pizza.Data_Pedido
+import com.example.practica_kotlin_ev1.Objeto_Usuario.Data_Usuario
+
+//----------------------------CÓDIGO DE REALIZAR PEDIDO----------------------
+
+//Estructura general
+@Composable
+    fun Pantalla_RealizarPedido( modifier: Modifier = Modifier){
+        var precioglobal by remember {mutableStateOf(0.0)} //lo pongo arriba del todo para poder usarlo en las demas funciones
+        Column(modifier
+            .fillMaxWidth()){
+            seleccion_tipopizza(modifier)
+            Spacer(modifier = Modifier.height(16.dp))
+            seleccion_tamanyopizza(modifier)
+            seleccion_bebida()
+            seleccion_tipobebida()
+            cantidades()
+            precios()
+        }
+    }
+
 
 @Composable
-fun HacerPedido() {
-
-    val ninguno = stringResource(R.string.ninguno) //para los extras
-    val noseleccionado = stringResource(R.string.noseleccionado)
-    val textoprecio = stringResource(R.string.preciofinal)
-
-    //VALORES PRINCIPALES
-    var tipoPizza by remember { mutableStateOf("") } //tipo de pizza que es var porq puede cambiar
-    var extras by remember { mutableStateOf("$ninguno") } //puede cambiar asi que se deja en var
-    var tamanyo by remember { mutableStateOf("$noseleccionado") }
-    var bebida by remember { mutableStateOf("$noseleccionado") }
-    var cantidadPizzas by remember { mutableStateOf(0) }
-    var cantidadBotellas by remember { mutableStateOf(0) }
-    var precio by remember { mutableStateOf(0.0) }
-
-    //TIPOS DE PIZZA
-    val margarita = stringResource(R.string.tipo) //se llama tipo para no crear otra que sea "margarita"
+fun seleccion_tipopizza(modifier : Modifier) {
+    val seleccionarpizza = stringResource(R.string.eligepizzatexto)
+    val margarita = stringResource(R.string.tipo)
     val barbacoa = stringResource(R.string.pizza_barbacoa)
     val romana = stringResource(R.string.pizza_romana)
+    val extra_piña = stringResource(R.string.extramargaritapiña)
+    val extra_veg = stringResource(R.string.extramargaritavegana)
+    val extra_poll = stringResource(R.string.extrabarbacoapollo)
+    val extra_ter = stringResource(R.string.extrabarbacoaternera)
+    val extra_cer = stringResource(R.string.extrabarbacoacarne)
+    val extra_cha = stringResource(R.string.extraromanachampiñon)
+    //booleanos de extras
+    var conPinaCheckbox by remember { mutableStateOf(false)}
+    var conVeganaCheckbox by remember {mutableStateOf(false)}
+    var conPolloCheckbox by remember { mutableStateOf(false)}
+    var conTerneraCheckbox by remember { mutableStateOf(false)}
+    var conCarneCheckbox by remember { mutableStateOf(false)}
+    var conChampinonesCheckbox by remember { mutableStateOf(false)}
+    //Variables y extras
+    var variable_tipopizza by remember { mutableStateOf("") }
+    var variable_extra_1 by remember { mutableStateOf("") }
+    var variable_extra_2 by remember { mutableStateOf("") }
+    var variable_extra_3 by remember { mutableStateOf("") }
 
+    Data_Pedido( //Poner primeros datos del objeto pizza
+        tipo_pizza = variable_tipopizza,
+        extra_1 = variable_extra_1,
+        extra_2 = variable_extra_2,
+        extra_3 = variable_extra_3
+    )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
 
-    val ningunextra = stringResource(R.string.ningunextra)
-    //OPCIONES MARGARITA
-    val pinya = stringResource(R.string.extramargaritapiña)
-    val vegana = stringResource(R.string.extramargaritavegana)
+        Row(
+            modifier = Modifier //Row cabecera
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painterResource(R.drawable.pizzalogo),
+                contentDescription = stringResource(R.string.descfotomain),
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(CircleShape)
+                    .weight(1F)
+            )
+            Text(
+                seleccionarpizza //asi no hace falta poner "$ ya que solo pongo la variable"
+                , fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier
+                    .weight(1F)
+            )
+            Image(
+                painterResource(R.drawable.pizzalogo),
+                contentDescription = stringResource(R.string.descfotomain),
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(CircleShape)
+                    .weight(1F)
+            )
+        }
 
-    //OPCIONES BARBACOA
-    val carnecerdo = stringResource(R.string.extrabarbacoacarne)
-    val pollo = stringResource(R.string.extrabarbacoapollo)
-    val ternera = stringResource(R.string.extrabarbacoaternera)
+        Row(
+            modifier = Modifier, //Row para los botones
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-    //OPCIONES ROMANA
-    val champinyon = stringResource(R.string.extraromanachampiñon)
+            Button(
+                { variable_tipopizza = margarita
+                    conPinaCheckbox = false
+                    conVeganaCheckbox = false
+                variable_extra_1= ""
+                variable_extra_2= ""
+                variable_extra_3= ""},
+                modifier = Modifier.weight(1F)
+            ) { //Boton margarita
+                Text(
+                    margarita, fontSize = 12.sp, textAlign = TextAlign.Center
+                )
+            }
+            Button(
+                { variable_tipopizza = barbacoa
+                    conCarneCheckbox = false
+                    conTerneraCheckbox = false
+                    conPolloCheckbox = false
+                    variable_extra_1= ""
+                    variable_extra_2= ""
+                    variable_extra_3= ""},
+                modifier = Modifier.weight(1F)
+            ) {
+                Text(
+                    barbacoa, fontSize = 12.sp, textAlign = TextAlign.Center
+                )
+            }
+            Button(
+                { variable_tipopizza = romana
+                    conChampinonesCheckbox = false
+                    variable_extra_1= ""
+                    variable_extra_2= ""
+                    variable_extra_3= ""},
+                modifier = Modifier.weight(1F)
+            ) {
+                Text(
+                    romana, fontSize = 12.sp, textAlign = TextAlign.Center
+                )
+            } }
+        Spacer(modifier = Modifier.height(12.dp))
 
-    //TIPOS DE BOTELLA
-    val agua = stringResource(R.string.agua)
-    //cola no necesita porq es igual en ingles
-    val nobebida = stringResource(R.string.SinBebida)
+        // Extras para Margarita
+        if (variable_tipopizza == margarita) {
+            Column{
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = conPinaCheckbox,
+                        onCheckedChange = {
+                            conPinaCheckbox = it
+                            if (it) variable_extra_1 = extra_piña //se asigna valor
+                            else if (!conPinaCheckbox) variable_extra_1 = "" //si no se les seleccionan siguen igual
+                        }
+                    )
+                    Text(extra_piña)
+                }
 
-    //OTROS (textos)
-    val eligepizzatexto = stringResource(R.string.eligepizzatexto)
-    val eligetamanyotexto = stringResource(R.string.eligetamanyotexto)
-    val tamanyoseleccionado = stringResource(R.string.tamanyoseleccionado)
-    val  eligebotellatexto =  stringResource(R.string.botellaseleccionada)
-    val pizzaseleccionada = stringResource(R.string.pizzaeleccionadatexto)
-    val extraseleccionado = stringResource(R.string.extraseleccionado)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = conVeganaCheckbox,
+                        onCheckedChange = {
+                            conVeganaCheckbox = it
+                            if (it) variable_extra_2 = extra_veg
+                            else if (!conVeganaCheckbox) variable_extra_2 = ""
+                        }
+                    )
+                    Text(extra_veg)
+                }
+            }
+            //Extras barbacoa
+        } else if (variable_tipopizza == barbacoa) {
+            Column{
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = conPolloCheckbox,
+                        onCheckedChange = {
+                            conPolloCheckbox = it
+                            if (it) variable_extra_1 = extra_poll
+                            else if (!conPolloCheckbox) variable_extra_1 = "" //si no se les seleccionan siguen igual
+                        }
+                    )
+                    Text(extra_poll)
+                }
 
-    //TAMAÑOS
-    val pequeño = stringResource(R.string.pequeña)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = conCarneCheckbox,
+                        onCheckedChange = {
+                            conCarneCheckbox = it
+                            if (it) variable_extra_2 = extra_cer
+                            else if (!conCarneCheckbox) variable_extra_2 = ""
+                        }
+                    )
+                    Text(extra_cer)
+                }
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = conTerneraCheckbox,
+                        onCheckedChange = {
+                            conTerneraCheckbox = it
+                            if (it) variable_extra_3 = extra_ter
+                            else if (!conTerneraCheckbox) variable_extra_3 = ""
+                        }
+                    )
+                    Text(extra_ter)
+                }
+            }
+            //Extras romana
+        } else if (variable_tipopizza == romana){
+            Column{
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(
+                        checked = conChampinonesCheckbox,
+                        onCheckedChange = {
+                            conChampinonesCheckbox = it
+                            if (it) variable_extra_1 = extra_cha
+                            else if (!conChampinonesCheckbox) variable_extra_1 = "" //si no se les seleccionan siguen igual
+                        }
+                    )
+                    Text(extra_cha)
+                }
+        }
+    }}}
+
+@Composable
+fun seleccion_tamanyopizza(modifier: Modifier = Modifier) {
+
+val textotamanyo = stringResource(R.string.tamanyoseleccionado)
+
+  var size by remember {mutableStateOf("")}
+    val peque = stringResource(R.string.pequeña)
     val mediana = stringResource(R.string.mediana)
     val grande = stringResource(R.string.grande)
+    var sumarprecio by remember {mutableStateOf(0)}
 
-    //CANTIDADES
-    val cantidadp = stringResource(R.string.cantidadpizzatexto)
-    val cantidadb = stringResource(R.string.cantidadbotellastexto)
+    Data_Pedido( //Ir actualizando datos del objeto
+         tamanyo_pizza = size
+    )
 
-    //BOTONES (loclizacion)
-    val botonaceptar = stringResource(R.string.botonaceptar)
-    val botonvolver = stringResource(R.string.botonvolver)
+    Row(modifier = Modifier){
+        Text(textotamanyo
+        , fontSize = 20.sp)
+    }
+    Row(
+        modifier = Modifier, //Row para los botones
+        verticalAlignment = Alignment.CenterVertically
+    ) {
 
-    //todas las listas con las opciones de el formulario
-    val opcionesPizza = listOf(margarita, barbacoa, romana)
-    val opcionesMargarita = listOf(pinya, "$vegana", "$ningunextra")
-    val opcionesBarbacoa = listOf("$carnecerdo", "$pollo", "$ternera", "$ningunextra")
-    val opcionesRomana = listOf("$champinyon", "$ningunextra")
-    val opcionesTamanyo = listOf("$pequeño", "$mediana", "$grande")
-    val opcionesBebidas = listOf("$agua", "Cola", "$nobebida")
-    val scrollState = rememberScrollState() //permite scrollear a traves de una columna
+        Button(
+            {size = peque
+            sumarprecio + 4.95
+            }, //basta con sumarlo (no se porque ponerlo con = no funciona)
+            modifier = Modifier.weight(1F)
+        ) {
+            Text(
+                peque, fontSize = 12.sp, textAlign = TextAlign.Center
+            )
+        }
+        Button(
+            { size = mediana },
+            modifier = Modifier.weight(1F)
+        ) {
+            Text(
+                mediana, fontSize = 12.sp, textAlign = TextAlign.Center
+            )
+        }
+        Button(
+            { size = grande
+                    },
+            modifier = Modifier.weight(1F)
+        ) {
+            Text(
+                grande, fontSize = 12.sp, textAlign = TextAlign.Center
+            )
+        } }
+}
 
-    // toda la interfaz va dentro de un único Column para mantener la estructura visual correcta
-    Column(
+@Composable
+fun seleccion_bebida() {
+    val tipobebida = stringResource(R.string.tipobebidatexto)
+}
+
+@Composable
+fun seleccion_tipobebida() {
+    // Aquí irá la selección del tipo de bebida
+}
+
+@Composable
+fun cantidades() {
+    // Aquí irá la selección de cantidades
+}
+
+@Composable
+fun precios() {
+    // Aquí se mostrarán los precios
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(scrollState) // habilita scroll
@@ -515,4 +746,4 @@ fun HacerPedido() {
             }
         }
     }
-}
+}*/

@@ -3,6 +3,7 @@
     <string name="app_name">Practica_Kotlin_EV1</string>
     <string name="nombre">Sponge Bob</string>
     <string name="apellido">Square Pants</string>
+    <string name="number">phone number</string>
     <string name="tipo">Margherita</string>
     <string name="extras">Vegane</string>
     <string name="tamanyo">Small</string>
@@ -59,4 +60,5 @@
     <string name="realizarpedido">REALIZE DELIVER</string>
     <string name="listarpedidos">ORDER LIST</string>
     <string name="misdatos">MY DATA</string>
+    <string name="descfotomain">User Profile</string>
 </resources>

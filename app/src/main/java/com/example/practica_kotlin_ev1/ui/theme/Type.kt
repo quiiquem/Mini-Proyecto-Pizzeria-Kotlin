@@ -1,9 +1,7 @@
 package com.example.practica_kotlin_ev1.ui.theme
 
-import com.example.practica_kotlin_ev1.R
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -19,14 +17,14 @@ val provider = GoogleFont.Provider(
 
 val bodyFontFamily = FontFamily(
     Font(
-        googleFont = GoogleFont("Duru Sans"),
+        googleFont = GoogleFont("Abhaya Libre"),
         fontProvider = provider,
     )
 )
 
 val displayFontFamily = FontFamily(
     Font(
-        googleFont = GoogleFont("Afacad"),
+        googleFont = GoogleFont("Italiana"),
         fontProvider = provider,
     )
 )
