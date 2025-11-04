@@ -1,15 +1,20 @@
 package com.example.practica_kotlin_ev1
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,10 +32,12 @@ import com.example.practica_kotlin_ev1.Objeto_Pizza.Data_Pedido
         //Variables para que se pasen entre funciones luego
     var tipoSeleccionado by remember { mutableStateOf("") }  //tipo de pizza
     var tamanyoPizza by remember {mutableStateOf("")} //tamaño pizza
+    var tipoBotella by remember {mutableStateOf("")}
     var extra1 by remember { mutableStateOf("") }  //tipo de pizza
     var extra2 by remember { mutableStateOf("") }  //tipo de pizza
     var cantidadPizzas by remember { mutableStateOf(1) } //cantidad de pizzas
     var cantidadBotellas by remember {mutableStateOf(1)}
+
     var precioglobal by remember {mutableStateOf(0.0)}
 
 
@@ -54,15 +61,24 @@ import com.example.practica_kotlin_ev1.Objeto_Pizza.Data_Pedido
                 }
                     )
             Spacer(modifier = Modifier.height(16.dp))
-            seleccion_bebida()
+            seleccion_bebida(
+                tipoBotella = tipoBotella,
+                onBotellaChange = { nuevaBebida ->
+                    tipoBotella = nuevaBebida
+                }
+            )
             Spacer(modifier = Modifier.height(16.dp))
             // Función que muestra imagen y cantidad
             cantidades_pedido(
                 tipoSeleccionado = tipoSeleccionado,
+                tipoBotella = tipoBotella,
                 cantidadPizzas = cantidadPizzas,
                 cantidadBotellas = cantidadBotellas,
-                onCantidadChange = { nuevaCantidad ->
+                onCantidadPizza = { nuevaCantidad ->
                     cantidadPizzas = nuevaCantidad
+                },
+                onCantidadBebida = { nuevaCantidad ->
+                    cantidadBotellas = nuevaCantidad
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -77,7 +93,6 @@ fun seleccion_tipopizza(
     extra1: String,
     extra2: String,
     onTipoChange: (String) ->Unit
-
     ) {
 
     var variable_tipopizza = tipoSeleccionado //variable tipopizza es el string para pasarlo a todas las funciones
@@ -91,7 +106,6 @@ fun seleccion_tipopizza(
     val extra_piña = stringResource(R.string.extramargaritapiña)
     val extra_veg = stringResource(R.string.extramargaritavegana)
     val extra_poll = stringResource(R.string.extrabarbacoapollo)
-    val extra_ter = stringResource(R.string.extrabarbacoaternera)
     val extra_cer = stringResource(R.string.extrabarbacoacarne)
     val extra_cha = stringResource(R.string.extraromanachampiñon)
     //booleanos de extras
@@ -157,7 +171,7 @@ fun seleccion_tipopizza(
                 modifier = Modifier.weight(1F),
                 shape = RoundedCornerShape(8.dp)) {
                 Text(
-                    margarita, fontSize = 20.sp, textAlign = TextAlign.Center
+                    margarita, fontSize = 15.sp, textAlign = TextAlign.Center
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))
@@ -173,7 +187,7 @@ fun seleccion_tipopizza(
                 modifier = Modifier.weight(1F),
                 shape = RoundedCornerShape(8.dp)) {
                 Text(
-                    barbacoa, fontSize = 20.sp, textAlign = TextAlign.Center
+                    barbacoa, fontSize = 15.sp, textAlign = TextAlign.Center
                 )
             }
             Spacer(modifier = Modifier.width(12.dp))
@@ -186,7 +200,7 @@ fun seleccion_tipopizza(
                 modifier = Modifier.weight(1F),
                 shape = RoundedCornerShape(8.dp)){
                 Text(
-                    romana, fontSize = 20.sp, textAlign = TextAlign.Center
+                    romana, fontSize = 15.sp, textAlign = TextAlign.Center
                 )
             } }
 
@@ -314,25 +328,31 @@ val textotamanyo = stringResource(R.string.tamanyopizzatexto)
             {tamanyoPizza = peque
             sumarprecio + 4.95
             }, //basta con sumarlo (no se porque ponerlo con = no funciona)
-            modifier = Modifier.weight(1F)
+            modifier = Modifier.weight(1F),
+            shape = RoundedCornerShape(8.dp)
         ) {
             Text(
                 peque, fontSize = 20.sp, textAlign = TextAlign.Center
             )
         }
+        Spacer(modifier = Modifier.width(18.dp))
         Button(
             { tamanyoPizza = mediana
             sumarprecio + 6.95},
-            modifier = Modifier.weight(1F)
+            modifier = Modifier.weight(1F),
+            shape = RoundedCornerShape(8.dp)
         ) {
             Text(
                 mediana, fontSize = 20.sp, textAlign = TextAlign.Center
             )
         }
+        Spacer(modifier = Modifier.width(18.dp))
+
         Button(
             { tamanyoPizza = grande
             sumarprecio + 10},
-            modifier = Modifier.weight(1F)
+            modifier = Modifier.weight(1F),
+            shape = RoundedCornerShape(8.dp)
         ) {
             Text(
                 grande, fontSize = 20.sp, textAlign = TextAlign.Center
@@ -342,11 +362,15 @@ val textotamanyo = stringResource(R.string.tamanyopizzatexto)
 
 //------------SELECCIONAR BOTELLA-------------
 @Composable
-fun seleccion_bebida() {
+fun seleccion_bebida(
+    tipoBotella: String,
+    onBotellaChange: (String) ->Unit
+) {
+
 
     val textobebida = stringResource(R.string.eligebebida)
 
-    var bebida by remember {mutableStateOf("")}
+    var bebida = tipoBotella
     val agua = stringResource(R.string.agua)
     val cocacola = stringResource(R.string.Cola)
     val nada = stringResource(R.string.ninguno)
@@ -389,7 +413,7 @@ fun seleccion_bebida() {
     ) {
 
         Button(
-            {bebida = agua
+            {onBotellaChange(agua) //cambiar a agua
                 sumarprecio + 1.5
             }, //basta con sumarlo (no se porque ponerlo con = no funciona)
             modifier = Modifier.weight(1F)
@@ -399,7 +423,7 @@ fun seleccion_bebida() {
             )
         }
         Button(
-            { bebida = cocacola
+            { onBotellaChange(cocacola)
                 sumarprecio + 2},
             modifier = Modifier.weight(1F)
         ) {
@@ -408,7 +432,7 @@ fun seleccion_bebida() {
             )
         }
         Button(
-            { bebida = nada
+            { onBotellaChange(nada)
             },
             modifier = Modifier.weight(1F)
         ) {
@@ -421,9 +445,11 @@ fun seleccion_bebida() {
 @Composable
 fun cantidades_pedido(
     tipoSeleccionado: String,
+    tipoBotella: String,
     cantidadPizzas: Int,
     cantidadBotellas: Int,
-    onCantidadChange: (Int) -> Unit
+    onCantidadPizza: (Int) -> Unit,
+    onCantidadBebida: (Int) -> Unit
 
 ) {
     var tipoSeleccionado = tipoSeleccionado
@@ -438,6 +464,8 @@ fun cantidades_pedido(
     val romana = stringResource(R.string.pizza_romana)
 
     val agua = stringResource(R.string.agua)
+    val cocacola = stringResource(R.string.Cola)
+    val nada = stringResource(R.string.ninguno)
 
 //----------CANTIDAD PIZZAS
     // Mostrar cantidad actual
@@ -454,7 +482,7 @@ fun cantidades_pedido(
     ) {
 
         Button(
-            onClick = { if (cantidadPizzas > 0) onCantidadChange(cantidadPizzas--) }, //Poner onCantidadChange (si no no se acualizara)
+            onClick = { if (cantidadPizzas > 0) onCantidadPizza(cantidadPizzas--) }, //Poner onCantidadChange (si no no se acualizara)
             colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFFDA0737))
         ) {
             Text("-", fontSize = 40.sp,
@@ -464,15 +492,15 @@ fun cantidades_pedido(
         Spacer(modifier = Modifier.width(16.dp))
 
         when (tipoSeleccionado) {
-            margarita -> Image(painterResource(R.drawable.margarita), margarita, Modifier.size(130.dp))
-            barbacoa  -> Image(painterResource(R.drawable.barbacoa), barbacoa, Modifier.size(130.dp))
-            romana    -> Image(painterResource(R.drawable.romana), romana, Modifier.size(130.dp))
+            margarita -> Image(painterResource(R.drawable.margarita), margarita, Modifier.size(90.dp))
+            barbacoa  -> Image(painterResource(R.drawable.barbacoa), barbacoa, Modifier.size(90.dp))
+            romana    -> Image(painterResource(R.drawable.romana), romana, Modifier.size(90.dp))
         }
 
         Spacer(modifier = Modifier.width(16.dp))
 
         Button(
-            onClick = { onCantidadChange(cantidadPizzas++) },
+            onClick = { onCantidadPizza(cantidadPizzas++) },
             colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFF16A41B))
         ) {
             Text("+", fontSize = 40.sp,
@@ -480,6 +508,7 @@ fun cantidades_pedido(
         }
     }
 //---------CANTIDAD BEBIDAS
+
     // Mostrar cantidad actual de bebidas
     Text("$textcantidadbotella: $cantidadBebidas",
         fontSize = 25.sp,
@@ -491,7 +520,7 @@ fun cantidades_pedido(
         horizontalArrangement = Arrangement.Center){
 
         Button(
-            onClick = { if (cantidadPizzas > 0) onCantidadChange(cantidadPizzas--) }, //Poner onCantidadChange (si no no se acualizara)
+            onClick = { if (cantidadBebidas > 0) onCantidadBebida(cantidadBebidas--) }, //Poner onCantidadChange (si no no se acualizara)
             colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFFDA0737))
         ) {
             Text("-", fontSize = 40.sp,
@@ -500,15 +529,16 @@ fun cantidades_pedido(
 
         Spacer(modifier = Modifier.width(16.dp))
 
-        when (tipoSeleccionado) {
-            agua -> Image(painterResource(R.drawable.agua), margarita, Modifier.size(130.dp))
-          //  cocacola  -> Image(painterResource(R.drawable.cola), barbacoa, Modifier.size(130.dp))
+        when (tipoBotella) {
+            agua -> Image(painterResource(R.drawable.agua), agua, Modifier.size(90.dp))
+            cocacola  -> Image(painterResource(R.drawable.cola), cocacola, Modifier.size(90.dp))
+            nada -> Image(painterResource(R.drawable.x), contentDescription = nada, Modifier.size(90.dp))
         }
 
         Spacer(modifier = Modifier.width(16.dp))
 
         Button(
-            onClick = { onCantidadChange(cantidadPizzas++) },
+            onClick = { onCantidadBebida(cantidadBebidas++) },
             colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFF16A41B))
         ) {
             Text("+", fontSize = 40.sp,
@@ -521,5 +551,39 @@ fun cantidades_pedido(
 
 @Composable
 fun precios() {
-    // Aquí se mostrarán los precios
+   Row(modifier = Modifier
+       .fillMaxWidth()){
+
+       val pagar = stringResource(R.string.botonpagar)
+       val cancelar = stringResource(R.string.botoncancelar)
+
+    Button(onClick = { },
+        modifier = Modifier.weight(1F),
+       colors = ButtonDefaults.buttonColors
+       (containerColor =  Color(0xFFDA0737)))
+       {
+        Text(cancelar)
+    }
+       Button(onClick = { },
+           modifier = Modifier.weight(1F),
+           colors = ButtonDefaults.buttonColors
+               (containerColor =  Color(0xFF1B9A0C)))
+           {
+        Text(pagar)
+       }
+   }
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .background(Color(color = 0xFF4432AB))
+        .border(
+            width = 3.dp,
+            color = Color.Black,
+            shape = RoundedCornerShape(8.dp)
+        )){
+        Text("Precio",
+            textAlign = TextAlign.Center
+            , color = White
+            , fontWeight = FontWeight.Bold
+        , fontSize = 20.sp)
+    }
 }

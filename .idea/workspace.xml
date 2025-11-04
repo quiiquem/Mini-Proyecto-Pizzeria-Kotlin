@@ -9,25 +9,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="642a1a54-b388-4ca3-95fa-12ad2efa4e24" name="Changes" comment="v0.4.0: terminado todo realizar pedido, ahora si siendo un formulario como pedia originalmente (tengo que leer bien los docs esto no es bueno)">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/ViewModel/AppViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/botellalogo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/size.png" afterDir="false" />
+    <list default="true" id="642a1a54-b388-4ca3-95fa-12ad2efa4e24" name="Changes" comment="v.1.25: NO ES USABLE AUN NO ES USABLE AUN, tengo que arreglar TODO theme.kt Color.kt y typo.kt , hasta entonces estara asi">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Datos_Persona.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Listar_Pedidos.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Listar_Pedidos.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Pantalla_Principal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Pantalla_Principal.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Realizar_Pedido.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Realizar_Pedido.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Resumen_Pedido.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Resumen_Pedido.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/ui/theme/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/ui/theme/Color.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/ui/theme/Theme.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/ui/theme/Theme.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/ui/theme/Type.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/ui/theme/Type.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-en/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-es-rES/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-es-rES/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/libs.versions.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +24,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\windows10\.android\avd\emulador_android.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\enriq\.android\avd\Medium_Phone.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -48,7 +34,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin File" />
-        <option value="Kotlin Class" />
+        <option value="Kotlin Data Class" />
       </list>
     </option>
   </component>
@@ -64,7 +50,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/quiiquem/Practica_Kotlin_EV1.git&quot;,
-    &quot;accountId&quot;: &quot;479097c9-910b-461c-a853-b760364b3233&quot;
+    &quot;accountId&quot;: &quot;5a04edd3-3b5b-4dac-92d0-dc164b0cbba1&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -86,21 +72,12 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_directory_selection&quot;: &quot;C:/Users/windows10/AndroidStudioProjects/Practica_Kotlin_EV1/app/src/main/res/values&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/windows10/AndroidStudioProjects/Practica_Kotlin_EV1/app/src/main/res/values&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/enriq/Downloads/Practica_Kotlin_EV1/Practica_Kotlin_EV1/app/src/main/java/com/example/practica_kotlin_ev1/ui/theme&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\windows10\AndroidStudioProjects\Practica_Kotlin_EV1\app\src\main\res\values" />
-      <recent name="C:\Users\windows10\AndroidStudioProjects\Practica_Kotlin_EV1\app\src\main\java\com\example\practica_kotlin_ev1\ui\theme" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\windows10\AndroidStudioProjects\Practica_Kotlin_EV1\app\src\main\res\font" />
-    </key>
-    <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
-      <recent name="com.example.practica_kotlin_ev1" />
-      <recent name="com.example.practica_kotlin_ev1.ViewModel" />
+      <recent name="C:\Users\enriq\Downloads\Practica_Kotlin_EV1\Practica_Kotlin_EV1\app\src\main\java\com\example\practica_kotlin_ev1\ui\theme" />
     </key>
   </component>
   <component name="RunManager">
@@ -216,12 +193,12 @@
       <map>
         <entry key="com.example.practica_kotlin_ev1">
           <value>
-            <CheckInfo lastCheckTimestamp="1762239876812" />
+            <CheckInfo lastCheckTimestamp="1762280826388" />
           </value>
         </entry>
         <entry key="com.example.practica_kotlin_ev1.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1762239876831" />
+            <CheckInfo lastCheckTimestamp="1762280826391" />
           </value>
         </entry>
       </map>
