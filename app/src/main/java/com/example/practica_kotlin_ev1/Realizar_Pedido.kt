@@ -1,17 +1,9 @@
 package com.example.practica_kotlin_ev1
 
-import android.R.attr.checked
-import android.R.attr.contentDescription
-import android.R.attr.fontWeight
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,31 +17,75 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.practica_kotlin_ev1.Objeto_Pizza.Data_Pedido
-import com.example.practica_kotlin_ev1.Objeto_Usuario.Data_Usuario
 
 //----------------------------CÓDIGO DE REALIZAR PEDIDO----------------------
 
 //Estructura general
 @Composable
     fun Pantalla_RealizarPedido( modifier: Modifier = Modifier){
-        var precioglobal by remember {mutableStateOf(0.0)} //lo pongo arriba del todo para poder usarlo en las demas funciones
+
+        //Variables para que se pasen entre funciones luego
+    var tipoSeleccionado by remember { mutableStateOf("") }  //tipo de pizza
+    var tamanyoPizza by remember {mutableStateOf("")} //tamaño pizza
+    var extra1 by remember { mutableStateOf("") }  //tipo de pizza
+    var extra2 by remember { mutableStateOf("") }  //tipo de pizza
+    var cantidadPizzas by remember { mutableStateOf(1) } //cantidad de pizzas
+    var cantidadBotellas by remember {mutableStateOf(1)}
+    var precioglobal by remember {mutableStateOf(0.0)}
+
+
+
         Column(modifier
             .fillMaxWidth()){
-            seleccion_tipopizza(modifier)
+            // Función que cambia el tipo de pizza
+            seleccion_tipopizza(
+                tipoSeleccionado = tipoSeleccionado,
+                extra1 = extra1,
+                extra2 = extra2,
+                onTipoChange = { nuevoTipo ->
+                    tipoSeleccionado = nuevoTipo
+                }
+            )
             Spacer(modifier = Modifier.height(16.dp))
-            seleccion_tamanyopizza(modifier)
+            seleccion_tamanyopizza(
+                    tamanyoPizza = tamanyoPizza,
+                onTamanyoChange = { nuevoSize ->
+                    tamanyoPizza = nuevoSize
+                }
+                    )
+            Spacer(modifier = Modifier.height(16.dp))
             seleccion_bebida()
-            seleccion_tipobebida()
-            cantidades()
+            Spacer(modifier = Modifier.height(16.dp))
+            // Función que muestra imagen y cantidad
+            cantidades_pedido(
+                tipoSeleccionado = tipoSeleccionado,
+                cantidadPizzas = cantidadPizzas,
+                cantidadBotellas = cantidadBotellas,
+                onCantidadChange = { nuevaCantidad ->
+                    cantidadPizzas = nuevaCantidad
+                }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
             precios()
         }
     }
 
 
 @Composable
-fun seleccion_tipopizza(modifier : Modifier) {
+fun seleccion_tipopizza(
+    tipoSeleccionado: String,
+    extra1: String,
+    extra2: String,
+    onTipoChange: (String) ->Unit
+
+    ) {
+
+    var variable_tipopizza = tipoSeleccionado //variable tipopizza es el string para pasarlo a todas las funciones
+    var variable_extra_1 = extra1
+    var variable_extra_2  = extra2
+
     val seleccionarpizza = stringResource(R.string.eligepizzatexto)
-    val margarita = stringResource(R.string.tipo)
+    val margarita = stringResource(R.string.pizza_margarita)
     val barbacoa = stringResource(R.string.pizza_barbacoa)
     val romana = stringResource(R.string.pizza_romana)
     val extra_piña = stringResource(R.string.extramargaritapiña)
@@ -66,16 +102,13 @@ fun seleccion_tipopizza(modifier : Modifier) {
     var conCarneCheckbox by remember { mutableStateOf(false)}
     var conChampinonesCheckbox by remember { mutableStateOf(false)}
     //Variables y extras
-    var variable_tipopizza by remember { mutableStateOf("") }
-    var variable_extra_1 by remember { mutableStateOf("") }
-    var variable_extra_2 by remember { mutableStateOf("") }
-    var variable_extra_3 by remember { mutableStateOf("") }
+
+
 
     Data_Pedido( //Poner primeros datos del objeto pizza
         tipo_pizza = variable_tipopizza,
         extra_1 = variable_extra_1,
-        extra_2 = variable_extra_2,
-        extra_3 = variable_extra_3
+        extra_2 = variable_extra_2
     )
     Column(
         modifier = Modifier
@@ -97,7 +130,7 @@ fun seleccion_tipopizza(modifier : Modifier) {
             )
             Text(
                 seleccionarpizza //asi no hace falta poner "$ ya que solo pongo la variable"
-                , fontSize = 20.sp, textAlign = TextAlign.Center, modifier = Modifier
+                , fontSize = 25.sp, textAlign = TextAlign.Center, modifier = Modifier
                     .weight(1F)
             )
             Image(
@@ -114,47 +147,49 @@ fun seleccion_tipopizza(modifier : Modifier) {
             modifier = Modifier, //Row para los botones
             verticalAlignment = Alignment.CenterVertically
         ) {
-
+//------BOTON MARGARITA-------
             Button(
-                { variable_tipopizza = margarita
-                    conPinaCheckbox = false
+                { onTipoChange(margarita)
+                    conPinaCheckbox = false //Al ponerlos false de nuevo evita que se puedan poner de mas
                     conVeganaCheckbox = false
                 variable_extra_1= ""
-                variable_extra_2= ""
-                variable_extra_3= ""},
-                modifier = Modifier.weight(1F)
-            ) { //Boton margarita
+                variable_extra_2= ""},
+                modifier = Modifier.weight(1F),
+                shape = RoundedCornerShape(8.dp)) {
                 Text(
-                    margarita, fontSize = 12.sp, textAlign = TextAlign.Center
+                    margarita, fontSize = 20.sp, textAlign = TextAlign.Center
                 )
             }
+            Spacer(modifier = Modifier.width(12.dp))
+//------BOTON BARBACOA-------
+            /*TODO: hacerlo radiobuttons en barbacoa*/
             Button(
-                { variable_tipopizza = barbacoa
+                { onTipoChange(barbacoa)
                     conCarneCheckbox = false
                     conTerneraCheckbox = false
                     conPolloCheckbox = false
                     variable_extra_1= ""
-                    variable_extra_2= ""
-                    variable_extra_3= ""},
-                modifier = Modifier.weight(1F)
-            ) {
+                    variable_extra_2= ""},
+                modifier = Modifier.weight(1F),
+                shape = RoundedCornerShape(8.dp)) {
                 Text(
-                    barbacoa, fontSize = 12.sp, textAlign = TextAlign.Center
+                    barbacoa, fontSize = 20.sp, textAlign = TextAlign.Center
                 )
             }
+            Spacer(modifier = Modifier.width(12.dp))
+//------BOTON ROMANA-------
             Button(
-                { variable_tipopizza = romana
+                { onTipoChange(romana)
                     conChampinonesCheckbox = false
                     variable_extra_1= ""
-                    variable_extra_2= ""
-                    variable_extra_3= ""},
-                modifier = Modifier.weight(1F)
-            ) {
+                    variable_extra_2= ""},
+                modifier = Modifier.weight(1F),
+                shape = RoundedCornerShape(8.dp)){
                 Text(
-                    romana, fontSize = 12.sp, textAlign = TextAlign.Center
+                    romana, fontSize = 20.sp, textAlign = TextAlign.Center
                 )
             } }
-        Spacer(modifier = Modifier.height(12.dp))
+
 
         // Extras para Margarita
         if (variable_tipopizza == margarita) {
@@ -209,18 +244,6 @@ fun seleccion_tipopizza(modifier : Modifier) {
                     )
                     Text(extra_cer)
                 }
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = conTerneraCheckbox,
-                        onCheckedChange = {
-                            conTerneraCheckbox = it
-                            if (it) variable_extra_3 = extra_ter
-                            else if (!conTerneraCheckbox) variable_extra_3 = ""
-                        }
-                    )
-                    Text(extra_ter)
-                }
             }
             //Extras romana
         } else if (variable_tipopizza == romana){
@@ -239,24 +262,48 @@ fun seleccion_tipopizza(modifier : Modifier) {
         }
     }}}
 
+//------------SELECCIONAR TAMAÑO PIZZA-------------
 @Composable
-fun seleccion_tamanyopizza(modifier: Modifier = Modifier) {
+fun seleccion_tamanyopizza(modifier: Modifier = Modifier,
+tamanyoPizza: String ,
+      onTamanyoChange: (String) -> Unit) {
 
-val textotamanyo = stringResource(R.string.tamanyoseleccionado)
+val textotamanyo = stringResource(R.string.tamanyopizzatexto)
 
-  var size by remember {mutableStateOf("")}
+  var tamanyoPizza by remember {mutableStateOf("")}
     val peque = stringResource(R.string.pequeña)
     val mediana = stringResource(R.string.mediana)
     val grande = stringResource(R.string.grande)
     var sumarprecio by remember {mutableStateOf(0)}
 
     Data_Pedido( //Ir actualizando datos del objeto
-         tamanyo_pizza = size
+         tamanyo_pizza = tamanyoPizza
     )
 
-    Row(modifier = Modifier){
+    Row(modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically){
+        Image(
+            painterResource(R.drawable.size),
+            contentDescription = "size",
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .weight(1F)
+        )
+
         Text(textotamanyo
-        , fontSize = 20.sp)
+        , fontSize = 25.sp,
+            modifier = Modifier
+                .weight(1F))
+
+        Image(
+            painterResource(R.drawable.size),
+            contentDescription = "size",
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .weight(1F)
+        )
     }
     Row(
         modifier = Modifier, //Row para los botones
@@ -264,486 +311,215 @@ val textotamanyo = stringResource(R.string.tamanyoseleccionado)
     ) {
 
         Button(
-            {size = peque
+            {tamanyoPizza = peque
             sumarprecio + 4.95
             }, //basta con sumarlo (no se porque ponerlo con = no funciona)
             modifier = Modifier.weight(1F)
         ) {
             Text(
-                peque, fontSize = 12.sp, textAlign = TextAlign.Center
+                peque, fontSize = 20.sp, textAlign = TextAlign.Center
             )
         }
         Button(
-            { size = mediana },
+            { tamanyoPizza = mediana
+            sumarprecio + 6.95},
             modifier = Modifier.weight(1F)
         ) {
             Text(
-                mediana, fontSize = 12.sp, textAlign = TextAlign.Center
+                mediana, fontSize = 20.sp, textAlign = TextAlign.Center
             )
         }
         Button(
-            { size = grande
-                    },
+            { tamanyoPizza = grande
+            sumarprecio + 10},
             modifier = Modifier.weight(1F)
         ) {
             Text(
-                grande, fontSize = 12.sp, textAlign = TextAlign.Center
+                grande, fontSize = 20.sp, textAlign = TextAlign.Center
+            )
+        } }
+}
+
+//------------SELECCIONAR BOTELLA-------------
+@Composable
+fun seleccion_bebida() {
+
+    val textobebida = stringResource(R.string.eligebebida)
+
+    var bebida by remember {mutableStateOf("")}
+    val agua = stringResource(R.string.agua)
+    val cocacola = stringResource(R.string.Cola)
+    val nada = stringResource(R.string.ninguno)
+    var sumarprecio by remember {mutableStateOf(0)}
+
+    Data_Pedido( //Ir actualizando datos del objeto
+        tipo_bebida = bebida
+    )
+
+
+    Row(modifier = Modifier,
+        verticalAlignment = Alignment.CenterVertically){
+        Image(
+            painterResource(R.drawable.botellalogo),
+            contentDescription = "size",
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .weight(1F)
+        )
+
+        Text(textobebida
+            , fontSize = 25.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .weight(1F))
+
+        Image(
+            painterResource(R.drawable.botellalogo),
+            contentDescription = "size",
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .weight(1F)
+        )
+    }
+    Row(
+        modifier = Modifier, //Row para los botones
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Button(
+            {bebida = agua
+                sumarprecio + 1.5
+            }, //basta con sumarlo (no se porque ponerlo con = no funciona)
+            modifier = Modifier.weight(1F)
+        ) {
+            Text(
+                agua, fontSize = 20.sp, textAlign = TextAlign.Center
+            )
+        }
+        Button(
+            { bebida = cocacola
+                sumarprecio + 2},
+            modifier = Modifier.weight(1F)
+        ) {
+            Text(
+                cocacola, fontSize = 20.sp, textAlign = TextAlign.Center
+            )
+        }
+        Button(
+            { bebida = nada
+            },
+            modifier = Modifier.weight(1F)
+        ) {
+            Text(
+                nada, fontSize = 20.sp, textAlign = TextAlign.Center
             )
         } }
 }
 
 @Composable
-fun seleccion_bebida() {
-    val tipobebida = stringResource(R.string.tipobebidatexto)
-}
+fun cantidades_pedido(
+    tipoSeleccionado: String,
+    cantidadPizzas: Int,
+    cantidadBotellas: Int,
+    onCantidadChange: (Int) -> Unit
 
-@Composable
-fun seleccion_tipobebida() {
-    // Aquí irá la selección del tipo de bebida
-}
+) {
+    var tipoSeleccionado = tipoSeleccionado
+    var cantidadPizzas = cantidadPizzas //saber cuantas pediremos
+    var cantidadBebidas = cantidadBotellas //saber cuantas bebidas pediremos
 
-@Composable
-fun cantidades() {
-    // Aquí irá la selección de cantidades
-}
+    val textcantidadpizza = stringResource(R.string.cantidadpizzatexto)
+    val textcantidadbotella = stringResource(R.string.cantidadbotellastexto)
+
+    val margarita = stringResource(R.string.pizza_margarita)
+    val barbacoa = stringResource(R.string.pizza_barbacoa)
+    val romana = stringResource(R.string.pizza_romana)
+
+    val agua = stringResource(R.string.agua)
+
+//----------CANTIDAD PIZZAS
+    // Mostrar cantidad actual
+    Text("$textcantidadpizza: $cantidadPizzas",
+        fontSize = 25.sp,
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(top = 8.dp))
+
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+
+        Button(
+            onClick = { if (cantidadPizzas > 0) onCantidadChange(cantidadPizzas--) }, //Poner onCantidadChange (si no no se acualizara)
+            colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFFDA0737))
+        ) {
+            Text("-", fontSize = 40.sp,
+                fontWeight = FontWeight.Bold)
+        }
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        when (tipoSeleccionado) {
+            margarita -> Image(painterResource(R.drawable.margarita), margarita, Modifier.size(130.dp))
+            barbacoa  -> Image(painterResource(R.drawable.barbacoa), barbacoa, Modifier.size(130.dp))
+            romana    -> Image(painterResource(R.drawable.romana), romana, Modifier.size(130.dp))
+        }
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        Button(
+            onClick = { onCantidadChange(cantidadPizzas++) },
+            colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFF16A41B))
+        ) {
+            Text("+", fontSize = 40.sp,
+                fontWeight = FontWeight.Bold)
+        }
+    }
+//---------CANTIDAD BEBIDAS
+    // Mostrar cantidad actual de bebidas
+    Text("$textcantidadbotella: $cantidadBebidas",
+        fontSize = 25.sp,
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(top = 8.dp))
+
+    Row(  modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center){
+
+        Button(
+            onClick = { if (cantidadPizzas > 0) onCantidadChange(cantidadPizzas--) }, //Poner onCantidadChange (si no no se acualizara)
+            colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFFDA0737))
+        ) {
+            Text("-", fontSize = 40.sp,
+                fontWeight = FontWeight.Bold)
+        }
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        when (tipoSeleccionado) {
+            agua -> Image(painterResource(R.drawable.agua), margarita, Modifier.size(130.dp))
+          //  cocacola  -> Image(painterResource(R.drawable.cola), barbacoa, Modifier.size(130.dp))
+        }
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        Button(
+            onClick = { onCantidadChange(cantidadPizzas++) },
+            colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFF16A41B))
+        ) {
+            Text("+", fontSize = 40.sp,
+                fontWeight = FontWeight.Bold)
+        }
+    }
+        }
+
+
 
 @Composable
 fun precios() {
     // Aquí se mostrarán los precios
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(scrollState) // habilita scroll
-            .padding(top = 100.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        //Título principal
-        Text(
-            "$eligepizzatexto",
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.padding(20.dp))
-
-        // SELECT PIZZAS NORMALES
-        Column(Modifier.selectableGroup()) {
-            opcionesPizza.forEach { opcion ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .selectable(
-                            selected = (tipoPizza == opcion),
-                            onClick = {
-                                tipoPizza = opcion
-                                extras =
-                                    "$ninguno" //basicamente para evitar que la gente ponga extras erroneos
-                            }
-                        )
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RadioButton(
-                        selected = (tipoPizza == opcion),
-                        onClick = {
-                            tipoPizza = opcion
-                            extras = "$ninguno"
-                        }
-                    )
-                    Text(
-                        opcion,
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        //EXTRAS PIZZA
-        if (tipoPizza == "$margarita") {
-            Column(Modifier.selectableGroup()) {
-                opcionesMargarita.forEach { opcion ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .selectable(
-                                selected = (extras == opcion),
-                                onClick = { extras = opcion }
-                            )
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = (extras == opcion),
-                            onClick = { extras = opcion }
-                        )
-                        Text(
-                            opcion,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(start = 16.dp)
-                        )
-                    }
-                }
-            }
-        } else if (tipoPizza == "$barbacoa") { //2. BARBACOA
-            Column(Modifier.selectableGroup()) {
-                opcionesBarbacoa.forEach { opcion ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .selectable(
-                                selected = (extras == opcion),
-                                onClick = { extras = opcion }
-                            )
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = (extras == opcion),
-                            onClick = { extras = opcion }
-                        )
-                        Text(
-                            opcion,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(start = 16.dp)
-                        )
-                    }
-                }
-            }
-        } else if (tipoPizza == "$romana") { //3. ROMANA
-            Column(Modifier.selectableGroup()) {
-                opcionesRomana.forEach { opcion ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .selectable(
-                                selected = (extras == opcion),
-                                onClick = { extras = opcion }
-                            )
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = (extras == opcion),
-                            onClick = { extras = opcion }
-                        )
-                        Text(
-                            opcion,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(start = 16.dp)
-                        )
-                    }
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        //mensaje que muestra lo elegido
-        Row(
-            modifier = Modifier
-                .background(Color(0xFFEDE7F6))
-                .padding(15.dp)
-                .fillMaxWidth()
-        ) {
-            Text(
-                "$pizzaseleccionada $tipoPizza \n$extraseleccionado $extras",
-                fontSize = 15.sp,
-                textAlign = TextAlign.Left
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        //ELEGIR TAMAÑO DE PIZZA
-        Text(
-            "$eligetamanyotexto",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Left
-        )
-
-        Column(Modifier.selectableGroup()) {
-            opcionesTamanyo.forEach { opcion ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .selectable(
-                            selected = (tamanyo == opcion),
-                            onClick = { tamanyo = opcion }
-                        )
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RadioButton(
-                        selected = (tamanyo == opcion),
-                        onClick = { tamanyo = opcion }
-                    )
-                    Text(
-                        opcion,
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
-                }
-            }
-            //mensaje que muestra lo elegido
-            Row(
-                modifier = Modifier
-                    .background(Color(0xFFEDE7F6))
-                    .padding(15.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    "$tamanyoseleccionado $tamanyo",
-                    fontSize = 23.sp,
-                    textAlign = TextAlign.Left
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-
-            //ELEGIR BEBIDA
-
-            Text(
-                "$eligebotellatexto ",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Left
-            )
-            Column(Modifier.selectableGroup()) {
-                opcionesBebidas.forEach { opcion ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .selectable(
-                                selected = (bebida == opcion),
-                                onClick = { bebida = opcion }
-                            )
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = (bebida == opcion),
-                            onClick = { bebida = opcion }
-                        )
-                        Text(
-                            opcion,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(start = 16.dp)
-                        )
-                    }
-                }
-            }
-            //CANTIDAD DE PIZZAS
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFFEDE7F6))
-            ) {
-                Text(
-                    "$cantidadp $cantidadPizzas",
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(), // ocupar ancho para centrar
-                verticalAlignment = Alignment.CenterVertically, // alinea botones e imagen verticalmente
-                horizontalArrangement = Arrangement.Center // centrar el ROW entero
-            ) {
-                Button( //Boton para menos
-                    onClick = {
-                        if (cantidadPizzas > 0) {
-                            cantidadPizzas--
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-                ) {
-                    Text("-", fontSize = 40.sp)
-                }
-
-                Spacer(modifier = Modifier.width(16.dp))  //separar boton de img
-
-                if (tipoPizza == "$margarita") {
-                    Image(
-                        painterResource(R.drawable.margarita),
-                        contentDescription = "Pizza Margarita",
-                        modifier = Modifier.size(130.dp)
-                    )
-                } else if (tipoPizza == "$barbacoa") {
-                    Image(
-                        painterResource(R.drawable.barbacoa),
-                        contentDescription = "Pizza Barbacoa",
-                        modifier = Modifier.size(130.dp)
-                    )
-                } else if (tipoPizza == "$romana") {
-                    Image(
-                        painterResource(R.drawable.romana),
-                        contentDescription = "Pizza Romana",
-                        modifier = Modifier.size(130.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(16.dp)) //separar boton de img
-
-                Button( //Boton para más
-                    onClick = { cantidadPizzas++ },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
-                ) {
-                    Text("+", fontSize = 40.sp)
-                }
-            }
-
-            Spacer(modifier = Modifier.height(36.dp))
-
-            //CANTIDAD DE BOTELLAS (prac. copia y pega de las pizzas)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            //Pongo el texto arriba para que no se pueda confundir por las pizzas al inicio
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFFEDE7F6))
-            ) {
-                Text(
-                    "$cantidadb $cantidadBotellas",
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-            } //texto de cantidad de botellas
-
-            Row(
-                modifier = Modifier.fillMaxWidth(), // ocupar ancho para centrar
-                verticalAlignment = Alignment.CenterVertically, // alinea botones e imagen verticalmente
-                horizontalArrangement = Arrangement.Center // centrar el ROW entero
-            ) {
-                Button( //Boton para menos
-                    onClick = {
-                        if (cantidadBotellas > 0) {
-                            cantidadBotellas--
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-                ) {
-                    Text("-", fontSize = 40.sp)
-                }
-
-                Spacer(modifier = Modifier.width(16.dp))  //separar boton de img
-
-                if (bebida == agua) {
-                    Image(
-                        painterResource(R.drawable.agua),
-                        contentDescription = "Agua",
-                        modifier = Modifier.size(130.dp)
-                    )
-                } else if (bebida == "Cola") {
-                    Image(
-                        painterResource(R.drawable.cola),
-                        contentDescription = "Cola",
-                        modifier = Modifier.size(130.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.width(16.dp)) //separar boton de img
-
-                Button( //Boton para más
-                    onClick = { cantidadBotellas++ },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
-                ) {
-                    Text("+", fontSize = 40.sp)
-                }
-            }
-
-            Spacer(modifier = Modifier.height(36.dp))
-
-            //Botones de aceptar o volver
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically //  centrarlo todo
-            ) {
-                Button(
-                    onClick = { /*TODO*/ },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)) //color verde!
-                ) {
-                    Text(botonaceptar, color = Color.White, fontSize = 18.sp)
-                }
-
-                Spacer(modifier = Modifier.width(16.dp))
-
-                Button(
-                    onClick = { /*TODO*/ },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF44336)) //color rojo!
-                ) {
-                    Text(botonvolver, color = Color.White, fontSize = 18.sp)
-                }
-            }
-
-
-            //SUMAR PRECIOS
-            val precioTamanyo = when (tamanyo) { //poner precios de tamaño
-                stringResource(R.string.pequeña) -> 4.95
-               stringResource(R.string.mediana) -> 6.95
-                stringResource(R.string.grande) -> 10.95
-                else -> 0.0
-            }
-
-            val precioBebida = when (bebida) { //poner precios de bebida
-                stringResource(R.string.agua) -> 2.0
-                "Cola" -> 2.5 //no hace falta
-                "Sin bebida" -> 0.0 //no tiene valor asi que no hace falta ponerlo en stringResource
-                else -> 0.0
-            }
-
-            val precioBebidaTotal =
-                precioBebida * cantidadBotellas //calcular precio de todas las botellas de antemano
-
-            //usar el val de tamaño para multiplicarlo x la cantidad de pizzas puesta
-            val precioTotal = (precioTamanyo * cantidadPizzas + precioBebidaTotal)
-
-            precio = precioTotal + precioBebida
-
-            //ROW PARA PONER EL PRECIO TOTAL
-            Row(
-                modifier = Modifier
-                    .background(Color(0xFFB19CD9))
-                    .fillMaxWidth()
-                    .padding(30.dp)
-            ) {
-                Text(
-                    "$textoprecio $precio€",
-                    fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-            }
-        }
-    }
-}*/

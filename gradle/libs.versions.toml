@@ -13,6 +13,8 @@ uiTextGoogleFonts = "1.9.3"
 constraintlayout = "2.2.1"
 foundationLayout = "1.9.4"
 uiVersion = "1.9.4"
+navigation="2.8.3"
+viewmodel="2.8.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,7 +36,8 @@ androidx-compose-ui-text-google-fonts = { group = "androidx.compose.ui", name = 
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
 ui = { group = "androidx.compose.ui", name = "ui", version.ref = "uiVersion" }
-
+androidx-viewmodel= {group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "viewmodel"}
+androidx-navigation = {group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation"}
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

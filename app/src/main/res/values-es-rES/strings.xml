@@ -7,7 +7,7 @@
 
     <!--PIZZA-->
     <string name="number">número de teléfono</string>
-    <string name="tipo">Margarita</string>
+    <string name="pizza_margarita">Margarita</string>
     <string name ="extras">Vegana</string>
     <string name="tamanyo">Pequeña</string>
     <string name="bebida">Agua</string>

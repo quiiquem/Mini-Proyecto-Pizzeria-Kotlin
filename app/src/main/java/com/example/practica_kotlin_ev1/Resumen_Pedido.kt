@@ -1,7 +1,6 @@
 package com.example.practica_kotlin_ev1
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +26,7 @@ import androidx.compose.ui.unit.sp
 fun ResumirPedido() {
 
     //VALORES (localizacion)
-    val tipoPizza = stringResource(id = R.string.tipo)
+    val tipoPizza = stringResource(id = R.string.pizza_margarita)
     val extrasPizza = stringResource(id = R.string.extras)
     val tamanyoPizza = stringResource(id = R.string.tamanyo)
     val bebidas = stringResource(id = R.string.bebida)

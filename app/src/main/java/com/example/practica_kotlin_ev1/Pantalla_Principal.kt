@@ -42,7 +42,8 @@ fun Pantalla_Principal(modifier: Modifier = Modifier){
 
 //Parte superior de bienvenida
 @Composable
-fun mensajebienvenida(modifier : Modifier = Modifier) {
+fun mensajebienvenida(modifier : Modifier = Modifier
+    .background(Color(0x94EC020A))) {
     //Variables val para el text
     val mensajebienvenida = stringResource(R.string.mensajemain)
     val nombreusuario = Data_Usuario(nombre = ("Juan")) //Ya no es un string resource, si no un valor de un objeto

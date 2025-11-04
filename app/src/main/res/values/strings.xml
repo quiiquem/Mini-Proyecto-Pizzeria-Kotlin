@@ -8,7 +8,7 @@
     <string name="num" translatable="false">23912525</string>
     <string name="number">número de teléfono</string>
     <!--PIZZA-->
-    <string name="tipo">Margarita</string>
+    <string name="pizza_margarita">Margarita</string>
     <string name ="extras">Vegana</string>
     <string name="tamanyo">Pequeña</string>
     <string name="bebida">Agua</string>
@@ -27,8 +27,8 @@
     <string name="nomtexto">Nombre:</string>
     <string name="tipopizzatexto">Tipo de Pizza:</string>
     <string name="tipobebidatexto">Bebida:</string>
-    <string name="cantidadpizzatexto">Cantidad de Pizzas:</string>
-    <string name="cantidadbotellastexto">Cantidad de Botellas:</string>
+    <string name="cantidadpizzatexto">Cantidad de pizzas</string>
+    <string name="cantidadbotellastexto">Cantidad de botellas</string>
     <string name="tarjetatexto">Tarjeta:</string>
     <string name="numtarjetatexto">Número de Tarjeta:</string>
     <string name="fechacaducidadtexto">Fecha de caducidad:</string>
@@ -55,7 +55,7 @@
     <string name="preciofinal">PRECIO FINAL:</string>
     <string name="ninguno">Ninguno</string>
     <string name="eligepizzatexto">¿Cuál pizza va a elegir?</string>
-    <string name="eligetamanyotexto">Elige tamaño:</string>
+    <string name="eligetamanyotexto">Elige tamaño</string>
     <string name="tamanyoseleccionado">Tamaño seleccionado:</string>
     <string name="botellaseleccionada">Bebida seleccionada:</string>
     <string name="extramargaritapiña">Con Piña</string>
@@ -75,5 +75,7 @@
     <string name="listarpedidos">LISTA PEDIDOS</string>
     <string name="misdatos">MIS DATOS</string>
     <string name="descfotomain">Perfil de usuario</string>
+    <string name="Cola">Cola</string>
+    <string name="eligebebida">Selecciona una bebida</string>
 
 </resources>

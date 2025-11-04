@@ -255,7 +255,7 @@ val unspecified_scheme = ColorFamily(
 )
 
 @Composable
-fun AppTheme(
+fun Practica_Kotlin_EV1( //CAMBIAR SIEMPRE AL NOMBRE DE PROYECTO, si no nada funciona
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

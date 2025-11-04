@@ -28,7 +28,7 @@ fun ListaPedidos(){
     val fecha = stringResource(id = R.string.fechaCaducidad)
     val tipotarjeta = stringResource(id = R.string.tipotarjeta)
     val cantidadBotella = stringResource(id = R.string.cantidadBotellas)
-    val tipoPizza = stringResource(id = R.string.tipo)
+    val tipoPizza = stringResource(id = R.string.pizza_margarita)
     val bebida = stringResource(id = R.string.bebida)
     val cantidadPizza = stringResource(id = R.string.cantidadPizzas)
     val nombre = stringResource(id = R.string.nombre)
