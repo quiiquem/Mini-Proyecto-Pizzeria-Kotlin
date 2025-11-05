@@ -32,7 +32,8 @@ import androidx.compose.ui.unit.sp
 import com.example.practica_kotlin_ev1.R
 
 @Composable
-fun Formulario_Pago() {
+fun Formulario_Pago(     onBotonSiguientePulsado: () -> Unit,
+                         onBotonAtrasPulsado: () -> Unit) {
     Column(modifier = Modifier
         .padding(top = 50.dp)
         .fillMaxWidth()) {
@@ -138,7 +139,7 @@ fun Formulario_Pago() {
         Row(modifier = Modifier
             .fillMaxWidth()){
     Button(
-        onClick = { /*TODO*/ },
+        onClick = { onBotonSiguientePulsado() },
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)) //color verde!
     ) {
         Text("$pagar", color = Color.White, fontSize = 20.sp)
@@ -147,7 +148,7 @@ fun Formulario_Pago() {
     Spacer(modifier = Modifier.width(40.dp)) // separador horizontal
 
     Button(
-        onClick = { /*TODO*/ },
+        onClick = { onBotonAtrasPulsado() },
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF44336)) //color rojo!
     ) {
         Text("$cancelar", color = Color.White, fontSize = 20.sp)

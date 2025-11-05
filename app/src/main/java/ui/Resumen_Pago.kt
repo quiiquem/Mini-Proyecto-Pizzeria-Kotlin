@@ -24,7 +24,8 @@ import androidx.compose.ui.unit.sp
 import com.example.practica_kotlin_ev1.R
 
 @Composable
-fun ResumirPago() {
+fun ResumirPago(     onBotonSiguientePulsado: () -> Unit,
+                     onBotonAtrasPulsado: () -> Unit) {
 
     //VALORES DEL RESUMEN
     val numtarjeta = stringResource(id = R.string.numtarjeta)
@@ -72,7 +73,7 @@ fun ResumirPago() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {  onBotonSiguientePulsado() },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
             ) {
                 Text("$botonaceptar", color = Color.White, fontSize = 30.sp)
@@ -81,7 +82,7 @@ fun ResumirPago() {
             Spacer(modifier = Modifier.width(40.dp))
 
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onBotonAtrasPulsado() },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
             ) {
                 Text("$botonenviar", color = Color.White, fontSize = 30.sp)

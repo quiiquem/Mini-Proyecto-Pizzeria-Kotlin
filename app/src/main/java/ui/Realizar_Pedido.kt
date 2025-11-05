@@ -28,12 +28,16 @@ import com.example.practica_kotlin_ev1.R
 
 //Estructura general
 @Composable
-    fun Pantalla_RealizarPedido( modifier: Modifier = Modifier){
+    fun Pantalla_RealizarPedido( modifier: Modifier = Modifier,
+                                 onBotonSiguientePulsado: () -> Unit,
+                                 onBotonAtrasPulsado: () -> Unit){
 
         //Variables para que se pasen entre funciones luego
     var tipoSeleccionado by remember { mutableStateOf("") }  //tipo de pizza
     var tamanyoPizza by remember {mutableStateOf("")} //tamaño pizza
     var tipoBotella by remember {mutableStateOf("")}
+    var preciotamanyo by remember {mutableStateOf(0.0)}
+    var preciobebida by remember {mutableStateOf(0.0)}
     var extra1 by remember { mutableStateOf("") }  //tipo de pizza
     var extra2 by remember { mutableStateOf("") }  //tipo de pizza
     var cantidadPizzas by remember { mutableStateOf(1) } //cantidad de pizzas
@@ -56,25 +60,26 @@ import com.example.practica_kotlin_ev1.R
             )
             Spacer(modifier = Modifier.height(16.dp))
             seleccion_tamanyopizza(
-                    tamanyoPizza = tamanyoPizza,
-                precioglobal = precioglobal,
-                onTamanyoChange = { nuevoSize -> //Guardar el cambio de tamaño
+                tamanyoPizza = tamanyoPizza,
+                onTamanyoChange = { nuevoSize ->
                     tamanyoPizza = nuevoSize
                 },
-                onPrecioChange = { nuevoPrecio -> //Guardar el cambio de precio
-                    precioglobal = nuevoPrecio
+                onTamanyoPrecioChange = { nuevoPrecio ->
+                    preciotamanyo = nuevoPrecio
+                    precioglobal = (cantidadPizzas * nuevoPrecio)
                 }
-                    )
+            )
             Spacer(modifier = Modifier.height(16.dp))
 
             seleccion_bebida(
                 tipoBotella = tipoBotella,
-                precioglobal = precioglobal,
+                preciobebida = preciobebida,
                 onBotellaChange = { nuevaBebida ->
                     tipoBotella = nuevaBebida
                 },
-                onPrecioChange = { nuevoPrecio -> //Guardar el cambio de precio
-                    precioglobal = nuevoPrecio
+                onTipoBebidaPrecioChange = { nuevoPrecioBebida ->
+                    preciobebida = nuevoPrecioBebida
+                    precioglobal = (cantidadPizzas * preciotamanyo) + (cantidadBotellas * nuevoPrecioBebida)
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -85,8 +90,8 @@ import com.example.practica_kotlin_ev1.R
                 tipoBotella = tipoBotella,
                 cantidadPizzas = cantidadPizzas,
                 cantidadBotellas = cantidadBotellas,
-                precioglobal = precioglobal,
-                tamanyoPizza = tamanyoPizza,
+                precio_botella = preciobebida,
+                precio_tamanyo = preciotamanyo,
                 onCantidadPizza = { nuevaCantidad ->
                     cantidadPizzas = nuevaCantidad
                 },
@@ -100,7 +105,8 @@ import com.example.practica_kotlin_ev1.R
 
             Spacer(modifier = Modifier.height(16.dp))
             precios(
-                precioglobal = precioglobal
+                precioglobal = precioglobal,
+                onBotonAtrasPulsado , onBotonSiguientePulsado
             )
         }
     }
@@ -248,19 +254,15 @@ fun seleccion_tipopizza(
             }
             //Extras barbacoa
         } else if (variable_tipopizza == barbacoa) {
-            Row(
+            Row( //no poner weight o tapa todo el column
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .weight(1f)
-                    .clickable {
-                        onTipoChange(barbacoa)
-                    }
                     .padding(8.dp)
             ) {
                 RadioButton(
                     selected = (selectedOption == extra_poll),
                     onClick = {
-                        onTipoChange(barbacoa)
+                        (extra_poll) // ✅ actualiza el seleccionado
                     }
                 )
                 Spacer(modifier = Modifier.width(12.dp))
@@ -273,7 +275,7 @@ fun seleccion_tipopizza(
                 RadioButton(
                     selected = (selectedOption == extra_ter),
                     onClick = {
-                        onTipoChange(barbacoa)
+                        onTipoChange(extra_ter) // ✅ actualiza el seleccionado
                     }
                 )
                 Spacer(modifier = Modifier.width(12.dp))
@@ -286,7 +288,7 @@ fun seleccion_tipopizza(
                 RadioButton(
                     selected = (selectedOption == extra_cer),
                     onClick = {
-                        onTipoChange(barbacoa)
+                        onTipoChange(extra_cer) // ✅ actualiza el seleccionado
                     }
                 )
                 Spacer(modifier = Modifier.width(12.dp))
@@ -296,6 +298,7 @@ fun seleccion_tipopizza(
                     textAlign = TextAlign.Center
                 )
             }
+
             //Extras romana
         } else if (variable_tipopizza == romana){
             Column{
@@ -317,22 +320,17 @@ fun seleccion_tipopizza(
 @Composable
 fun seleccion_tamanyopizza(modifier: Modifier = Modifier,
 tamanyoPizza: String ,
-     precioglobal : Double,
       onTamanyoChange: (String) -> Unit,
-        onPrecioChange: (Double) ->Unit){
+       onTamanyoPrecioChange: (Double) -> Unit){
 
 val textotamanyo = stringResource(R.string.tamanyopizzatexto)
- var precioglobal = precioglobal
   var tamanyoPizza = tamanyoPizza
-
     val peque = stringResource(R.string.pequeña)
     val mediana = stringResource(R.string.mediana)
     val grande = stringResource(R.string.grande)
 
     Data_Pedido( //Ir actualizando datos del objeto
          tamanyo_pizza = tamanyoPizza,
-        precio_final = precioglobal
-
     )
 
     Row(modifier = Modifier,
@@ -367,7 +365,7 @@ val textotamanyo = stringResource(R.string.tamanyopizzatexto)
 
         Button(
             {onTamanyoChange(peque) //Poner tamaño en peque
-            onPrecioChange(+4.95) //Sumar el precio
+                onTamanyoPrecioChange(4.95) //Hay que actualizrlo a un estado fijo , si no se acumulara
             },
             modifier = Modifier.weight(1F),
             shape = RoundedCornerShape(8.dp)
@@ -379,7 +377,7 @@ val textotamanyo = stringResource(R.string.tamanyopizzatexto)
         Spacer(modifier = Modifier.width(18.dp))
         Button(
             { onTamanyoChange(mediana) //Poner tamaño en mediana
-                onPrecioChange(+6.95)}, //Sumar precio
+                onTamanyoPrecioChange(6.95)},
             modifier = Modifier.weight(1F),
             shape = RoundedCornerShape(8.dp)
         ) {
@@ -391,7 +389,7 @@ val textotamanyo = stringResource(R.string.tamanyopizzatexto)
 
         Button(
             {onTamanyoChange(grande) //Poner tamaño en grande
-                onPrecioChange(+10.0)}, //Sumar precio
+                onTamanyoPrecioChange(+10.0)},
             modifier = Modifier.weight(1F),
             shape = RoundedCornerShape(8.dp)
         ) {
@@ -409,13 +407,12 @@ val textotamanyo = stringResource(R.string.tamanyopizzatexto)
 @Composable
 fun seleccion_bebida(
     tipoBotella: String,
-    precioglobal: Double,
+    preciobebida: Double,
     onBotellaChange: (String) ->Unit,
-    onPrecioChange: (Double) -> Unit
+    onTipoBebidaPrecioChange: (Double) ->Unit
+
 ) {
 
-    var bebida = tipoBotella
-    var precio = precioglobal
     val textobebida = stringResource(R.string.eligebebida)
     val agua = stringResource(R.string.agua)
     val cocacola = stringResource(R.string.Cola)
@@ -455,7 +452,7 @@ fun seleccion_bebida(
 
         Button(
             {onBotellaChange(agua) //cambiar a agua
-                 onPrecioChange(+1.5)
+                onTipoBebidaPrecioChange(1.5)
             },
             modifier = Modifier.weight(1F)
         ) {
@@ -465,7 +462,7 @@ fun seleccion_bebida(
         }
         Button(
             { onBotellaChange(cocacola)
-                onPrecioChange(+2.0)},
+                onTipoBebidaPrecioChange(2.0)},
             modifier = Modifier.weight(1F)
         ) {
             Text(
@@ -473,8 +470,8 @@ fun seleccion_bebida(
             )
         }
         Button(
-            { onBotellaChange(nada) //no pongo preciochange porque no hay nada, no tiene que sumar
-            },
+            { onBotellaChange(nada)
+            onTipoBebidaPrecioChange(0.0)},
             modifier = Modifier.weight(1F)
         ) {
             Text(
@@ -489,13 +486,13 @@ fun cantidades_pedido(
     tipoBotella: String,
     cantidadPizzas: Int,
     cantidadBotellas: Int,
-    precioglobal: Double,
-    tamanyoPizza: String,
+    precio_tamanyo: Double,
+    precio_botella: Double,
     onCantidadPizza: (Int) -> Unit,
     onCantidadBebida: (Int) -> Unit,
     onPrecioChange: (Double) -> Unit
-
 ) {
+
     var tipoSeleccionado = tipoSeleccionado
     var cantidadPizzas = cantidadPizzas //saber cuantas pediremos
     var cantidadBebidas = cantidadBotellas //saber cuantas bebidas pediremos
@@ -526,7 +523,12 @@ fun cantidades_pedido(
     ) {
 
         Button(
-            onClick = { if (cantidadPizzas > 0) onCantidadPizza(cantidadPizzas--) }, //Poner onCantidadChange (si no no se acualizara)
+            onClick = {
+                if (cantidadPizzas > 0) {
+                    val nuevaCantidad = cantidadPizzas - 1
+                    onCantidadPizza(nuevaCantidad)
+                    onPrecioChange(nuevaCantidad * precio_tamanyo)
+                }},
             colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFFDA0737))
         ) {
             Text("-", fontSize = 40.sp,
@@ -544,7 +546,9 @@ fun cantidades_pedido(
         Spacer(modifier = Modifier.width(16.dp))
 
         Button(
-            onClick = { onCantidadPizza(cantidadPizzas++) },
+            onClick = {val nuevaCantidad = cantidadPizzas +1
+                      onCantidadPizza(nuevaCantidad)
+                      onPrecioChange(nuevaCantidad * precio_tamanyo)},
             colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFF16A41B))
         ) {
             Text("+", fontSize = 40.sp,
@@ -564,7 +568,13 @@ fun cantidades_pedido(
         horizontalArrangement = Arrangement.Center){
 
         Button(
-            onClick = { if (cantidadBebidas > 0) onCantidadBebida(cantidadBebidas--) }, //Poner onCantidadChange (si no no se acualizara)
+            onClick = {
+                if (cantidadBebidas > 0) {
+                    val nuevaCantidad = cantidadBebidas - 1
+                    onCantidadBebida(nuevaCantidad)
+                    onPrecioChange((cantidadPizzas * precio_botella) + (nuevaCantidad * precio_botella))
+                }
+            } ,
             colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFFDA0737))
         ) {
             Text("-", fontSize = 40.sp,
@@ -582,7 +592,9 @@ fun cantidades_pedido(
         Spacer(modifier = Modifier.width(16.dp))
 
         Button(
-            onClick = { onCantidadBebida(cantidadBebidas++) },
+            onClick = { val nuevaCantidad = cantidadBebidas +1
+                onCantidadBebida(nuevaCantidad)
+                onPrecioChange(nuevaCantidad * precio_tamanyo) },
             colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFF16A41B))
         ) {
             Text("+", fontSize = 40.sp,
@@ -594,9 +606,11 @@ fun cantidades_pedido(
 
 @Composable
 fun precios(
-    precioglobal: Double
+    precioglobal: Double,
+    onBotonAtrasPulsado: () -> Unit,
+    onBotonSiguientePulsado: () -> Unit
 ) {
-    val preciofinal = precioglobal
+    var preciofinal = precioglobal
     val preciotexto = stringResource(R.string.preciotexto)
 
    Row(modifier = Modifier
@@ -605,21 +619,30 @@ fun precios(
        val pagar = stringResource(R.string.botonpagar)
        val cancelar = stringResource(R.string.botoncancelar)
 
-    Button(onClick = { },
+    Button(onClick = {onBotonAtrasPulsado() },
         modifier = Modifier.weight(1F),
        colors = ButtonDefaults.buttonColors
        (containerColor =  Color(0xFFDA0737)))
        {
         Text(cancelar)
     }
-       Button(onClick = { },
+       if(preciofinal == 0.0){
+           Button (onClick = {/**/ },
+               modifier = Modifier.weight(1F),
+               colors = ButtonDefaults.buttonColors
+                   (containerColor =  Color(0xFF16233D)))
+           {
+               Text(pagar)
+           }
+    } else {
+       Button (onClick = {onBotonSiguientePulsado() },
            modifier = Modifier.weight(1F),
            colors = ButtonDefaults.buttonColors
                (containerColor =  Color(0xFF1B9A0C)))
            {
         Text(pagar)
        }
-   }
+   }}
     Row(modifier = Modifier
         .fillMaxWidth()
         .background(Color(color = 0xFF4432AB))

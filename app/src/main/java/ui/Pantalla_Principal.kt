@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,45 +26,46 @@ import com.example.practica_kotlin_ev1.R
 
 @Composable
 
-fun Pantalla_Principal(modifier: Modifier = Modifier){
+fun Pantalla_Principal(modifier: Modifier = Modifier,
+ onBotonSiguientePulsado: () -> Unit,
+   viewModel: AppViewModel){
     Column(modifier
         .background(Color(0xFFFFEDE8)) //debo cambiar esto
         .fillMaxSize()){
-        mensajebienvenida() //he empezado a dividrlo en partes más pequeñas como en los documentos por organización
+        mensajebienvenida("Juan") //he empezado a dividrlo en partes más pequeñas como en los documentos por organización
         datosusuario()
-        botonesmain()
+        botonesmain(onBotonSiguientePulsado)
     }
 }
 
 //Parte superior de bienvenida
 @Composable
-fun mensajebienvenida(modifier : Modifier = Modifier
-    .background(Color(0x94EC020A))) {
-    //Variables val para el text
-    val mensajebienvenida = stringResource(R.string.mensajemain)
-    val nombreusuario = Data_Usuario(nombre = ("Juan")) //Ya no es un string resource, si no un valor de un objeto
+fun mensajebienvenida(nombre: String) {
+    val mensaje = stringResource(R.string.mensajemain)
 
     Row(
-        modifier
-            .clip(RoundedCornerShape(2.dp)) //borde para las esquinas
-        ,verticalAlignment = Alignment.CenterVertically
-    ) { //Rediseño de la parte superior
+        modifier = Modifier
+            .background(Color(0x94EC020A))
+            .clip(RoundedCornerShape(2.dp)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Text(
-            "$mensajebienvenida , ${nombreusuario.nombre} ",//poner el nombre de data usuario
+            text = "$mensaje, $nombre",
             textAlign = TextAlign.Left,
             color = Color.White,
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
-            overflow = TextOverflow.Ellipsis, // Overflow de texto, baja si se acaba el "espacio"
-            modifier = Modifier.weight(1f) //hace que ocupe el espacio que tiene (evita muchos spacers)
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier
+                .weight(1f)
                 .padding(start = 20.dp)
         )
         Image(
-            painterResource(R.drawable.bobeponja),
+            painter = painterResource(R.drawable.bobeponja),
             contentDescription = stringResource(R.string.descfotomain),
             modifier = Modifier
                 .size(120.dp)
-                .clip(CircleShape) //hacer que este como un circulo
+                .clip(CircleShape)
         )
     }
 }
@@ -98,7 +100,7 @@ fun mensajebienvenida(modifier : Modifier = Modifier
 
     //Botones de listar pedido y realizar pedido
 @Composable
-    fun botonesmain(){
+    fun botonesmain(onBotonSiguientePulsado: () -> Unit){
         Spacer(modifier = Modifier.height(5.dp)) //Separarlo de la tarjeta de datos
         val listarpedidos = stringResource(R.string.listarpedidos)
         val realizarpedido = stringResource(R.string.realizarpedido)
@@ -118,7 +120,7 @@ fun mensajebienvenida(modifier : Modifier = Modifier
                 }
                 Spacer(modifier = Modifier.height(25.dp))
                 //Realizar pedidos
-                Button({}) {
+                Button(onClick = { onBotonSiguientePulsado() }) {
                     Text("$realizarpedido"
                         , fontSize = 25.sp
                         , textAlign = TextAlign.Center

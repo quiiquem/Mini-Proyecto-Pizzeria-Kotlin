@@ -24,7 +24,8 @@ import androidx.compose.ui.unit.sp
 import com.example.practica_kotlin_ev1.R
 
 @Composable
-fun ListaPedidos(){
+fun ListaPedidos(
+                     onBotonAtrasPulsado: () -> Unit){
     //VALORES PEDIDO
     val numtarjeta = stringResource(id = R.string.numtarjeta)
     val fecha = stringResource(id = R.string.fechaCaducidad)
@@ -90,7 +91,7 @@ fun ListaPedidos(){
             horizontalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onBotonAtrasPulsado() },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
             ) {
                 Text("$botonaceptar", color = Color.White, fontSize = 20.sp)
@@ -99,7 +100,7 @@ fun ListaPedidos(){
             Spacer(modifier = Modifier.width(40.dp))
 
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { onBotonAtrasPulsado() },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
             ) {
                 Text("$botonenviar", color = Color.White, fontSize = 20.sp)
