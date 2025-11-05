@@ -1,4 +1,4 @@
-package com.example.practica_kotlin_ev1
+package ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +29,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.practica_kotlin_ev1.R
 
 @Composable
 fun Formulario_Pago() {

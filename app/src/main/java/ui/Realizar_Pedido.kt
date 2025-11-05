@@ -1,8 +1,9 @@
-package com.example.practica_kotlin_ev1
+package ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.practica_kotlin_ev1.Objeto_Pizza.Data_Pedido
+import com.example.practica_kotlin_ev1.R
 
 //----------------------------CÓDIGO DE REALIZAR PEDIDO----------------------
 
@@ -56,33 +57,51 @@ import com.example.practica_kotlin_ev1.Objeto_Pizza.Data_Pedido
             Spacer(modifier = Modifier.height(16.dp))
             seleccion_tamanyopizza(
                     tamanyoPizza = tamanyoPizza,
-                onTamanyoChange = { nuevoSize ->
+                precioglobal = precioglobal,
+                onTamanyoChange = { nuevoSize -> //Guardar el cambio de tamaño
                     tamanyoPizza = nuevoSize
+                },
+                onPrecioChange = { nuevoPrecio -> //Guardar el cambio de precio
+                    precioglobal = nuevoPrecio
                 }
                     )
             Spacer(modifier = Modifier.height(16.dp))
+
             seleccion_bebida(
                 tipoBotella = tipoBotella,
+                precioglobal = precioglobal,
                 onBotellaChange = { nuevaBebida ->
                     tipoBotella = nuevaBebida
+                },
+                onPrecioChange = { nuevoPrecio -> //Guardar el cambio de precio
+                    precioglobal = nuevoPrecio
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
-            // Función que muestra imagen y cantidad
+
+            // Función que muestra cantidades del pedido
             cantidades_pedido(
                 tipoSeleccionado = tipoSeleccionado,
                 tipoBotella = tipoBotella,
                 cantidadPizzas = cantidadPizzas,
                 cantidadBotellas = cantidadBotellas,
+                precioglobal = precioglobal,
+                tamanyoPizza = tamanyoPizza,
                 onCantidadPizza = { nuevaCantidad ->
                     cantidadPizzas = nuevaCantidad
                 },
                 onCantidadBebida = { nuevaCantidad ->
                     cantidadBotellas = nuevaCantidad
+                },
+                onPrecioChange = { nuevoPrecio -> //Guardar el cambio de precio
+                    precioglobal = nuevoPrecio
                 }
             )
+
             Spacer(modifier = Modifier.height(16.dp))
-            precios()
+            precios(
+                precioglobal = precioglobal
+            )
         }
     }
 
@@ -107,13 +126,11 @@ fun seleccion_tipopizza(
     val extra_veg = stringResource(R.string.extramargaritavegana)
     val extra_poll = stringResource(R.string.extrabarbacoapollo)
     val extra_cer = stringResource(R.string.extrabarbacoacarne)
+    val extra_ter = stringResource(R.string.extrabarbacoaternera)
     val extra_cha = stringResource(R.string.extraromanachampiñon)
     //booleanos de extras
     var conPinaCheckbox by remember { mutableStateOf(false)}
     var conVeganaCheckbox by remember {mutableStateOf(false)}
-    var conPolloCheckbox by remember { mutableStateOf(false)}
-    var conTerneraCheckbox by remember { mutableStateOf(false)}
-    var conCarneCheckbox by remember { mutableStateOf(false)}
     var conChampinonesCheckbox by remember { mutableStateOf(false)}
     //Variables y extras
 
@@ -179,9 +196,6 @@ fun seleccion_tipopizza(
             /*TODO: hacerlo radiobuttons en barbacoa*/
             Button(
                 { onTipoChange(barbacoa)
-                    conCarneCheckbox = false
-                    conTerneraCheckbox = false
-                    conPolloCheckbox = false
                     variable_extra_1= ""
                     variable_extra_2= ""},
                 modifier = Modifier.weight(1F),
@@ -204,7 +218,7 @@ fun seleccion_tipopizza(
                 )
             } }
 
-
+        var selectedOption by remember { mutableStateOf("") }
         // Extras para Margarita
         if (variable_tipopizza == margarita) {
             Column{
@@ -234,30 +248,53 @@ fun seleccion_tipopizza(
             }
             //Extras barbacoa
         } else if (variable_tipopizza == barbacoa) {
-            Column{
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = conPolloCheckbox,
-                        onCheckedChange = {
-                            conPolloCheckbox = it
-                            if (it) variable_extra_1 = extra_poll
-                            else if (!conPolloCheckbox) variable_extra_1 = "" //si no se les seleccionan siguen igual
-                        }
-                    )
-                    Text(extra_poll)
-                }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        onTipoChange(barbacoa)
+                    }
+                    .padding(8.dp)
+            ) {
+                RadioButton(
+                    selected = (selectedOption == extra_poll),
+                    onClick = {
+                        onTipoChange(barbacoa)
+                    }
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = extra_poll,
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center
+                )
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = conCarneCheckbox,
-                        onCheckedChange = {
-                            conCarneCheckbox = it
-                            if (it) variable_extra_2 = extra_cer
-                            else if (!conCarneCheckbox) variable_extra_2 = ""
-                        }
-                    )
-                    Text(extra_cer)
-                }
+                RadioButton(
+                    selected = (selectedOption == extra_ter),
+                    onClick = {
+                        onTipoChange(barbacoa)
+                    }
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = extra_ter,
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center
+                )
+
+                RadioButton(
+                    selected = (selectedOption == extra_cer),
+                    onClick = {
+                        onTipoChange(barbacoa)
+                    }
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = extra_cer,
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center
+                )
             }
             //Extras romana
         } else if (variable_tipopizza == romana){
@@ -280,18 +317,22 @@ fun seleccion_tipopizza(
 @Composable
 fun seleccion_tamanyopizza(modifier: Modifier = Modifier,
 tamanyoPizza: String ,
-      onTamanyoChange: (String) -> Unit) {
+     precioglobal : Double,
+      onTamanyoChange: (String) -> Unit,
+        onPrecioChange: (Double) ->Unit){
 
 val textotamanyo = stringResource(R.string.tamanyopizzatexto)
+ var precioglobal = precioglobal
+  var tamanyoPizza = tamanyoPizza
 
-  var tamanyoPizza by remember {mutableStateOf("")}
     val peque = stringResource(R.string.pequeña)
     val mediana = stringResource(R.string.mediana)
     val grande = stringResource(R.string.grande)
-    var sumarprecio by remember {mutableStateOf(0)}
 
     Data_Pedido( //Ir actualizando datos del objeto
-         tamanyo_pizza = tamanyoPizza
+         tamanyo_pizza = tamanyoPizza,
+        precio_final = precioglobal
+
     )
 
     Row(modifier = Modifier,
@@ -325,9 +366,9 @@ val textotamanyo = stringResource(R.string.tamanyopizzatexto)
     ) {
 
         Button(
-            {tamanyoPizza = peque
-            sumarprecio + 4.95
-            }, //basta con sumarlo (no se porque ponerlo con = no funciona)
+            {onTamanyoChange(peque) //Poner tamaño en peque
+            onPrecioChange(+4.95) //Sumar el precio
+            },
             modifier = Modifier.weight(1F),
             shape = RoundedCornerShape(8.dp)
         ) {
@@ -337,8 +378,8 @@ val textotamanyo = stringResource(R.string.tamanyopizzatexto)
         }
         Spacer(modifier = Modifier.width(18.dp))
         Button(
-            { tamanyoPizza = mediana
-            sumarprecio + 6.95},
+            { onTamanyoChange(mediana) //Poner tamaño en mediana
+                onPrecioChange(+6.95)}, //Sumar precio
             modifier = Modifier.weight(1F),
             shape = RoundedCornerShape(8.dp)
         ) {
@@ -349,8 +390,8 @@ val textotamanyo = stringResource(R.string.tamanyopizzatexto)
         Spacer(modifier = Modifier.width(18.dp))
 
         Button(
-            { tamanyoPizza = grande
-            sumarprecio + 10},
+            {onTamanyoChange(grande) //Poner tamaño en grande
+                onPrecioChange(+10.0)}, //Sumar precio
             modifier = Modifier.weight(1F),
             shape = RoundedCornerShape(8.dp)
         ) {
@@ -358,27 +399,27 @@ val textotamanyo = stringResource(R.string.tamanyopizzatexto)
                 grande, fontSize = 20.sp, textAlign = TextAlign.Center
             )
         } }
+    val textodeseleccion = stringResource(R.string.tamanyoseleccionado)
+    Text("$textodeseleccion $tamanyoPizza",
+        fontSize = 20.sp,
+        textAlign = TextAlign.Left)
 }
 
 //------------SELECCIONAR BOTELLA-------------
 @Composable
 fun seleccion_bebida(
     tipoBotella: String,
-    onBotellaChange: (String) ->Unit
+    precioglobal: Double,
+    onBotellaChange: (String) ->Unit,
+    onPrecioChange: (Double) -> Unit
 ) {
 
-
-    val textobebida = stringResource(R.string.eligebebida)
-
     var bebida = tipoBotella
+    var precio = precioglobal
+    val textobebida = stringResource(R.string.eligebebida)
     val agua = stringResource(R.string.agua)
     val cocacola = stringResource(R.string.Cola)
     val nada = stringResource(R.string.ninguno)
-    var sumarprecio by remember {mutableStateOf(0)}
-
-    Data_Pedido( //Ir actualizando datos del objeto
-        tipo_bebida = bebida
-    )
 
 
     Row(modifier = Modifier,
@@ -414,8 +455,8 @@ fun seleccion_bebida(
 
         Button(
             {onBotellaChange(agua) //cambiar a agua
-                sumarprecio + 1.5
-            }, //basta con sumarlo (no se porque ponerlo con = no funciona)
+                 onPrecioChange(+1.5)
+            },
             modifier = Modifier.weight(1F)
         ) {
             Text(
@@ -424,7 +465,7 @@ fun seleccion_bebida(
         }
         Button(
             { onBotellaChange(cocacola)
-                sumarprecio + 2},
+                onPrecioChange(+2.0)},
             modifier = Modifier.weight(1F)
         ) {
             Text(
@@ -432,7 +473,7 @@ fun seleccion_bebida(
             )
         }
         Button(
-            { onBotellaChange(nada)
+            { onBotellaChange(nada) //no pongo preciochange porque no hay nada, no tiene que sumar
             },
             modifier = Modifier.weight(1F)
         ) {
@@ -448,8 +489,11 @@ fun cantidades_pedido(
     tipoBotella: String,
     cantidadPizzas: Int,
     cantidadBotellas: Int,
+    precioglobal: Double,
+    tamanyoPizza: String,
     onCantidadPizza: (Int) -> Unit,
-    onCantidadBebida: (Int) -> Unit
+    onCantidadBebida: (Int) -> Unit,
+    onPrecioChange: (Double) -> Unit
 
 ) {
     var tipoSeleccionado = tipoSeleccionado
@@ -548,9 +592,13 @@ fun cantidades_pedido(
         }
 
 
-
 @Composable
-fun precios() {
+fun precios(
+    precioglobal: Double
+) {
+    val preciofinal = precioglobal
+    val preciotexto = stringResource(R.string.preciotexto)
+
    Row(modifier = Modifier
        .fillMaxWidth()){
 
@@ -580,10 +628,10 @@ fun precios() {
             color = Color.Black,
             shape = RoundedCornerShape(8.dp)
         )){
-        Text("Precio",
+        Text("$preciotexto $preciofinal€",
             textAlign = TextAlign.Center
             , color = White
             , fontWeight = FontWeight.Bold
-        , fontSize = 20.sp)
+        , fontSize = 40.sp)
     }
 }
