@@ -1,5 +1,6 @@
 package ui
 
+import AppViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,16 +24,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.practica_kotlin_ev1.Objeto_Pizza.Data_Pedido
 import com.example.practica_kotlin_ev1.R
 
 @Composable
 fun ResumirPedido(
-    onBotonSiguientePulsado: () -> Unit, onBotonAtrasPulsado: () -> Unit
+    onBotonSiguientePulsado: () -> Unit,
+    onBotonAtrasPulsado: () -> Unit,
+    viewModel: AppViewModel
 ) {
 
     Column(modifier = Modifier) {
-        Resumen_Pago()
+        Resumen_Pago(viewModel)
         Botones_Navigation(
             onBotonSiguientePulsado, onBotonAtrasPulsado
         )
@@ -41,30 +43,28 @@ fun ResumirPedido(
 
 
 @Composable
-fun Resumen_Pago() {
-    //VALORES (localizacion)
-    val tipoPizza = stringResource(id = R.string.pizza_margarita)
-    val extrasPizza = stringResource(id = R.string.extras)
-    val tamanyoPizza = stringResource(id = R.string.tamanyo)
-    val bebidas = stringResource(id = R.string.bebida)
-    val cantidadPizzas = stringResource(id = R.string.cantidadPizzas)
-    val cantidadBebidas = stringResource(id = R.string.cantidadBotellas)
-    val precio = stringResource(id = R.string.precio)
+fun Resumen_Pago(viewModel: AppViewModel) {
 
+    //VALORES (viewModel)
+    val tipoPizza = viewModel.tipoPizza
+    val extraPizza1 = viewModel.extra1
+    val extraPizza2 = viewModel.extra2
+    val tamanyoPizza = viewModel.tamanyoPizza
+    val bebidaPizza = viewModel.tipoBebida
+    val cantidadPizzas = viewModel.cantidad_Pizzas
+    val cantidadBebidas = viewModel.cantidad_Bebidas
+    val precioglobal  = viewModel.precioGlobal
 
     //OTROS (localizacion)
     val resumenpedidotexto = stringResource(R.string.resumenpedidotexto)
-    val tipopizzatexto = ""
-    val taman = ""
+    val tipopizzatexto = stringResource(R.string.tipopizzatexto)
     val tamanyopizzatexto = stringResource(R.string.tamanyopizzatexto)
     val bebidatexto = stringResource(R.string.tipobebidatexto)
     val cantidadPizza = stringResource(R.string.cantidadpizzatexto)
     val cantidadBebida = stringResource(R.string.cantidadbotellastexto)
     val preciotexto = stringResource(R.string.preciotexto)
 
-    Data_Pedido(
-        tamanyo_pizza = taman
-    )
+
 
     Card(
         modifier = Modifier
@@ -81,8 +81,12 @@ fun Resumen_Pago() {
         )
 
         Spacer(modifier = Modifier.height(40.dp)) // separador horizontal
-        Text(
-            "$tipopizzatexto $tipoPizza" + "\nExtras: $extrasPizza" + "\n$tamanyopizzatexto $tamanyoPizza" + "\n$bebidatexto $bebidas" + "\n$cantidadPizza $cantidadPizzas" + "\n$cantidadBebida $cantidadBebidas" + "\n$preciotexto $precio",
+        Text("$tipopizzatexto = $tipoPizza" +
+                "\n$tamanyopizzatexto = $tamanyoPizza" +
+                "\n$bebidatexto = $bebidaPizza" +
+                "\n$cantidadPizza = $cantidadPizzas" +
+                "\n$cantidadBebida = $cantidadBebidas" +
+                "\n$preciotexto: $precioglobal",
             fontSize = 20.sp,
             fontWeight = FontWeight.Black //ponerlo en negrita
         )

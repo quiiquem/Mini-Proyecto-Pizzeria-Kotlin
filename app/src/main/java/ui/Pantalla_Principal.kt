@@ -1,5 +1,6 @@
 package ui
 
+import AppViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,7 +10,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.practica_kotlin_ev1.Objeto_Usuario.Data_Usuario
 import com.example.practica_kotlin_ev1.R
 
@@ -28,9 +32,11 @@ import com.example.practica_kotlin_ev1.R
 
 fun Pantalla_Principal(modifier: Modifier = Modifier,
  onBotonSiguientePulsado: () -> Unit,
-   viewModel: AppViewModel){
+   viewModel: AppViewModel = viewModel()){
+
+
     Column(modifier
-        .background(Color(0xFFFFEDE8)) //debo cambiar esto
+        .background(Color(0xFFFFEDE8))
         .fillMaxSize()){
         mensajebienvenida("Juan") //he empezado a dividrlo en partes más pequeñas como en los documentos por organización
         datosusuario(viewModel)
@@ -70,28 +76,31 @@ fun mensajebienvenida(nombre: String) {
     }
 }
 
+//Card del usuario
+@Composable
+fun datosusuario(
+    viewModel: AppViewModel = viewModel(),
+    modifier: Modifier = Modifier
+) {
+    // Observar el flujo de datos del usuario
+    val usuario = viewModel.public_DataUsuario.collectAsState().value //coger el valor del usuario
+    val textonumero = stringResource(R.string.number)
 
-    //Card para mostrar los datos del usuario
-    @Composable
-    fun datosusuario(viewModel: AppViewModel, modifier: Modifier = Modifier) {
-           // Observar el flujo de datos
-        val usuario = viewModel.datosusuario_VM.collectAsState().value
-
-        val textonumero = stringResource(R.string.number)
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            shape = RoundedCornerShape(8.dp),
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = usuario.nombre, fontSize = 18.sp)
-                Text(text = usuario.apellidos, fontSize = 18.sp)
-                Text(text = usuario.correo, fontSize = 18.sp)
-                Text(text = "$textonumero : ${usuario.tel}", fontSize = 18.sp)
-            }
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        shape = RoundedCornerShape(8.dp),
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = "Nombre: ${usuario.nombre}", fontSize = 18.sp)
+            Text(text = "Apellidos: ${usuario.apellidos}", fontSize = 18.sp)
+            Text(text = "Correo: ${usuario.correo}", fontSize = 18.sp)
+            Text(text = "$textonumero: ${usuario.tel}", fontSize = 18.sp)
         }
     }
+}
+
 
     //Botones de listar pedido y realizar pedido
 @Composable

@@ -1,5 +1,6 @@
 package ui
 
+import AppViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,7 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import ui.theme.Practica_Kotlin_EV1
+import ui.theme.Navegacion
 
 enum class Pantallas {
     Inicio,
@@ -59,7 +60,8 @@ class MainActivity : ComponentActivity() {
                     },
                     onBotonSiguientePulsado = {
                         navController.navigate(Pantallas.Resumen_Pedido.name)
-                    }
+                    },
+                    viewModel = viewModel //hay que pasarle el viewmodel en nav. o dara error
                 )
             }
 
@@ -71,7 +73,7 @@ class MainActivity : ComponentActivity() {
                     onBotonSiguientePulsado = {
                         navController.navigate(Pantallas.Form_Pago.name)
                     }
-                )
+                        , viewModel = viewModel)
             }
 
             composable(Pantallas.Form_Pago.name) {
@@ -92,8 +94,8 @@ class MainActivity : ComponentActivity() {
                     },
                     onBotonSiguientePulsado = {
                         navController.navigate(Pantallas.Lista_Pedidos.name)
-                    }
-                )
+                    }, viewModel = viewModel
+                        )
             }
 
             composable(Pantallas.Lista_Pedidos.name) {

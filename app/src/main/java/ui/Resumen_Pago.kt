@@ -1,5 +1,6 @@
 package ui
 
+import AppViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,7 +26,8 @@ import com.example.practica_kotlin_ev1.R
 
 @Composable
 fun ResumirPago(     onBotonSiguientePulsado: () -> Unit,
-                     onBotonAtrasPulsado: () -> Unit) {
+                     onBotonAtrasPulsado: () -> Unit,
+    viewModel: AppViewModel) {
 
     //VALORES DEL RESUMEN
     val numtarjeta = stringResource(id = R.string.numtarjeta)

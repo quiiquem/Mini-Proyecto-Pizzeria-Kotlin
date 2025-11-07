@@ -1,8 +1,11 @@
 package com.example.practica_kotlin_ev1.Objeto_Usuario
 
+import androidx.compose.ui.Modifier
+
 data class Data_Usuario(
-    val nombre: String = "Juan",
-    val apellidos: String = "Peréz",
-    val correo: String = "correodeJuan@gmail.com",
-    val tel : Int = 604343398
+    val nombre: String = "",
+    val apellidos: String = "",
+    val correo: String = "",
+    val tel : Int = 0,
+    val modifier: Modifier = Modifier
 )

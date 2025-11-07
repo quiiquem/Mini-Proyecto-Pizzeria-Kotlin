@@ -16,27 +16,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.practica_kotlin_ev1.R
-
-//----------------------------CÓDIGO DE REALIZAR PEDIDO----------------------
 
 @Composable
 fun Pantalla_RealizarPedido(
     modifier: Modifier = Modifier,
     onBotonSiguientePulsado: () -> Unit,
     onBotonAtrasPulsado: () -> Unit,
-    viewModel: AppViewModel
+    viewModel: AppViewModel = viewModel()
 ) {
-    // Estados locales
-    var tipoSeleccionado by remember { mutableStateOf("") }
-    var tamanyoPizza by remember { mutableStateOf("") }
-    var tipoBotella by remember { mutableStateOf("") }
+
     var precioTamanyo by remember { mutableStateOf(0.0) }
     var precioBebida by remember { mutableStateOf(0.0) }
     var cantidadPizzas by remember { mutableStateOf(1) }
@@ -46,44 +43,36 @@ fun Pantalla_RealizarPedido(
     val precioglobal = (cantidadPizzas * precioTamanyo) + (cantidadBotellas * precioBebida)
 
     Column(modifier.fillMaxWidth()) {
-        seleccion_tipopizza()
+
+        seleccion_tipopizza(viewModel) //para que sepa que existe
         Spacer(modifier = Modifier.height(16.dp))
 
-        seleccion_tipopizza()
+        seleccion_tamanyopizza(viewModel)
         Spacer(modifier = Modifier.height(16.dp))
 
-        seleccion_bebida()
+        seleccion_bebida(viewModel)
         Spacer(modifier = Modifier.height(16.dp))
 
-        cantidades_pedido()
+        cantidades_pedido(viewModel)
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        precios( onBotonSiguientePulsado: () -> Unit,
-            onBotonAtrasPulsado: () -> Unit)
+        precios(onBotonAtrasPulsado,onBotonSiguientePulsado,
+            viewModel)
     }
 }
 @Composable
-fun seleccion_tipopizza() {
-
+fun seleccion_tipopizza(viewModel: AppViewModel) {
     val seleccionarpizza = stringResource(R.string.eligepizzatexto)
     val margarita = stringResource(R.string.pizza_margarita)
     val barbacoa = stringResource(R.string.pizza_barbacoa)
     val romana = stringResource(R.string.pizza_romana)
-    val extra_piña = stringResource(R.string.extramargaritapiña)
-    val extra_veg = stringResource(R.string.extramargaritavegana)
-    val extra_poll = stringResource(R.string.extrabarbacoapollo)
-    val extra_cer = stringResource(R.string.extrabarbacoacarne)
-    val extra_ter = stringResource(R.string.extrabarbacoaternera)
-    val extra_cha = stringResource(R.string.extraromanachampiñon
 
-
-    Column(modifier = Modifier
-            .fillMaxWidth()) {
-
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Row(
-            modifier = Modifier //Row cabecera
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -95,9 +84,10 @@ fun seleccion_tipopizza() {
                     .weight(1F)
             )
             Text(
-                seleccionarpizza //asi no hace falta poner "$ ya que solo pongo la variable"
-                , fontSize = 25.sp, textAlign = TextAlign.Center, modifier = Modifier
-                    .weight(1F)
+                seleccionarpizza,
+                fontSize = 25.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.weight(1F)
             )
             Image(
                 painterResource(R.drawable.pizzalogo),
@@ -110,138 +100,148 @@ fun seleccion_tipopizza() {
         }
 
         Row(
-            modifier = Modifier, //Row para los botones
+            modifier = Modifier,
             verticalAlignment = Alignment.CenterVertically
         ) {
-//------BOTON MARGARITA-------
+            //------BOTON MARGARITA-------
             Button(
-                {},
+                onClick = {viewModel.actualizarTipo(margarita) }, //ponerle el tipo
                 modifier = Modifier.weight(1F),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text(
-                    margarita, fontSize = 15.sp, textAlign = TextAlign.Center
-                )
+                Text(margarita, fontSize = 15.sp, textAlign = TextAlign.Center)
             }
             Spacer(modifier = Modifier.width(12.dp))
-//------BOTON BARBACOA-------
-            /*TODO: hacerlo radiobuttons en barbacoa*/
+
+            //------BOTON BARBACOA-------
             Button(
-                { },
+                onClick = { viewModel.actualizarTipo(barbacoa) },
                 modifier = Modifier.weight(1F),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text(
-                    barbacoa, fontSize = 15.sp, textAlign = TextAlign.Center
-                )
+                Text(barbacoa, fontSize = 15.sp, textAlign = TextAlign.Center)
             }
             Spacer(modifier = Modifier.width(12.dp))
-//------BOTON ROMANA-------
+
+            //------BOTON ROMANA-------
             Button(
-                { },
+                onClick = {viewModel.actualizarTipo(romana)},
                 modifier = Modifier.weight(1F),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text(
-                    romana, fontSize = 15.sp, textAlign = TextAlign.Center
-                )
+                Text(romana, fontSize = 15.sp, textAlign = TextAlign.Center)
             }
         }
-    }}
+        Row() {
+            val textodetipo = stringResource(R.string.pizzaeleccionadatexto)
+            val tipopizza = viewModel.tipoPizza
+            Text(
+                "$textodetipo $tipopizza", // mostrar bebida
+                fontSize = 20.sp,
+                textAlign = TextAlign.Left
+            )}
+    }
+}
+
+
 //------------SELECCIONAR TAMAÑO PIZZA-------------
 @Composable
-fun seleccion_tamanyopizza(modifier: Modifier = Modifier){
+fun seleccion_tamanyopizza(viewModel: AppViewModel){
 
-val textotamanyo = stringResource(R.string.tamanyopizzatexto)
-  var tamanyoPizza = tamanyoPizza
+    val preciotamanyo = 0
+    val textotamanyo = stringResource(R.string.tamanyopizzatexto)
     val peque = stringResource(R.string.pequeña)
     val mediana = stringResource(R.string.mediana)
     val grande = stringResource(R.string.grande)
 
-    Data_Pedido( //Ir actualizando datos del objeto
-         tamanyo_pizza = tamanyoPizza,
-    )
-
-    Row(modifier = Modifier,
-            verticalAlignment = Alignment.CenterVertically){
-        Image(
-            painterResource(R.drawable.size),
-            contentDescription = "size",
-            modifier = Modifier
-                .size(60.dp)
-                .clip(CircleShape)
-                .weight(1F)
-        )
-
-        Text(textotamanyo
-        , fontSize = 25.sp,
-            modifier = Modifier
-                .weight(1F))
-
-        Image(
-            painterResource(R.drawable.size),
-            contentDescription = "size",
-            modifier = Modifier
-                .size(60.dp)
-                .clip(CircleShape)
-                .weight(1F)
-        )
-    }
-    Row(
-        modifier = Modifier, //Row para los botones
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        Button(
-            {onTamanyoChange(peque) //Poner tamaño en peque
-                onTamanyoPrecioChange(4.95) //Hay que actualizrlo a un estado fijo , si no se acumulara
-            },
-            modifier = Modifier.weight(1F),
-            shape = RoundedCornerShape(8.dp)
+    Column {
+        Row(
+            modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            Image(
+                painterResource(R.drawable.size),
+                contentDescription = "size",
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(CircleShape)
+                    .weight(1F)
+            )
+
             Text(
-                peque, fontSize = 20.sp, textAlign = TextAlign.Center
+                textotamanyo,
+                fontSize = 25.sp,
+                modifier = Modifier.weight(1F)
+            )
+
+            Image(
+                painterResource(R.drawable.size),
+                contentDescription = "size",
+                modifier = Modifier
+                    .size(60.dp)
+                    .clip(CircleShape)
+                    .weight(1F)
             )
         }
-        Spacer(modifier = Modifier.width(18.dp))
-        Button(
-            { onTamanyoChange(mediana) //Poner tamaño en mediana
-                onTamanyoPrecioChange(6.95)},
-            modifier = Modifier.weight(1F),
-            shape = RoundedCornerShape(8.dp)
-        ) {
-            Text(
-                mediana, fontSize = 20.sp, textAlign = TextAlign.Center
-            )
-        }
-        Spacer(modifier = Modifier.width(18.dp))
 
-        Button(
-            {onTamanyoChange(grande) //Poner tamaño en grande
-                onTamanyoPrecioChange(+10.0)},
-            modifier = Modifier.weight(1F),
-            shape = RoundedCornerShape(8.dp)
+        Row(
+            modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                grande, fontSize = 20.sp, textAlign = TextAlign.Center
-            )
-        } }
-    val textodeseleccion = stringResource(R.string.tamanyoseleccionado)
-    Text("$textodeseleccion $tamanyoPizza",
-        fontSize = 20.sp,
-        textAlign = TextAlign.Left)
-}
+            Button(
+                onClick = { viewModel.actualizarTamanyo(peque)
+                          viewModel.actualizarPreciotamanyo(4.95)},
+                modifier = Modifier.weight(1F),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Text(peque, fontSize = 20.sp, textAlign = TextAlign.Center)
+            }
+            Spacer(modifier = Modifier.width(18.dp))
+
+            Button(
+                onClick = {
+                    viewModel.actualizarTamanyo(mediana)
+                    viewModel.actualizarPreciotamanyo(6.50)
+                },
+                modifier = Modifier.weight(1F),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Text(mediana, fontSize = 20.sp, textAlign = TextAlign.Center)
+            }
+            Spacer(modifier = Modifier.width(18.dp))
+
+            Button(
+                onClick = {
+                    viewModel.actualizarTamanyo(grande)
+                    viewModel.actualizarPreciotamanyo(10.0)
+                },
+                modifier = Modifier.weight(1F),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Text(grande, fontSize = 20.sp, textAlign = TextAlign.Center)
+            }
+        }
+
+        val textodeseleccion = stringResource(R.string.tamanyoseleccionado)
+        val tamanyotexto = viewModel.tamanyoPizza
+        Text(
+            "$textodeseleccion $tamanyotexto", // mostrar tamaño
+            fontSize = 20.sp,
+            textAlign = TextAlign.Left
+        )
+    }}
 
 //------------SELECCIONAR BOTELLA-------------
 @Composable
-fun seleccion_bebida(){
+fun seleccion_bebida(viewModel: AppViewModel){
+
 
     val textobebida = stringResource(R.string.eligebebida)
     val agua = stringResource(R.string.agua)
     val cocacola = stringResource(R.string.Cola)
     val nada = stringResource(R.string.ninguno)
 
-
+Column(){
     Row(modifier = Modifier,
         verticalAlignment = Alignment.CenterVertically){
         Image(
@@ -274,9 +274,8 @@ fun seleccion_bebida(){
     ) {
 
         Button(
-            {onBotellaChange(agua) //cambiar a agua
-                onTipoBebidaPrecioChange(1.5)
-            },
+            { viewModel.actualizarBebida(agua)
+                viewModel.actualizarPrecioBebida(1.5)},
             modifier = Modifier.weight(1F)
         ) {
             Text(
@@ -284,8 +283,8 @@ fun seleccion_bebida(){
             )
         }
         Button(
-            { onBotellaChange(cocacola)
-                onTipoBebidaPrecioChange(2.0)},
+            { viewModel.actualizarBebida(cocacola)
+                viewModel.actualizarPrecioBebida(2.0)},
             modifier = Modifier.weight(1F)
         ) {
             Text(
@@ -293,25 +292,33 @@ fun seleccion_bebida(){
             )
         }
         Button(
-            { onBotellaChange(nada)
-            onTipoBebidaPrecioChange(0.0)},
+            {   viewModel.actualizarBebida(nada)
+                viewModel.actualizarPrecioBebida(0.0)},
             modifier = Modifier.weight(1F)
         ) {
             Text(
                 nada, fontSize = 20.sp, textAlign = TextAlign.Center
             )
-        } }
+        }
+
+
+
+    }
+    val textodeseleccion = stringResource(R.string.botellaseleccionada)
+    val tipobebida = viewModel.tipoBebida
+    Text(
+        "$textodeseleccion $tipobebida", // mostrar bebida
+        fontSize = 20.sp,
+        textAlign = TextAlign.Left
+    )}
 }
 
+
 @Composable
-fun cantidades_pedido() {
-
-    var tipoSeleccionado = tipoSeleccionado
-    var cantidadPizzas = cantidadPizzas //saber cuantas pediremos
-    var cantidadBebidas = cantidadBotellas //saber cuantas bebidas pediremos
-
+fun cantidades_pedido(viewModel: AppViewModel) {
     val textcantidadpizza = stringResource(R.string.cantidadpizzatexto)
     val textcantidadbotella = stringResource(R.string.cantidadbotellastexto)
+
 
     val margarita = stringResource(R.string.pizza_margarita)
     val barbacoa = stringResource(R.string.pizza_barbacoa)
@@ -323,6 +330,7 @@ fun cantidades_pedido() {
 
 //----------CANTIDAD PIZZAS
     // Mostrar cantidad actual
+    val cantidadPizzas = viewModel.cantidad_Pizzas
     Text("$textcantidadpizza: $cantidadPizzas",
         fontSize = 25.sp,
         textAlign = TextAlign.Center,
@@ -335,22 +343,31 @@ fun cantidades_pedido() {
         horizontalArrangement = Arrangement.Center
     ) {
 
+        if(viewModel.cantidad_Pizzas == 1 ){
+            Button( {},
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0A0425))
+            ){
+                Text(
+                    text = "-",
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1A1A1A) // gris medio oscuro para el texto
+                )
+            }
+        } else {
         Button(
             onClick = {
-                if (cantidadPizzas > 0) {
-                    val nuevaCantidad = cantidadPizzas - 1
-                    onCantidadPizza(nuevaCantidad)
-                    onPrecioChange(nuevaCantidad * precio_tamanyo)
-                }},
+                viewModel.actualizarCantidadPizzas(viewModel.cantidad_Pizzas-1)
+            },
             colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFFDA0737))
         ) {
             Text("-", fontSize = 40.sp,
                 fontWeight = FontWeight.Bold)
-        }
+        }}
 
         Spacer(modifier = Modifier.width(16.dp))
 
-        when (tipoSeleccionado) {
+        when (viewModel.tipoPizza) { //viewmodel que mira el tipo de pizza
             margarita -> Image(painterResource(R.drawable.margarita), margarita, Modifier.size(90.dp))
             barbacoa  -> Image(painterResource(R.drawable.barbacoa), barbacoa, Modifier.size(90.dp))
             romana    -> Image(painterResource(R.drawable.romana), romana, Modifier.size(90.dp))
@@ -359,9 +376,7 @@ fun cantidades_pedido() {
         Spacer(modifier = Modifier.width(16.dp))
 
         Button(
-            onClick = {val nuevaCantidad = cantidadPizzas +1
-                      onCantidadPizza(nuevaCantidad)
-                      onPrecioChange(nuevaCantidad * precio_tamanyo)},
+            onClick = {viewModel.actualizarCantidadPizzas(viewModel.cantidad_Pizzas+1)},
             colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFF16A41B))
         ) {
             Text("+", fontSize = 40.sp,
@@ -371,7 +386,9 @@ fun cantidades_pedido() {
 //---------CANTIDAD BEBIDAS
 
     // Mostrar cantidad actual de bebidas
-    Text("$textcantidadbotella: $cantidadBebidas",
+    val cantidadBebida = viewModel.cantidad_Bebidas
+
+    Text("$textcantidadbotella: $cantidadBebida",
         fontSize = 25.sp,
         textAlign = TextAlign.Center,
         modifier = Modifier.padding(top = 8.dp))
@@ -380,23 +397,31 @@ fun cantidades_pedido() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center){
 
-        Button(
-            onClick = {
-                if (cantidadBebidas > 0) {
-                    val nuevaCantidad = cantidadBebidas - 1
-                    onCantidadBebida(nuevaCantidad)
-                    onPrecioChange((cantidadPizzas * precio_botella) + (nuevaCantidad * precio_botella))
-                }
-            } ,
-            colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFFDA0737))
-        ) {
-            Text("-", fontSize = 40.sp,
-                fontWeight = FontWeight.Bold)
+        if(viewModel.cantidad_Bebidas == 0){
+            Button( {},
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0A0425))
+            ){
+                Text(
+                    text = "-",
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1A1A1A) // gris medio oscuro para el texto
+                )
+            }
+        } else {
+            Button(
+                onClick = { viewModel.actualizarCantidadBebidas(viewModel.cantidad_Bebidas - 1) },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFDA0737))
+            ) {
+                Text(
+                    "-", fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
-
         Spacer(modifier = Modifier.width(16.dp))
 
-        when (tipoBotella) {
+        when (viewModel.tipoBebida) {
             agua -> Image(painterResource(R.drawable.agua), agua, Modifier.size(90.dp))
             cocacola  -> Image(painterResource(R.drawable.cola), cocacola, Modifier.size(90.dp))
             nada -> Image(painterResource(R.drawable.x), contentDescription = nada, Modifier.size(90.dp))
@@ -405,9 +430,7 @@ fun cantidades_pedido() {
         Spacer(modifier = Modifier.width(16.dp))
 
         Button(
-            onClick = { val nuevaCantidad = cantidadBebidas +1
-                onCantidadBebida(nuevaCantidad)
-                onPrecioChange(nuevaCantidad * precio_tamanyo) },
+            onClick = {viewModel.actualizarCantidadBebidas(viewModel.cantidad_Bebidas+1)},
             colors = ButtonDefaults.buttonColors(containerColor =  Color(0xFF16A41B))
         ) {
             Text("+", fontSize = 40.sp,
@@ -417,17 +440,20 @@ fun cantidades_pedido() {
         }
 
 @Composable
-fun ponerPrecio(){
-
-}
-@Composable
 fun precios(
     onBotonAtrasPulsado: () -> Unit,
-    onBotonSiguientePulsado: () ->Unit
+    onBotonSiguientePulsado: () ->Unit,
+    viewModel: AppViewModel
 ) {
     val preciotexto = stringResource(R.string.preciotexto)
     val pagar = stringResource(R.string.botonpagar)
     val cancelar = stringResource(R.string.botoncancelar)
+
+    val pedido = viewModel.public_DataPedido.collectAsState().value
+    val precioTotal = (pedido.cantidad_pizzas * pedido.precio_tamanyo) +
+            (pedido.cantidad_bebidas * pedido.precio_bebida)
+
+    viewModel.actualizarPrecioGlobal(precioTotal)
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -436,7 +462,6 @@ fun precios(
             }
             Button(
                 onClick = {
-                    viewModel.actualizarPedido(nuevoPedido)
                     onBotonSiguientePulsado()
                 },
                 modifier = Modifier.weight(1F),
@@ -447,12 +472,23 @@ fun precios(
         }
 
         Spacer(modifier = Modifier.height(12.dp))
+Row(modifier= Modifier
+    .background(Color(0xFF5509CB))
+    .fillMaxWidth()
+    .border(
+        width = 4.dp,
+        color = Color.Black,
+        shape = RectangleShape
+    )
+    .padding(8.dp), // opcional: espacio interno
+        ){
+    Text("$preciotexto, $precioTotal €",
+        fontSize = 30.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color.White,
+        modifier = Modifier.padding(16.dp)
+    )
+}
 
-        Text("$preciotexto $preciofinal €",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF4432AB),
-            modifier = Modifier.padding(16.dp)
-        )
     }
 }

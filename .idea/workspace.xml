@@ -9,13 +9,18 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="642a1a54-b388-4ca3-95fa-12ad2efa4e24" name="Changes" comment="v1.5 INICIADO VIEWMODEL Y NAVIGATION IMPLEMENTADO OUYEAAAAA solo queda topappbar">
+    <list default="true" id="642a1a54-b388-4ca3-95fa-12ad2efa4e24" name="Changes" comment="v.??? &#10;caos. (tengo que rehacer todo)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Objeto_Pago/Data_Pago.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Objeto_Pago/Data_Pago.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Objeto_Pizza/Data_Pedido.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Objeto_Pizza/Data_Pedido.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Objeto_Usuario/Data_Usuario.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Objeto_Usuario/Data_Usuario.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/AppViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/AppViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/Pantalla_Principal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/Pantalla_Principal.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/Realizar_Pedido.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/Realizar_Pedido.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/Resumen_Pago.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/Resumen_Pago.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/Resumen_Pedido.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/Resumen_Pedido.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/theme/Theme.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/theme/Theme.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +59,9 @@
     &quot;accountId&quot;: &quot;5a04edd3-3b5b-4dac-92d0-dc164b0cbba1&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -179,7 +187,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762371934785</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="v.??? &#10;caos. (tengo que rehacer todo)">
+      <option name="closed" value="true" />
+      <created>1762510096537</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1762510096537</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -196,7 +212,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v0.3.5: rehecho todo el form ahora se ve mucho mejor en verdad aunque mas minimalista , pero bueno mañana ya deberia estar" />
     <MESSAGE value="v1.5 INICIADO VIEWMODEL Y NAVIGATION IMPLEMENTADO OUYEAAAAA solo queda topappbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.5 INICIADO VIEWMODEL Y NAVIGATION IMPLEMENTADO OUYEAAAAA solo queda topappbar" />
+    <MESSAGE value="v.??? &#10;caos. (tengo que rehacer todo)" />
+    <option name="LAST_COMMIT_MESSAGE" value="v.??? &#10;caos. (tengo que rehacer todo)" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
