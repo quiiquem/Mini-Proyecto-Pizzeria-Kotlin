@@ -9,22 +9,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="642a1a54-b388-4ca3-95fa-12ad2efa4e24" name="Changes" comment="v1.40: Ya casi termino raelizar pedido, solo quedaria ademas de arreglar errores ponerle navegacion y viewmodel para el objeto">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Objeto_Pago/Data_Pago.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+    <list default="true" id="642a1a54-b388-4ca3-95fa-12ad2efa4e24" name="Changes" comment="v1.5 INICIADO VIEWMODEL Y NAVIGATION IMPLEMENTADO OUYEAAAAA solo queda topappbar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Objeto_Pizza/Data_Pedido.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Objeto_Pizza/Data_Pedido.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Objeto_Usuario/Data_Usuario.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/Objeto_Usuario/Data_Usuario.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/practica_kotlin_ev1/ViewModel/AppViewModel.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/AppViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/AppViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/Formulario_Pago.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/Formulario_Pago.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/Listar_Pedidos.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/Listar_Pedidos.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/Pantalla_Principal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/Pantalla_Principal.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/Realizar_Pedido.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/Realizar_Pedido.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/Resumen_Pago.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/Resumen_Pago.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/ui/Resumen_Pedido.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/ui/Resumen_Pedido.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,7 +171,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760640462336</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="v1.5 INICIADO VIEWMODEL Y NAVIGATION IMPLEMENTADO OUYEAAAAA solo queda topappbar">
+      <option name="closed" value="true" />
+      <created>1762371934785</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1762371934785</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -196,7 +195,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v0.3.5: rehecho todo el form ahora se ve mucho mejor en verdad aunque mas minimalista , pero bueno mañana ya deberia estar" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.3.5: rehecho todo el form ahora se ve mucho mejor en verdad aunque mas minimalista , pero bueno mañana ya deberia estar" />
+    <MESSAGE value="v1.5 INICIADO VIEWMODEL Y NAVIGATION IMPLEMENTADO OUYEAAAAA solo queda topappbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.5 INICIADO VIEWMODEL Y NAVIGATION IMPLEMENTADO OUYEAAAAA solo queda topappbar" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">

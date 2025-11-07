@@ -1,40 +1,202 @@
-package ui
-
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.practica_kotlin_ev1.Objeto_Pago.Data_Pago
-import com.example.practica_kotlin_ev1.Objeto_Pizza.Data_Pedido
 import com.example.practica_kotlin_ev1.Objeto_Usuario.Data_Usuario
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import java.time.LocalDate
+import java.util.Date
 
-class AppViewModel : ViewModel(){
+@RequiresApi(Build.VERSION_CODES.O)
+class AppViewModel : ViewModel() {
 
-    //USUARIO VIEWMODEL
-    private val _DatosUsuario = MutableStateFlow(Data_Usuario())
-    val datosusuario_VM: StateFlow<Data_Usuario> = _DatosUsuario.asStateFlow()
-    var nom_usuario by mutableStateOf("")
-    var correo by mutableStateOf("")
-    var telefono by mutableStateOf(0)
+    //USUARIO
+    private val priv_DataUsuario = MutableStateFlow(Data_Usuario())
 
-    //PEDIDO VIEWMODEL
-    private val _DatosPedido = MutableStateFlow(Data_Pedido())
+    val public_DataUsuario: StateFlow<Data_Usuario> = priv_DataUsuario.asStateFlow()
 
-    val datospedido_VM: StateFlow<Data_Pedido> = _DatosPedido.asStateFlow()
-    var tipo_pizza by mutableStateOf("")
-    var tipo_bebida by mutableStateOf("")
-    var tamanyo_pizza by mutableStateOf("")
-    var precio_final by mutableStateOf(0.0)
+    var nombreUsuario by mutableStateOf("Juan")
+    private set
 
-    //PAGO VIEWMODEL
-    private val _DatosPago = MutableStateFlow(Data_Pago())
+    var apellidosUsuario by mutableStateOf("Perez García")
+        private set
 
-    val datospago_VM: StateFlow<Data_Pago> = _DatosPago.asStateFlow()
-    var num_tarjeta by mutableStateOf(0)
-    var tipo_tarjeta by mutableStateOf("")
+    var correoUsuario by mutableStateOf("CorreodeJuan@gmail.com")
+        private set
+
+    var telefonoUsuario by mutableStateOf(604293920)
+        private set
+
+    //PEDIDO
+    private val priv_DataPedido = MutableStateFlow(Data_Pedido())
+
+    val public_DataPedido: StateFlow<Data_Pedido> = priv_DataPedido.asStateFlow()
+
+    var tipoPizza by mutableStateOf("")
+    private set
+
+    var extra1 by mutableStateOf("")
+    private set
+
+    var extra2 by mutableStateOf("")
+        private set
+
+    var tamanyoPizza by mutableStateOf("")
+        private set
+
+    var tipoBebida by mutableStateOf("")
+        private set
+
+    var cantidad_Pizzas by mutableStateOf(0)
+        private set
+
+    var cantidad_Bebidas by mutableStateOf(0)
+        private set
+
+    var precioGlobal by mutableStateOf(0.0)
+    private set
+
+    fun actualizarTipo(tipo: String){ //funcion para actualizar el tipo
+        tipoPizza = tipo
+
+        priv_DataPedido.update{ tipoActual -> //update para que se pueda cambiar los datos
+            tipoActual.copy(
+                tipo_pizza = tipoPizza //copiar y pasarlo al valor del objeto
+            )
+        }
+    }
+
+    fun actualizarExtra1 (extra_1: String){
+        extra1 = extra_1
+
+        priv_DataPedido.update{ extra1Actual ->
+            extra1Actual.copy(
+                extra1 = extra_1
+            )
+        }
+    }
+
+    fun actualizarExtra2 (extra_2: String){
+        extra2 = extra_2
+
+        priv_DataPedido.update{ extra2Actual ->
+            extra2Actual.copy(
+                extra2 = extra_2
+            )
+        }
+    }
+
+    fun actualizarTamanyo(tamanyo: String){
+        tamanyoPizza = tamanyo
+
+        priv_DataPedido.update{ tamanyoActual ->
+            tamanyoActual.copy(
+                tamanyo_pizza = tamanyoPizza
+            )
+        }
+    }
+
+    fun actualizarBebida (bebida: String){
+        tipoBebida = bebida
+
+        priv_DataPedido.update{ bebidaActual ->
+            bebidaActual.copy(
+                tipo_bebida = tipoBebida
+            )
+        }
+    }
+
+    fun actualizarCantidadPizzas (cantidadpizza: Int){
+        cantidad_Pizzas = cantidadpizza
+
+        priv_DataPedido.update{ cantidadPizzaActual ->
+            cantidadPizzaActual.copy(
+                cantidad_pizzas = cantidad_Pizzas
+            )
+        }
+    }
+
+    fun actualizarCantidadBebidas (cantidadbebida: Int){
+        cantidad_Bebidas = cantidadbebida
+
+        priv_DataPedido.update{ cantidadPizzaActual ->
+            cantidadPizzaActual.copy(
+                cantidad_bebidas = cantidad_Bebidas
+            )
+        }
+    }
+
+    fun actualizarPrecioGlobal (precioglobal: Double){
+        precioGlobal = precioglobal
+
+        priv_DataPedido.update{ precioGlobalActual ->
+            precioGlobalActual.copy(
+                precio_total = precioGlobal
+            )
+        }
+    }
+
+    //PAGO
+    private val priv_DataPago = MutableStateFlow(Data_Pago())
+
+    val public_DataPago: StateFlow<Data_Pago> = priv_DataPago.asStateFlow()
+
+    var tipoTarjeta by mutableStateOf("")
+        private set
+
+    var numTarjeta by mutableStateOf(0)
+        private set
+
+    var fecha by mutableStateOf(Date()) //Poder poner fecha
+        private set
+
     var CVC by mutableStateOf(0)
+        private set
 
+    fun actualizarTipoTarjeta(tipoactual: String){
+        tipoTarjeta = tipoactual
+
+        priv_DataPago.update{ tipoTarjetaActual ->
+            tipoTarjetaActual.copy(
+                tipo_tarjeta = tipoTarjeta
+            )
+        }
+    }
+
+    fun actualizarNumTarjeta(numActual: Int){
+        numTarjeta = numActual
+
+        priv_DataPago.update{ numTarjetaActual ->
+            numTarjetaActual.copy(
+                num_tarjeta = numTarjeta
+            )
+        }
+    }
+
+    fun actualizarCVC(CVCActual: Int){
+        CVC = CVCActual
+
+        priv_DataPago.update{ CVCNuevo ->
+            CVCNuevo.copy(
+                CVC = CVC
+            )
+        }
+    }
+
+
+    fun actualizarFecha(FechaActual: Date){
+        fecha = FechaActual
+
+        priv_DataPago.update{ FechaNueva ->
+            FechaNueva.copy(
+                fecha = fecha
+            )
+        }
+    }
 }

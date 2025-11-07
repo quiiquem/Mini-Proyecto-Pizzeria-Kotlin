@@ -4,5 +4,5 @@ data class Data_Usuario(
     val nombre: String = "Juan",
     val apellidos: String = "Peréz",
     val correo: String = "correodeJuan@gmail.com",
-    val tel : Int = 0
+    val tel : Int = 604343398
 )

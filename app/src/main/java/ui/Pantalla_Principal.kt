@@ -33,7 +33,7 @@ fun Pantalla_Principal(modifier: Modifier = Modifier,
         .background(Color(0xFFFFEDE8)) //debo cambiar esto
         .fillMaxSize()){
         mensajebienvenida("Juan") //he empezado a dividrlo en partes más pequeñas como en los documentos por organización
-        datosusuario()
+        datosusuario(viewModel)
         botonesmain(onBotonSiguientePulsado)
     }
 }
@@ -73,30 +73,25 @@ fun mensajebienvenida(nombre: String) {
 
     //Card para mostrar los datos del usuario
     @Composable
-    fun datosusuario(modifier: Modifier = Modifier) {
-        val usuario = Data_Usuario( //Crear una variable que coga los valores de dataclass y ponerle datos
-            nombre = "Juan",
-            apellidos = "García López",
-            correo = "juanitoperez04@gmail.com",
-            tel = 422983910
-        )
+    fun datosusuario(viewModel: AppViewModel, modifier: Modifier = Modifier) {
+           // Observar el flujo de datos
+        val usuario = viewModel.datosusuario_VM.collectAsState().value
 
-        val textonumero = stringResource(R.string.number) //localizaciones
-        Card( //Card para mostrar los datos
+        val textonumero = stringResource(R.string.number)
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            shape = RoundedCornerShape(8.dp), //hacer la tarjeta un poco "redonda"
+            shape = RoundedCornerShape(8.dp),
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(text = usuario.nombre, fontSize = 18.sp)
                 Text(text = usuario.apellidos, fontSize = 18.sp)
-                Text(text =  usuario.correo, fontSize = 18.sp)
-                Text(text = "$textonumero : ${usuario.tel}", fontSize = 18.sp) //telefono al ser int en data se pone de forma diferente
+                Text(text = usuario.correo, fontSize = 18.sp)
+                Text(text = "$textonumero : ${usuario.tel}", fontSize = 18.sp)
             }
         }
     }
-
 
     //Botones de listar pedido y realizar pedido
 @Composable

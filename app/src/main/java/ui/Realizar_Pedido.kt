@@ -1,9 +1,10 @@
 package ui
 
+import AppViewModel
+import Data_Pedido
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,108 +22,49 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.practica_kotlin_ev1.Objeto_Pizza.Data_Pedido
 import com.example.practica_kotlin_ev1.R
 
 //----------------------------CÓDIGO DE REALIZAR PEDIDO----------------------
 
-//Estructura general
 @Composable
-    fun Pantalla_RealizarPedido( modifier: Modifier = Modifier,
-                                 onBotonSiguientePulsado: () -> Unit,
-                                 onBotonAtrasPulsado: () -> Unit){
+fun Pantalla_RealizarPedido(
+    modifier: Modifier = Modifier,
+    onBotonSiguientePulsado: () -> Unit,
+    onBotonAtrasPulsado: () -> Unit,
+    viewModel: AppViewModel
+) {
+    // Estados locales
+    var tipoSeleccionado by remember { mutableStateOf("") }
+    var tamanyoPizza by remember { mutableStateOf("") }
+    var tipoBotella by remember { mutableStateOf("") }
+    var precioTamanyo by remember { mutableStateOf(0.0) }
+    var precioBebida by remember { mutableStateOf(0.0) }
+    var cantidadPizzas by remember { mutableStateOf(1) }
+    var cantidadBotellas by remember { mutableStateOf(1) }
 
-        //Variables para que se pasen entre funciones luego
-    var tipoSeleccionado by remember { mutableStateOf("") }  //tipo de pizza
-    var tamanyoPizza by remember {mutableStateOf("")} //tamaño pizza
-    var tipoBotella by remember {mutableStateOf("")}
-    var preciotamanyo by remember {mutableStateOf(0.0)}
-    var preciobebida by remember {mutableStateOf(0.0)}
-    var extra1 by remember { mutableStateOf("") }  //tipo de pizza
-    var extra2 by remember { mutableStateOf("") }  //tipo de pizza
-    var cantidadPizzas by remember { mutableStateOf(1) } //cantidad de pizzas
-    var cantidadBotellas by remember {mutableStateOf(1)}
+    // Precio global derivado
+    val precioglobal = (cantidadPizzas * precioTamanyo) + (cantidadBotellas * precioBebida)
 
-    var precioglobal by remember {mutableStateOf(0.0)}
+    Column(modifier.fillMaxWidth()) {
+        seleccion_tipopizza()
+        Spacer(modifier = Modifier.height(16.dp))
 
+        seleccion_tipopizza()
+        Spacer(modifier = Modifier.height(16.dp))
 
+        seleccion_bebida()
+        Spacer(modifier = Modifier.height(16.dp))
 
-        Column(modifier
-            .fillMaxWidth()){
-            // Función que cambia el tipo de pizza
-            seleccion_tipopizza(
-                tipoSeleccionado = tipoSeleccionado,
-                extra1 = extra1,
-                extra2 = extra2,
-                onTipoChange = { nuevoTipo ->
-                    tipoSeleccionado = nuevoTipo
-                }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            seleccion_tamanyopizza(
-                tamanyoPizza = tamanyoPizza,
-                onTamanyoChange = { nuevoSize ->
-                    tamanyoPizza = nuevoSize
-                },
-                onTamanyoPrecioChange = { nuevoPrecio ->
-                    preciotamanyo = nuevoPrecio
-                    precioglobal = (cantidadPizzas * nuevoPrecio)
-                }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+        cantidades_pedido()
 
-            seleccion_bebida(
-                tipoBotella = tipoBotella,
-                preciobebida = preciobebida,
-                onBotellaChange = { nuevaBebida ->
-                    tipoBotella = nuevaBebida
-                },
-                onTipoBebidaPrecioChange = { nuevoPrecioBebida ->
-                    preciobebida = nuevoPrecioBebida
-                    precioglobal = (cantidadPizzas * preciotamanyo) + (cantidadBotellas * nuevoPrecioBebida)
-                }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-            // Función que muestra cantidades del pedido
-            cantidades_pedido(
-                tipoSeleccionado = tipoSeleccionado,
-                tipoBotella = tipoBotella,
-                cantidadPizzas = cantidadPizzas,
-                cantidadBotellas = cantidadBotellas,
-                precio_botella = preciobebida,
-                precio_tamanyo = preciotamanyo,
-                onCantidadPizza = { nuevaCantidad ->
-                    cantidadPizzas = nuevaCantidad
-                },
-                onCantidadBebida = { nuevaCantidad ->
-                    cantidadBotellas = nuevaCantidad
-                },
-                onPrecioChange = { nuevoPrecio -> //Guardar el cambio de precio
-                    precioglobal = nuevoPrecio
-                }
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-            precios(
-                precioglobal = precioglobal,
-                onBotonAtrasPulsado , onBotonSiguientePulsado
-            )
-        }
+        precios( onBotonSiguientePulsado: () -> Unit,
+            onBotonAtrasPulsado: () -> Unit)
     }
-
-
+}
 @Composable
-fun seleccion_tipopizza(
-    tipoSeleccionado: String,
-    extra1: String,
-    extra2: String,
-    onTipoChange: (String) ->Unit
-    ) {
-
-    var variable_tipopizza = tipoSeleccionado //variable tipopizza es el string para pasarlo a todas las funciones
-    var variable_extra_1 = extra1
-    var variable_extra_2  = extra2
+fun seleccion_tipopizza() {
 
     val seleccionarpizza = stringResource(R.string.eligepizzatexto)
     val margarita = stringResource(R.string.pizza_margarita)
@@ -133,24 +75,11 @@ fun seleccion_tipopizza(
     val extra_poll = stringResource(R.string.extrabarbacoapollo)
     val extra_cer = stringResource(R.string.extrabarbacoacarne)
     val extra_ter = stringResource(R.string.extrabarbacoaternera)
-    val extra_cha = stringResource(R.string.extraromanachampiñon)
-    //booleanos de extras
-    var conPinaCheckbox by remember { mutableStateOf(false)}
-    var conVeganaCheckbox by remember {mutableStateOf(false)}
-    var conChampinonesCheckbox by remember { mutableStateOf(false)}
-    //Variables y extras
+    val extra_cha = stringResource(R.string.extraromanachampiñon
 
 
-
-    Data_Pedido( //Poner primeros datos del objeto pizza
-        tipo_pizza = variable_tipopizza,
-        extra_1 = variable_extra_1,
-        extra_2 = variable_extra_2
-    )
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
+    Column(modifier = Modifier
+            .fillMaxWidth()) {
 
         Row(
             modifier = Modifier //Row cabecera
@@ -159,7 +88,7 @@ fun seleccion_tipopizza(
         ) {
             Image(
                 painterResource(R.drawable.pizzalogo),
-                contentDescription = stringResource(R.string.descfotomain),
+                contentDescription = "Pizza",
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape)
@@ -172,7 +101,7 @@ fun seleccion_tipopizza(
             )
             Image(
                 painterResource(R.drawable.pizzalogo),
-                contentDescription = stringResource(R.string.descfotomain),
+                contentDescription = "Pizza",
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape)
@@ -186,13 +115,10 @@ fun seleccion_tipopizza(
         ) {
 //------BOTON MARGARITA-------
             Button(
-                { onTipoChange(margarita)
-                    conPinaCheckbox = false //Al ponerlos false de nuevo evita que se puedan poner de mas
-                    conVeganaCheckbox = false
-                variable_extra_1= ""
-                variable_extra_2= ""},
+                {},
                 modifier = Modifier.weight(1F),
-                shape = RoundedCornerShape(8.dp)) {
+                shape = RoundedCornerShape(8.dp)
+            ) {
                 Text(
                     margarita, fontSize = 15.sp, textAlign = TextAlign.Center
                 )
@@ -201,11 +127,10 @@ fun seleccion_tipopizza(
 //------BOTON BARBACOA-------
             /*TODO: hacerlo radiobuttons en barbacoa*/
             Button(
-                { onTipoChange(barbacoa)
-                    variable_extra_1= ""
-                    variable_extra_2= ""},
+                { },
                 modifier = Modifier.weight(1F),
-                shape = RoundedCornerShape(8.dp)) {
+                shape = RoundedCornerShape(8.dp)
+            ) {
                 Text(
                     barbacoa, fontSize = 15.sp, textAlign = TextAlign.Center
                 )
@@ -213,115 +138,19 @@ fun seleccion_tipopizza(
             Spacer(modifier = Modifier.width(12.dp))
 //------BOTON ROMANA-------
             Button(
-                { onTipoChange(romana)
-                    conChampinonesCheckbox = false
-                    variable_extra_1= ""
-                    variable_extra_2= ""},
+                { },
                 modifier = Modifier.weight(1F),
-                shape = RoundedCornerShape(8.dp)){
+                shape = RoundedCornerShape(8.dp)
+            ) {
                 Text(
                     romana, fontSize = 15.sp, textAlign = TextAlign.Center
                 )
-            } }
-
-        var selectedOption by remember { mutableStateOf("") }
-        // Extras para Margarita
-        if (variable_tipopizza == margarita) {
-            Column{
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = conPinaCheckbox,
-                        onCheckedChange = {
-                            conPinaCheckbox = it
-                            if (it) variable_extra_1 = extra_piña //se asigna valor
-                            else if (!conPinaCheckbox) variable_extra_1 = "" //si no se les seleccionan siguen igual
-                        }
-                    )
-                    Text(extra_piña)
-                }
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = conVeganaCheckbox,
-                        onCheckedChange = {
-                            conVeganaCheckbox = it
-                            if (it) variable_extra_2 = extra_veg
-                            else if (!conVeganaCheckbox) variable_extra_2 = ""
-                        }
-                    )
-                    Text(extra_veg)
-                }
             }
-            //Extras barbacoa
-        } else if (variable_tipopizza == barbacoa) {
-            Row( //no poner weight o tapa todo el column
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .padding(8.dp)
-            ) {
-                RadioButton(
-                    selected = (selectedOption == extra_poll),
-                    onClick = {
-                        (extra_poll) // ✅ actualiza el seleccionado
-                    }
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = extra_poll,
-                    fontSize = 15.sp,
-                    textAlign = TextAlign.Center
-                )
-
-                RadioButton(
-                    selected = (selectedOption == extra_ter),
-                    onClick = {
-                        onTipoChange(extra_ter) // ✅ actualiza el seleccionado
-                    }
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = extra_ter,
-                    fontSize = 15.sp,
-                    textAlign = TextAlign.Center
-                )
-
-                RadioButton(
-                    selected = (selectedOption == extra_cer),
-                    onClick = {
-                        onTipoChange(extra_cer) // ✅ actualiza el seleccionado
-                    }
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = extra_cer,
-                    fontSize = 15.sp,
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            //Extras romana
-        } else if (variable_tipopizza == romana){
-            Column{
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = conChampinonesCheckbox,
-                        onCheckedChange = {
-                            conChampinonesCheckbox = it
-                            if (it) variable_extra_1 = extra_cha
-                            else if (!conChampinonesCheckbox) variable_extra_1 = "" //si no se les seleccionan siguen igual
-                        }
-                    )
-                    Text(extra_cha)
-                }
         }
-    }}}
-
+    }}
 //------------SELECCIONAR TAMAÑO PIZZA-------------
 @Composable
-fun seleccion_tamanyopizza(modifier: Modifier = Modifier,
-tamanyoPizza: String ,
-      onTamanyoChange: (String) -> Unit,
-       onTamanyoPrecioChange: (Double) -> Unit){
+fun seleccion_tamanyopizza(modifier: Modifier = Modifier){
 
 val textotamanyo = stringResource(R.string.tamanyopizzatexto)
   var tamanyoPizza = tamanyoPizza
@@ -405,13 +234,7 @@ val textotamanyo = stringResource(R.string.tamanyopizzatexto)
 
 //------------SELECCIONAR BOTELLA-------------
 @Composable
-fun seleccion_bebida(
-    tipoBotella: String,
-    preciobebida: Double,
-    onBotellaChange: (String) ->Unit,
-    onTipoBebidaPrecioChange: (Double) ->Unit
-
-) {
+fun seleccion_bebida(){
 
     val textobebida = stringResource(R.string.eligebebida)
     val agua = stringResource(R.string.agua)
@@ -481,17 +304,7 @@ fun seleccion_bebida(
 }
 
 @Composable
-fun cantidades_pedido(
-    tipoSeleccionado: String,
-    tipoBotella: String,
-    cantidadPizzas: Int,
-    cantidadBotellas: Int,
-    precio_tamanyo: Double,
-    precio_botella: Double,
-    onCantidadPizza: (Int) -> Unit,
-    onCantidadBebida: (Int) -> Unit,
-    onPrecioChange: (Double) -> Unit
-) {
+fun cantidades_pedido() {
 
     var tipoSeleccionado = tipoSeleccionado
     var cantidadPizzas = cantidadPizzas //saber cuantas pediremos
@@ -603,58 +416,43 @@ fun cantidades_pedido(
     }
         }
 
+@Composable
+fun ponerPrecio(){
 
+}
 @Composable
 fun precios(
-    precioglobal: Double,
     onBotonAtrasPulsado: () -> Unit,
-    onBotonSiguientePulsado: () -> Unit
+    onBotonSiguientePulsado: () ->Unit
 ) {
-    var preciofinal = precioglobal
     val preciotexto = stringResource(R.string.preciotexto)
+    val pagar = stringResource(R.string.botonpagar)
+    val cancelar = stringResource(R.string.botoncancelar)
 
-   Row(modifier = Modifier
-       .fillMaxWidth()){
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Button(onClick = { onBotonAtrasPulsado() }, modifier = Modifier.weight(1F)) {
+                Text(cancelar)
+            }
+            Button(
+                onClick = {
+                    viewModel.actualizarPedido(nuevoPedido)
+                    onBotonSiguientePulsado()
+                },
+                modifier = Modifier.weight(1F),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1B9A0C))
+            ) {
+                Text(pagar)
+            }
+        }
 
-       val pagar = stringResource(R.string.botonpagar)
-       val cancelar = stringResource(R.string.botoncancelar)
+        Spacer(modifier = Modifier.height(12.dp))
 
-    Button(onClick = {onBotonAtrasPulsado() },
-        modifier = Modifier.weight(1F),
-       colors = ButtonDefaults.buttonColors
-       (containerColor =  Color(0xFFDA0737)))
-       {
-        Text(cancelar)
-    }
-       if(preciofinal == 0.0){
-           Button (onClick = {/**/ },
-               modifier = Modifier.weight(1F),
-               colors = ButtonDefaults.buttonColors
-                   (containerColor =  Color(0xFF16233D)))
-           {
-               Text(pagar)
-           }
-    } else {
-       Button (onClick = {onBotonSiguientePulsado() },
-           modifier = Modifier.weight(1F),
-           colors = ButtonDefaults.buttonColors
-               (containerColor =  Color(0xFF1B9A0C)))
-           {
-        Text(pagar)
-       }
-   }}
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .background(Color(color = 0xFF4432AB))
-        .border(
-            width = 3.dp,
-            color = Color.Black,
-            shape = RoundedCornerShape(8.dp)
-        )){
-        Text("$preciotexto $preciofinal€",
-            textAlign = TextAlign.Center
-            , color = White
-            , fontWeight = FontWeight.Bold
-        , fontSize = 40.sp)
+        Text("$preciotexto $preciofinal €",
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF4432AB),
+            modifier = Modifier.padding(16.dp)
+        )
     }
 }
