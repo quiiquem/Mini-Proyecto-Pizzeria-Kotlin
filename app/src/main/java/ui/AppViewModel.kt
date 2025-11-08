@@ -66,7 +66,7 @@ class AppViewModel : ViewModel() {
         private set
 
     var precioBebida by mutableStateOf(0.0)
-    private set
+        private set
 
     var cantidad_Pizzas by mutableStateOf(1)
         private set
@@ -186,13 +186,13 @@ class AppViewModel : ViewModel() {
     var tipoTarjeta by mutableStateOf("")
         private set
 
-    var numTarjeta by mutableStateOf(0)
+    var numTarjeta by mutableStateOf("") //texto para luego poder ponerlo en textfield
         private set
 
-    var fecha by mutableStateOf(Date()) //Poder poner fecha
+    var fecha by mutableStateOf("") //texto para luego aplicarlo en textfield
         private set
 
-    var CVC by mutableStateOf(0)
+    var CVC by mutableStateOf("") //tampooc puedo ponerlo como nums por el textfield
         private set
 
     fun actualizarTipoTarjeta(tipoactual: String) {
@@ -205,7 +205,7 @@ class AppViewModel : ViewModel() {
         }
     }
 
-    fun actualizarNumTarjeta(numActual: Int) {
+    fun actualizarNumTarjeta(numActual: String) {
         numTarjeta = numActual
 
         priv_DataPago.update { numTarjetaActual ->
@@ -215,7 +215,7 @@ class AppViewModel : ViewModel() {
         }
     }
 
-    fun actualizarCVC(CVCActual: Int) {
+    fun actualizarCVC(CVCActual: String) {
         CVC = CVCActual
 
         priv_DataPago.update { CVCNuevo ->
@@ -226,7 +226,7 @@ class AppViewModel : ViewModel() {
     }
 
 
-    fun actualizarFecha(FechaActual: Date) {
+    fun actualizarFecha(FechaActual: String) {
         fecha = FechaActual
 
         priv_DataPago.update { FechaNueva ->

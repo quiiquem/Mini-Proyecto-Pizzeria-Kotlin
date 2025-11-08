@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -22,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.practica_kotlin_ev1.R
@@ -41,11 +44,10 @@ fun ResumirPedido(
     }
 }
 
-
 @Composable
 fun Resumen_Pago(viewModel: AppViewModel) {
 
-    //VALORES (viewModel)
+    // VALORES (viewModel)
     val tipoPizza = viewModel.tipoPizza
     val extraPizza1 = viewModel.extra1
     val extraPizza2 = viewModel.extra2
@@ -53,9 +55,9 @@ fun Resumen_Pago(viewModel: AppViewModel) {
     val bebidaPizza = viewModel.tipoBebida
     val cantidadPizzas = viewModel.cantidad_Pizzas
     val cantidadBebidas = viewModel.cantidad_Bebidas
-    val precioglobal  = viewModel.precioGlobal
+    val precioglobal = viewModel.precioGlobal
 
-    //OTROS (localizacion)
+    // TEXTOS (localización)
     val resumenpedidotexto = stringResource(R.string.resumenpedidotexto)
     val tipopizzatexto = stringResource(R.string.tipopizzatexto)
     val tamanyopizzatexto = stringResource(R.string.tamanyopizzatexto)
@@ -64,34 +66,36 @@ fun Resumen_Pago(viewModel: AppViewModel) {
     val cantidadBebida = stringResource(R.string.cantidadbotellastexto)
     val preciotexto = stringResource(R.string.preciotexto)
 
-
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 100.dp)
-            .background(Color(0xFFEDE7F6)),
-        shape = RoundedCornerShape(8.dp)
+    Column(
+        modifier = Modifier.fillMaxWidth()
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = resumenpedidotexto,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
 
-        Text(
-            "$resumenpedidotexto",
-            fontSize = 30.sp,
-            textAlign = TextAlign.Center,
-        )
-
-        Spacer(modifier = Modifier.height(40.dp)) // separador horizontal
-        Text("$tipopizzatexto = $tipoPizza" +
-                "\n$tamanyopizzatexto = $tamanyoPizza" +
-                "\n$bebidatexto = $bebidaPizza" +
-                "\n$cantidadPizza = $cantidadPizzas" +
-                "\n$cantidadBebida = $cantidadBebidas" +
-                "\n$preciotexto: $precioglobal",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Black //ponerlo en negrita
-        )
-        Spacer(modifier = Modifier.height(40.dp)) // separador horizontal
-
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            item {
+                Text(
+                    text = "$tipopizzatexto = $tipoPizza" +
+                            "\n$tamanyopizzatexto = $tamanyoPizza" +
+                            "\n$bebidatexto = $bebidaPizza" +
+                            "\n$cantidadPizza = $cantidadPizzas" +
+                            "\n$cantidadBebida = $cantidadBebidas" +
+                            "\n$preciotexto: $precioglobal",
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
     }
 }
 

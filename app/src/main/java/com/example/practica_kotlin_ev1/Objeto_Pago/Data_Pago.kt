@@ -5,9 +5,9 @@ import java.util.Date
 
 data class Data_Pago(
 
-    val num_tarjeta: Int = 0,
-    val fecha: Date = Date(), //Date() que pone la fecha de hoy
+    val num_tarjeta: String = "",
+    val fecha: String = "",
     val tipo_tarjeta: String = "",
-    val CVC: Int = 0,
+    val CVC: String = "",
     val modifier: Modifier = Modifier
 )

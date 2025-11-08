@@ -34,7 +34,7 @@
     <string name="introducenumtexto">Introduce el número de la tarjeta:</string>
     <string name="introducecvc">Introduce el CVC:</string>
     <string name="botonpagar">PAGAR</string>
-    <string name="tamanyopizzatexto">Tamaño de la pizza:</string>
+    <string name="tamanyopizzatexto">Tamaño de la pizza</string>
     <string name="preciotexto">Precio:</string>
     <string name="resumenpedidotexto">RESUMEN DEL PEDIDO:</string>
     <string name="pizza_barbacoa">Barbacoa</string>
@@ -66,5 +66,13 @@
     <string name="listarpedidos">LISTA PEDIDOS</string>
     <string name="misdatos">MIS DATOS</string>
     <string name="descfotomain">Perfil de usuario</string>
+    <string name="Cola">Cola</string>
+    <string name="eligebebida">Selecciona una bebida</string>
+    <string name="mainPan">Pantalla Principal</string>
+    <string name="pedidoPan">Realizar Pedido</string>
+    <string name="resumenpedidoPan">Resumen Pedido</string>
+    <string name="pagoPan">Realizar Pago</string>
+    <string name="resumenPago">Resumen Pago</string>
+    <string name="listaPedidos">Lista Pedidos</string>
 
 </resources>

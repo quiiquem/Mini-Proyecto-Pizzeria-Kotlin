@@ -1,6 +1,7 @@
 package ui
 
 import AppViewModel
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -30,17 +31,23 @@ import com.example.practica_kotlin_ev1.R
 
 @Composable
 
-fun Pantalla_Principal(modifier: Modifier = Modifier,
- onBotonSiguientePulsado: () -> Unit,
-   viewModel: AppViewModel = viewModel()){
+fun Pantalla_Principal(
+    modifier: Modifier = Modifier,
+    onBotonSiguientePulsado: () -> Unit,
+    onBotonListaPulsado: () -> Unit,
+    viewModel: AppViewModel = viewModel()
+) {
 
 
-    Column(modifier
-        .background(Color(0xFFFFEDE8))
-        .fillMaxSize()){
+    Column(
+        modifier
+            .background(Color(0xFFFFEDE8))
+            .fillMaxSize()
+    ) {
         mensajebienvenida("Juan") //he empezado a dividrlo en partes más pequeñas como en los documentos por organización
         datosusuario(viewModel)
-        botonesmain(onBotonSiguientePulsado)
+        botonesmain(onBotonSiguientePulsado,
+            onBotonListaPulsado)
     }
 }
 
@@ -86,6 +93,10 @@ fun datosusuario(
     val usuario = viewModel.public_DataUsuario.collectAsState().value //coger el valor del usuario
     val textonumero = stringResource(R.string.number)
 
+    val nombre = stringResource(R.string.nombre)
+    val apellidos = stringResource(R.string.apellido)
+    val correo = stringResource(R.string.gmail)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -93,43 +104,49 @@ fun datosusuario(
         shape = RoundedCornerShape(8.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Nombre: ${usuario.nombre}", fontSize = 18.sp)
-            Text(text = "Apellidos: ${usuario.apellidos}", fontSize = 18.sp)
-            Text(text = "Correo: ${usuario.correo}", fontSize = 18.sp)
+            Text(text = "$nombre: ${usuario.nombre}", fontSize = 18.sp)
+            Text(text = "$apellidos: ${usuario.apellidos}", fontSize = 18.sp)
+            Text(text = "$correo: ${usuario.correo}", fontSize = 18.sp)
             Text(text = "$textonumero: ${usuario.tel}", fontSize = 18.sp)
         }
     }
 }
 
 
-    //Botones de listar pedido y realizar pedido
+//Botones de listar pedido y realizar pedido
 @Composable
-    fun botonesmain(onBotonSiguientePulsado: () -> Unit){
-        Spacer(modifier = Modifier.height(5.dp)) //Separarlo de la tarjeta de datos
-        val listarpedidos = stringResource(R.string.listarpedidos)
-        val realizarpedido = stringResource(R.string.realizarpedido)
+fun botonesmain(onBotonSiguientePulsado: () -> Unit,
+                onBotonListaPulsado: () -> Unit) {
+    Spacer(modifier = Modifier.height(5.dp)) //Separarlo de la tarjeta de datos
+    val listarpedidos = stringResource(R.string.listarpedidos)
+    val realizarpedido = stringResource(R.string.realizarpedido)
 
-        Box(modifier = Modifier //Box primero para centrarlo verticalmente
-            .fillMaxWidth()
-        , contentAlignment = Alignment.Center){
-            Column( //Column dentro de box para poder centrar horizontalmente (y que los botones sean de arriba a abajo)
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                //Listar pedidos
-                Button({}) {
-                    Text("$listarpedidos"
-                        , fontSize = 25.sp
-                        , textAlign = TextAlign.Center
-                        , modifier = Modifier.weight(1F))
-                }
-                Spacer(modifier = Modifier.height(25.dp))
-                //Realizar pedidos
-                Button(onClick = { onBotonSiguientePulsado() }) {
-                    Text("$realizarpedido"
-                        , fontSize = 25.sp
-                        , textAlign = TextAlign.Center
-                        , modifier = Modifier.weight(1F))
-                }
+    Box(
+        modifier = Modifier //Box primero para centrarlo verticalmente
+            .fillMaxWidth(), contentAlignment = Alignment.Center
+    ) {
+        Column( //Column dentro de box para poder centrar horizontalmente (y que los botones sean de arriba a abajo)
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            //Listar pedidos
+            Button(onClick = { onBotonListaPulsado() }) {
+                Text(
+                    listarpedidos,
+                    fontSize = 25.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1F)
+                )
             }
+            Spacer(modifier = Modifier.height(25.dp))
+            //Realizar pedidos
+            Button(onClick = { onBotonSiguientePulsado() }) {
+                Text(
+                    realizarpedido,
+                    fontSize = 25.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1F)
+                )
             }
+        }
     }
+}

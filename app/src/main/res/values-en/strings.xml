@@ -29,7 +29,7 @@
     <string name="introducenumtexto">Insert the number of your credit card:</string>
     <string name="introducecvc">Insert the CVC:</string>
     <string name="botonpagar">PAY</string>
-    <string name="tamanyopizzatexto">Pizza size:</string>
+    <string name="tamanyopizzatexto">Pizza size</string>
     <string name="preciotexto">Price:</string>
     <string name="resumenpedidotexto">DELIVER SUMMARY:</string>
     <string name="pizza_barbacoa">Barbecue</string>
@@ -63,4 +63,10 @@
     <string name="descfotomain">User Profile</string>
     <string name="Cola">Cola</string>
     <string name="eligebebida">Select a drink</string>
+    <string name="mainPan">Main Screen</string>
+    <string name="pedidoPan">Realize Deliver</string>
+    <string name="resumenpedidoPan">Deliver Summary</string>
+    <string name="pagoPan">Realize Payment</string>
+    <string name="resumenPago">Payment Summary</string>
+    <string name="listaPedidos">Deliver List</string>
 </resources>

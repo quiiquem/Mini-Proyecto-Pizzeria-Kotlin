@@ -77,5 +77,11 @@
     <string name="descfotomain">Perfil de usuario</string>
     <string name="Cola">Cola</string>
     <string name="eligebebida">Selecciona una bebida</string>
+    <string name="mainPan">Pantalla Principal</string>
+    <string name="pedidoPan">Realizar Pedido</string>
+    <string name="resumenpedidoPan">Resumen Pedido</string>
+    <string name="pagoPan">Realizar Pago</string>
+    <string name="resumenPago">Resumen Pago</string>
+    <string name="listaPedidos">Lista Pedidos</string>
 
 </resources>
