@@ -128,7 +128,7 @@ fun Navegacion(navController: NavHostController = rememberNavController()) {
             composable(Pantallas.Lista_Pedidos.name) {
                 ListaPedidos(
                     onBotonAtrasPulsado = {
-                        navController.navigate(Pantallas.Inicio.name)
+                        navController.popBackStack(Pantallas.Inicio.name,inclusive = false) //arreglar pila
                     }, viewModel = viewModel
                 )
             }
